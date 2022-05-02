@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_task/utils.dart';
 import 'custom_widgets.dart';
 import 'package:intl/intl.dart' as intl;
 
@@ -59,8 +60,8 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
             floating: true,
             snap: true,
             backgroundColor: Colors.white,
-            expandedHeight: 120,
-            collapsedHeight: 80,
+            expandedHeight: responsiveHW(context, ht: 20),
+            collapsedHeight: responsiveHW(context, ht: 14),
             flexibleSpace: FlexibleSpaceBar(
               title: RichText(
                 text: TextSpan(
@@ -95,8 +96,8 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      customButton("Show Percentage", () {}),
-                      customButton("View Report", () {})
+                      customButton("Show Percentage", () {}, context),
+                      customButton("View Report", () {}, context)
                     ],
                   ),
                 ),
@@ -181,7 +182,7 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
               padding: const EdgeInsets.only(right: 28.0, bottom: 15),
               child: Align(
                 alignment: Alignment.centerRight,
-                child: customButton("Submit", () {}),
+                child: customButton("Submit", () {}, context),
               ),
             ),
           )
