@@ -31,7 +31,9 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                 bottomRight: Radius.circular(20),
               ),
             ),
-            expandedHeight: 180,
+            expandedHeight: Responsive.isMobile(context)
+                ? MediaQuery.of(context).size.height * 0.25
+                : MediaQuery.of(context).size.height * 0.35,
             flexibleSpace: FlexibleSpaceBar(
               title: const Text(
                 'BS Computer Science',
