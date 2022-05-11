@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_task/attendance_sheet.dart';
+import 'package:fyp_task/profile.dart';
+import 'package:fyp_task/reportpage.dart';
 import 'package:fyp_task/subjects_page.dart';
 import 'package:fyp_task/utils.dart';
 
@@ -16,21 +18,21 @@ class _HomeWidgetState extends State<HomeWidget> {
   bool showNavigationBar = false;
 
   var list = [
+    const ProfilePage(),
     const AttendanceSheet(),
-    const SubjectsPage(),
-    WalkPage(),
-    NotificationPage(),
+    // const SubjectsPage(),
+    const ReportPage(),
     SettingsPage(),
-    SearchPage()
+    // SearchPage()
   ];
 
   var title = [
+    'Profile',
     "Attendance",
-    'Subjects',
-    'LocationPage',
-    'NotificationPage',
-    'SettingsPage',
-    'SearchPage'
+    // 'Subjects',
+    'Report',
+    'Percentage',
+    // 'SearchPage'
   ];
 
   @override
@@ -89,35 +91,36 @@ class _HomeWidgetState extends State<HomeWidget> {
                     : NavigationRailLabelType.none,
                 destinations: const [
                   NavigationRailDestination(
+                    icon: Icon(Icons.person),
+                    selectedIcon: Icon(Icons.person),
+                    label: Text('Profile'),
+                  ),
+                  NavigationRailDestination(
                     icon: Icon(Icons.present_to_all),
                     // selectedIcon: Icon(Icons.home),
                     label: Text('Attendance'),
                   ),
+                  // NavigationRailDestination(
+                  //   icon: Icon(Icons.book_sharp),
+                  //   // selectedIcon: Icon(Icons.directions_walk),
+                  //   label: Text('Subjects'),
+                  // ),
+
                   NavigationRailDestination(
-                    icon: Icon(Icons.book_sharp),
-                    // selectedIcon: Icon(Icons.directions_walk),
-                    label: Text('Subjects'),
+                    icon: Icon(Icons.report_sharp),
+                    selectedIcon: Icon(Icons.report_sharp),
+                    label: Text('Report'),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(Icons.location_on),
-                    selectedIcon: Icon(Icons.location_on),
-                    label: Text('Location'),
+                    icon: Icon(Icons.percent_sharp),
+                    selectedIcon: Icon(Icons.percent_sharp),
+                    label: Text('Percentage'),
                   ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.notifications),
-                    selectedIcon: Icon(Icons.notifications),
-                    label: Text('Notifications'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.settings),
-                    selectedIcon: Icon(Icons.settings),
-                    label: Text('Settings'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.search),
-                    selectedIcon: Icon(Icons.search),
-                    label: Text('Search'),
-                  ),
+                  // NavigationRailDestination(
+                  //   icon: Icon(Icons.search),
+                  //   selectedIcon: Icon(Icons.search),
+                  //   label: Text('Search'),
+                  // ),
                 ],
               ),
             ),
