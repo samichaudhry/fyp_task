@@ -25,3 +25,14 @@ Widget customText(
     style: TextStyle(fontSize: fsize, color: clr, fontWeight: fweight),
   );
 }
+
+Widget customTile({ontap, leading, title, subtitle, trailing, tilecolor}) {
+  return ListTile(
+    onTap: ontap,
+    title: title,
+    subtitle: subtitle,
+    trailing: trailing,
+    leading: leading,
+    tileColor: tilecolor,
+  );
+}

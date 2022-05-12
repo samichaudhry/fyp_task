@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_task/reportpage.dart';
 import 'package:fyp_task/utils.dart';
-import 'custom_widgets.dart';
+import 'package:get/get.dart';
+import 'custom widgets/custom_widgets.dart';
 import 'package:intl/intl.dart' as intl;
 
 class AttendanceSheet extends StatefulWidget {
@@ -25,19 +27,22 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
         slivers: [
           // First App Bar
           SliverAppBar(
+            automaticallyImplyLeading: false,
             expandedHeight: responsiveHW(context, ht: 25),
             flexibleSpace: FlexibleSpaceBar(
-              title: const Text(
-                'BS Computer Science',
-              ),
+              // title: customText(
+              //   txt: 'BS Computer Science',
+              //   clr: Colors.black,
+              // ),
               background: Image.asset(
-                "images/bscs.png",
+                "assets/images/bscs.png",
                 fit: BoxFit.fill,
               ),
             ),
           ),
           // Second App Bar
           SliverAppBar(
+            automaticallyImplyLeading: false,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
@@ -64,10 +69,10 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                     ),
                     TextSpan(
                       text: "\n\nTotal Students: $totalStudents",
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 12,
-                          color: Colors.grey),
+                          color: Colors.grey[400]),
                     )
                   ],
                 ),
@@ -93,7 +98,11 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                       const SizedBox(
                         height: 5,
                       ),
-                      customButton("View Report", () {}, context, 120)
+                      customButton("View Report", () {
+                        Get.to(
+                          () => const ReportPage(),
+                        );
+                      }, context, 120)
                     ],
                   ),
                 ),

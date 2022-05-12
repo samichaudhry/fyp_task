@@ -82,9 +82,9 @@ class _ReportPageState extends State<ReportPage> {
 
   Widget customcircleavater(value) {
     Color? circlecolor;
-    if (value == 'P') {
+    if (value == 'P' || value == 'p') {
       circlecolor = Colors.green;
-    } else if (value == 'A') {
+    } else if (value == 'A' || value == 'a') {
       circlecolor = Colors.red;
     } else {
       circlecolor = Colors.black;
@@ -94,17 +94,24 @@ class _ReportPageState extends State<ReportPage> {
         radius: 16.0,
         child: customText(
           txt: value,
+          clr: Colors.white,
         ));
   }
 
   Widget customlisttile(stdname, stdrollno, status) {
     return ListTile(
       dense: true,
-      tileColor: Colors.white70,
+      // tileColor: Colors.white70,
       title: customText(
         txt: stdname,
+        clr: Colors.white,
       ),
-      subtitle: customText(txt: stdrollno, fsize: 13.0),
+      subtitle: customText(
+        txt: stdrollno,
+        fsize: 14.0,
+        fweight: FontWeight.w400,
+        clr: Colors.grey[200],
+      ),
       trailing: customcircleavater(status),
     );
   }
@@ -124,7 +131,7 @@ class _ReportPageState extends State<ReportPage> {
                   ? MediaQuery.of(context).size.height * 0.29
                   : MediaQuery.of(context).size.height * 0.3,
               collapsedHeight: Responsive.isMobile(context)
-                  ? MediaQuery.of(context).size.height * 0.10
+                  ? MediaQuery.of(context).size.height * 0.12
                   : MediaQuery.of(context).size.height * 0.15,
               centerTitle: false,
               // actions: [
@@ -156,10 +163,12 @@ class _ReportPageState extends State<ReportPage> {
                     ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                      bottomLeft: const Radius.circular(20.0),
-                      bottomRight: const Radius.circular(0.0)
-                      // bottomRight: Radius.circular(40.0)
-                      )),
+                // bottomLeft: const Radius.circular(20.0),
+                bottomRight: _isShrink
+                    ? const Radius.circular(20.0)
+                    : const Radius.circular(0.0),
+                // bottomRight: Radius.circular(40.0)
+              )),
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.parallax,
                 title: _isShrink

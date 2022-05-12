@@ -1,6 +1,6 @@
 import 'package:fyp_task/custom_formfield.dart';
 import 'package:flutter/material.dart';
-import 'package:fyp_task/custom_widgets.dart';
+import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/forget_password.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:fyp_task/wavy_design.dart';

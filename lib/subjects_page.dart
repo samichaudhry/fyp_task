@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_task/custom_widgets.dart';
+import 'package:fyp_task/attendance_sheet.dart';
+import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/nav_menu.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:get/get.dart';
@@ -20,64 +21,24 @@ class _SubjectsPageState extends State<SubjectsPage> {
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
-              automaticallyImplyLeading: false,
-              backgroundColor: Colors.white,
+              backgroundColor: Colors.transparent,
+
               // shape: const RoundedRectangleBorder(
               //   borderRadius: BorderRadius.only(
               //     bottomLeft: Radius.circular(20),
               //     bottomRight: Radius.circular(20),
               //   ),
               // ),
-              expandedHeight: Responsive.isMobile(context)
-                  ? MediaQuery.of(context).size.height * 0.25
-                  : MediaQuery.of(context).size.height * 0.45,
-              flexibleSpace: FlexibleSpaceBar(
-                // title: const Text(
-                //   'Subjects',
-                // ),
-                background: ClipRRect(
-                  // borderRadius: const BorderRadius.only(
-                  //   bottomLeft: Radius.circular(10),
-                  //   bottomRight: Radius.circular(10),
-                  // ),
-                  child: Image.asset(
-                    "images/bscs.png",
-                    fit: BoxFit.fill,
-                  ),
-                ),
-              ),
-            ),
-            const SliverToBoxAdapter(
-              child: Padding(
-                  padding: EdgeInsets.only(
-                top: 5.0,
-              )),
-            ),
-            SliverAppBar(
-              automaticallyImplyLeading: false,
-              backgroundColor: Colors.black.withOpacity(0.7),
               title: customText(
                 txt: 'Subjects',
                 clr: Colors.white,
                 fsize: 20.0,
                 fweight: FontWeight.w500,
               ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextButton.icon(
-                    icon: const Icon(
-                      Icons.logout,
-                      color: Colors.white,
-                    ), // Your icon here
-                    label: customText(
-                      txt: 'Logout',
-                      clr: Colors.white,
-                    ), // Your text here
-                    onPressed: () {},
-                  ),
-                )
-              ],
+
+              expandedHeight: Responsive.isMobile(context)
+                  ? MediaQuery.of(context).size.height * 0.08
+                  : MediaQuery.of(context).size.height * 0.45,
             ),
             const SliverToBoxAdapter(
               child: Padding(
@@ -96,7 +57,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
                   return GestureDetector(
                     onTap: () {
                       Get.to(
-                        () => HomeWidget(),
+                        () => AttendanceSheet(),
                       );
                     },
                     child: Container(
@@ -105,7 +66,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
                         // Colors
                         // .primaries[Random().nextInt(Colors.primaries.length)]
                         // .withOpacity(0.4)
-                        color: Colors.teal.withOpacity(0.6),
+                        color: Colors.teal.withOpacity(0.5),
                       ),
                       margin: const EdgeInsets.all(3.0),
                       child: Padding(
@@ -119,16 +80,11 @@ class _SubjectsPageState extends State<SubjectsPage> {
                                 fsize: 22.0,
                                 clr: Colors.white,
                                 fweight: FontWeight.w500),
-                            // customText(
-                            //     txt: 'CSE 4th Year',
-                            //     fsize: 20.0,
-                            //     clr: Colors.white,
-                            //     fweight: FontWeight.w400),
                             customText(
                                 txt: 'Student: 11',
                                 fsize: 19.0,
                                 clr: Colors.white,
-                                fweight: FontWeight.w300)
+                                fweight: FontWeight.w400)
                           ],
                         ),
                       ),
@@ -140,24 +96,69 @@ class _SubjectsPageState extends State<SubjectsPage> {
             )
           ],
         ),
+        drawer: Drawer(
+          child: Column(
+            children: [
+              UserAccountsDrawerHeader(
+                accountEmail:
+                    customText(txt: 'abc@gmail.com', clr: Colors.white),
+                accountName: customText(txt: 'Teacher', clr: Colors.white),
+                currentAccountPicture: GestureDetector(
+                  onTap: () {},
+                  child: const CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.account_circle_rounded,
+                      color: Colors.grey,
+                      size: 50.0,
+                    ),
+                    radius: 45.0,
+                  ),
+                ),
+              ),
+              customTile(
+                ontap: () {},
+                leading: const Icon(
+                  Icons.account_circle_rounded,
+                  color: Colors.white,
+                  size: 30.0,
+                ),
+                title: customText(
+                  txt: 'Profile',
+                  clr: Colors.white,
+                  fweight: FontWeight.w500,
+                ),
+              ),
+              // customTile(
+              //   ontap: () {},
+              //   leading: const Icon(
+              //     Icons.percent_sharp,
+              //     color: Colors.white,
+              //     size: 30.0,
+              //   ),
+              //   title: customText(
+              //     txt: 'Percentage',
+              //     clr: Colors.white,
+              //     fweight: FontWeight.w500,
+              //   ),
+              // ),
+              customTile(
+                ontap: () {},
+                leading: const Icon(
+                  Icons.power_settings_new,
+                  color: Colors.white,
+                  size: 30.0,
+                ),
+                title: customText(
+                  txt: 'Logout',
+                  clr: Colors.white,
+                  fweight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
-
-
-// customText(
-//                           txt: 'Cloud\nComputing',
-//                           fsize: 22.0,
-//                           clr: Colors.white,
-//                           fweight: FontWeight.w500),
-                      // customText(
-                      //     txt: 'CSE 4th Year',
-                      //     fsize: 20.0,
-                      //     clr: Colors.white,
-                      //     fweight: FontWeight.w400),
-                      // customText(
-                      //     txt: 'Student: 11',
-                      //     fsize: 19.0,
-                      //     clr: Colors.white,
-                      //     fweight: FontWeight.w300)
