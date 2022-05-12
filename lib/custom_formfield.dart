@@ -12,7 +12,6 @@ Widget customTextField(hintTitle, pIcon, isPassword, sIcon, controllerName,
           width: wSize,
           height: hSize * 7 / 100,
           decoration: BoxDecoration(
-            color: const Color.fromARGB(255, 112, 105, 105),
             borderRadius: BorderRadius.circular(30),
           ),
         ),
