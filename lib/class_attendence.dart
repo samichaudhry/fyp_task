@@ -3,14 +3,14 @@
 
 import 'package:flutter/material.dart';
 
-class Newpage extends StatefulWidget {
-  const Newpage({Key? key}) : super(key: key);
+class class_attendence extends StatefulWidget {
+  const class_attendence({Key? key}) : super(key: key);
 
   @override
-  State<Newpage> createState() => _NewpageState();
+  State<class_attendence> createState() => _class_attendence();
 }
 
-class _NewpageState extends State<Newpage> {
+class _class_attendence extends State<class_attendence> {
   List studentdata = [
     {'name': 'Rustum shakeel', 'roll_no': 'BCSF18BM001','status':'A'},
     {'name': 'Aamna Malik', 'roll_no': 'BCSF18BM002','status':'A'},
@@ -121,7 +121,7 @@ class _NewpageState extends State<Newpage> {
               elevation: 0,
               backgroundColor: Colors.teal,
               pinned: true,
-              expandedHeight: MediaQuery.of(context).size.height * 0.29,
+              expandedHeight: MediaQuery.of(context).size.height * 0.40,
               collapsedHeight: MediaQuery.of(context).size.height * 0.10,
               centerTitle: false,
               // actions: [
