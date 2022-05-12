@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:fyp_task/attendance_sheet.dart';
+import 'package:fyp_task/class_attendence.dart';
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
-      home: const AttendanceSheet(),
+      home: const class_attendence(),
     );
   }
 }
