@@ -73,7 +73,7 @@ class _subject_percentageState extends State<subject_percentage> {
                       trailing: customText(txt: cpercentage, fsize: 14.0)),
                   Center(
                       child: customText(
-                          txt: "4 out of 6 classes Attended", fsize: 13.0))
+                          txt: "4 out of 6 classes Attended ", fsize: 13.0))
                 ])));
   }
 
