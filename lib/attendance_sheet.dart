@@ -26,7 +26,7 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
         slivers: [
           // First App Bar
           SliverAppBar(
-            expandedHeight: 180,
+            expandedHeight: responsiveHW(context,ht:25),
             flexibleSpace: FlexibleSpaceBar(
               title: const Text(
                 'BS Computer Science',
@@ -86,10 +86,10 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       customButton("Show Percentage", () {
-                        Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginPage()));
+                        // Navigator.pushReplacement(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => const LoginPage()));
                       }, context, 120),
                       const SizedBox(
                         height: 5,
