@@ -1,12 +1,15 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_task/attendance_sheet.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/nav_menu.dart';
+import 'package:fyp_task/reportpage.dart';
 import 'package:fyp_task/user%20profile/user_profile.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class SubjectsPage extends StatefulWidget {
   const SubjectsPage({Key? key}) : super(key: key);
@@ -16,6 +19,50 @@ class SubjectsPage extends StatefulWidget {
 }
 
 class _SubjectsPageState extends State<SubjectsPage> {
+  DateTime pickedDate=DateTime.now();
+
+  _pickedDate()async{
+    DateTime? date = await showDatePicker(context: context,  
+    initialDate: DateTime.now(), firstDate: DateTime(2022), lastDate: DateTime(2025),
+    
+    builder: (context, child ){
+      return Theme(data: ThemeData.dark().copyWith(
+        colorScheme: const ColorScheme.dark(primary:Colors.grey,
+        primaryContainer: Colors.white,
+         onPrimary: Colors.white,
+         secondary:Colors.grey, 
+         secondaryContainer: Colors.grey,
+          surface: Colors.black12 
+        ),
+      ), child:child!);
+        },
+    ).then((value){
+      // if(value == null){
+      //   // print('not selected');
+
+      // }
+ if(value != null){
+      //  setState(() {
+      // pickedDate = value;
+      Get.to(
+        ()=> const ReportPage(),
+        arguments: {
+          'date' : DateFormat('dd-MMM-yyyy').format(value),
+        }
+      );
+      // print(value.toLocal());
+    // });
+    }
+    });
+   
+   
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    pickedDate =DateTime.now();
+  }
   List SubjectsList = [
     {
       'subject_name': 'Cloud Computing',
@@ -165,9 +212,9 @@ class _SubjectsPageState extends State<SubjectsPage> {
               ),
               ListTile(
                 onTap: () {
-                  Get.to(
-                    () => const UserProfile(),
-                  );
+                  // Get.to(
+                  //   () => const UserProfile(),
+                  // );
                 },
                 leading: const Icon(
                   Icons.account_circle_rounded,
@@ -180,19 +227,24 @@ class _SubjectsPageState extends State<SubjectsPage> {
                   fweight: FontWeight.w500,
                 ),
               ),
-              customTile(
-                ontap: () {},
-                leading: const Icon(
-                  Icons.percent_sharp,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
-                title: customText(
-                  txt: 'Percentage',
-                  clr: Colors.white,
-                  fweight: FontWeight.w500,
-                ),
-              ),
+              // customTile(
+              //   ontap: () {
+              //     _pickedDate();
+              //     // Get.to(
+              //     //   () => const ReportPage(),
+              //     // );
+              //   },
+              //   leading: const Icon(
+              //     FontAwesomeIcons.fileLines,
+              //     color: Colors.white,
+              //     size: 30.0,
+              //   ),
+              //   title: customText(
+              //     txt: 'View Report',
+              //     clr: Colors.white,
+              //     fweight: FontWeight.w500,
+              //   ),
+              // ),
               customTile(
                 ontap: () {},
                 leading: const Icon(
@@ -209,15 +261,15 @@ class _SubjectsPageState extends State<SubjectsPage> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          backgroundColor: Colors.teal,
-          child: const Icon(
-            Icons.add,
-            size: 25.0,
-            color: Colors.white,
-          ),
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {},
+        //   backgroundColor: Colors.teal,
+        //   child: const Icon(
+        //     Icons.add,
+        //     size: 25.0,
+        //     color: Colors.white,
+        //   ),
+        // ),
       ),
     );
   }

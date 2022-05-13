@@ -20,7 +20,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Attendance Sheet',
-      theme: ThemeData.dark(),
+      theme: ThemeData.dark(
+      ),
       home: const LoginPage(),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_task/utils.dart';
+import 'package:get/get.dart';
 
 // Custom Button Widget
 Widget customButton(buttonText, onPressedFunc, ctx, bWd, {int bHt = 6}) {
@@ -36,3 +37,25 @@ Widget customTile({ontap, leading, title, subtitle, trailing, tilecolor}) {
     tileColor: tilecolor,
   );
 }
+
+Future<void> dialog_func(_title, _content, no_ontap, yes_ontap) async {
+  return Get.dialog(
+    AlertDialog(
+      title: _title,
+      content: _content,
+      actions: <Widget>[
+        MaterialButton(
+          onPressed: no_ontap,
+          child: Text('No'),
+        ),
+        MaterialButton(
+          onPressed: yes_ontap,
+          child: Text('Yes'),
+        ),
+      ],
+    ),
+  );
+}
+
+
+

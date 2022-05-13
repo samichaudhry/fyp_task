@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:fyp_task/percentage_page.dart';
 import 'package:fyp_task/utils.dart';
+import 'package:get/get.dart';
 
 class ReportPage extends StatefulWidget {
   const ReportPage({Key? key}) : super(key: key);
@@ -11,6 +13,8 @@ class ReportPage extends StatefulWidget {
 }
 
 class _ReportPageState extends State<ReportPage> {
+   DateTime pickedDate=DateTime.now();
+   var args = Get.arguments;
   List studentdata = [
     {'name': 'Rustum shakeel', 'roll_no': 'BCSF18BM001', 'status': 'A'},
     {'name': 'Aamna Malik', 'roll_no': 'BCSF18BM002', 'status': 'A'},
@@ -50,9 +54,12 @@ class _ReportPageState extends State<ReportPage> {
         _scrollController!.offset > (height - kToolbarHeight);
   }
 
+
   @override
   void initState() {
     super.initState();
+    // pickedDate =DateTime.now();
+    // _pickedDate();
     _scrollController = ScrollController()..addListener(_scrollListener);
   }
 
@@ -100,6 +107,11 @@ class _ReportPageState extends State<ReportPage> {
 
   Widget customlisttile(stdname, stdrollno, status) {
     return ListTile(
+      onTap: (){
+        Get.to(
+          () => const subject_percentage(),
+        );
+      },
       dense: true,
       // tileColor: Colors.white70,
       title: customText(
@@ -125,13 +137,13 @@ class _ReportPageState extends State<ReportPage> {
           return [
             SliverAppBar(
               elevation: 0,
-              backgroundColor: Colors.teal,
+              // backgroundColor: Colors.teal,
               pinned: true,
               expandedHeight: Responsive.isMobile(context)
-                  ? MediaQuery.of(context).size.height * 0.29
+                  ? MediaQuery.of(context).size.height * 0.2
                   : MediaQuery.of(context).size.height * 0.3,
               collapsedHeight: Responsive.isMobile(context)
-                  ? MediaQuery.of(context).size.height * 0.12
+                  ? MediaQuery.of(context).size.height * 0.1
                   : MediaQuery.of(context).size.height * 0.15,
               centerTitle: false,
               // actions: [
@@ -146,7 +158,9 @@ class _ReportPageState extends State<ReportPage> {
               //   ))
               // ],
               leading: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   icon: const Icon(
                     Icons.close,
                     color: Colors.white,
@@ -154,8 +168,8 @@ class _ReportPageState extends State<ReportPage> {
                   )),
               title: _isShrink
                   ? null
-                  : const Text(
-                      "Date: 28-04-2022",
+                  :  Text(
+                      "Date: ${args['date']}",
                       // textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20.0,
@@ -163,7 +177,9 @@ class _ReportPageState extends State<ReportPage> {
                     ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                // bottomLeft: const Radius.circular(20.0),
+                bottomLeft: _isShrink
+                    ? const Radius.circular(20.0)
+                    : const Radius.circular(0.0),
                 bottomRight: _isShrink
                     ? const Radius.circular(20.0)
                     : const Radius.circular(0.0),
@@ -173,58 +189,72 @@ class _ReportPageState extends State<ReportPage> {
                 collapseMode: CollapseMode.parallax,
                 title: _isShrink
                     ? SafeArea(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: const [
-                              Text(
-                                "Subject: Cloud Computing",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                              Text(
-                                "Class: BSCS 8th",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                        child: RichText(
+                  textAlign: TextAlign.center,
+                  text: const TextSpan(children: [
+                    TextSpan(
+                      text: "Subject: ",
+                      style: TextStyle(
+                        fontSize: 17.0,
+                        color: Colors.teal,
+                      ),
+                    ),
+                    TextSpan(
+                      text: "Cloud Computing \n",
+                      style: TextStyle(
+                        fontSize: 17.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                    TextSpan(
+                      text: "Program: ",
+                      style: TextStyle(
+                        fontSize: 17.0,
+                        color: Colors.teal,
+                      ),
+                    ),
+                    TextSpan(
+                      text: "BSCS 8th-R",
+                      style: TextStyle(fontSize: 17.0, color: Colors.white),
+                    ),
+                  ]),
+                ),
                       )
                     : null,
                 background: SafeArea(
                   child: Stack(
                     children: <Widget>[
                       Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          children: const [
-                            Text(
-                              "Subject: Cloud Computing",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24.0,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            Text(
-                              "Class: BSCS 8th",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24.0,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
+                        child: RichText(
+                  textAlign: TextAlign.center,
+                  text: const TextSpan(children: [
+                    TextSpan(
+                      text: "Subject: ",
+                      style: TextStyle(
+                        fontSize: 17.0,
+                        color: Colors.teal,
+                      ),
+                    ),
+                    TextSpan(
+                      text: "Cloud Computing \n",
+                      style: TextStyle(
+                        fontSize: 17.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                    TextSpan(
+                      text: "Program:",
+                      style: TextStyle(
+                        fontSize: 17.0,
+                        color: Colors.teal,
+                      ),
+                    ),
+                    TextSpan(
+                      text: "BSCS 8th-R\n",
+                      style: TextStyle(fontSize: 17.0, color: Colors.white),
+                    ),
+                  ]),
+                ),
                       ),
                     ],
                   ),

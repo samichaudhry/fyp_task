@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp_task/reportpage.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'custom widgets/custom_widgets.dart';
 import 'package:intl/intl.dart' as intl;
 
@@ -18,7 +19,44 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
   List<int> selectedStatus = List.generate(
       totalStudents,
       (index) =>
-          0); // here we have to mention the strength of students by database in place of 15
+          1); // here we have to mention the strength of students by database in place of 15
+
+  _pickedDate()async{
+    DateTime? date = await showDatePicker(context: context,  
+    initialDate: DateTime.now(), firstDate: DateTime(2022), lastDate: DateTime(2025),
+    
+    builder: (context, child ){
+      return Theme(data: ThemeData.dark().copyWith(
+        colorScheme: const ColorScheme.dark(primary:Colors.grey,
+        primaryContainer: Colors.white,
+         onPrimary: Colors.white,
+         secondary:Colors.grey, 
+         secondaryContainer: Colors.grey,
+          surface: Colors.black12 
+        ),
+      ), child:child!);
+        },
+    ).then((value){
+      // if(value == null){
+      //   // print('not selected');
+
+      // }
+ if(value != null){
+      //  setState(() {
+      // pickedDate = value;
+      Get.to(
+        ()=> const ReportPage(),
+        arguments: {
+          'date' : DateFormat('dd-MMM-yyyy').format(value),
+        }
+      );
+      // print(value.toLocal());
+    // });
+    }
+    });
+   
+   
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,19 +127,17 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      customButton("Show Percentage", () {
-                        // Navigator.pushReplacement(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => const LoginPage()));
-                      }, context, 120),
+                      // customButton("Show Percentage", () {
+                      //   // Navigator.pushReplacement(
+                      //   //     context,
+                      //   //     MaterialPageRoute(
+                      //   //         builder: (context) => const LoginPage()));
+                      // }, context, 120),
                       const SizedBox(
                         height: 5,
                       ),
                       customButton("View Report", () {
-                        Get.to(
-                          () => const ReportPage(),
-                        );
+                      _pickedDate();
                       }, context, 120)
                     ],
                   ),
