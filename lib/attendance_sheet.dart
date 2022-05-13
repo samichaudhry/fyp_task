@@ -84,12 +84,7 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      customButton("Show Percentage", () {
-                        // Navigator.pushReplacement(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => const LoginPage()));
-                      }, context, 120),
+                      customButton("Show Percentage", () {}, context, 120),
                       const SizedBox(
                         height: 5,
                       ),
