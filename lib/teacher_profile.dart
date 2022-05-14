@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_attendence_1/edit_profile.dart';
-import 'package:flutter_attendence_1/profile_widget.dart';
+import 'package:fyp_task/edit_profile.dart';
+import 'package:fyp_task/profile_widget.dart';
 class teacherprofile extends StatefulWidget {
   const teacherprofile({Key? key}) : super(key: key);
 
