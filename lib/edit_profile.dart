@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:fyp_task/edit_profile_widget.dart';
+import 'package:fyp_task/profile_widget.dart';
 import 'package:fyp_task/teacher_profile.dart';
 
 class edit_profile extends StatefulWidget {
@@ -99,10 +100,8 @@ class _edit_profileState extends State<edit_profile> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.07,
           ),
-          edit_ProfileWidget(
-            imagePath: 'assets/images/images (4).png',
-            onClicked: () async {},
-          ),
+         ProfileWidget(imagePath: 'assets/images/images (4).png', 
+         onClicked:(){}, icon: Icons.camera_enhance),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.03,
           ),

@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 class ProfileWidget extends StatelessWidget {
   final String imagePath;
   final VoidCallback onClicked;
+  final icon;
 
   const ProfileWidget({
     Key? key,
     required this.imagePath,
     required this.onClicked,
+    required this.icon,
   }) : super(key: key);
 
   @override
@@ -21,7 +23,7 @@ class ProfileWidget extends StatelessWidget {
           Positioned(
             bottom: 0,
             right: 4,
-            child: buildEditIcon(),
+            child:buildEditIcon()
           ),
         ],
       ),
@@ -52,12 +54,12 @@ class ProfileWidget extends StatelessWidget {
           all: 8,
           child:InkWell(onTap: onClicked,
           child: Icon(
-            Icons.edit,
+            icon,
             color: Colors.white,
             size: 20 ),)
         ),
       );
-// 
+
   Widget buildCircle({
     required Widget child,
     required double all,

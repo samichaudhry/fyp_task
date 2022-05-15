@@ -40,6 +40,7 @@ class _teacherprofileState extends State<teacherprofile> {
               Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => edit_profile()));
             },
+            icon: Icons.edit,
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.019,
