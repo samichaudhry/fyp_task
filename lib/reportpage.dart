@@ -13,8 +13,8 @@ class ReportPage extends StatefulWidget {
 }
 
 class _ReportPageState extends State<ReportPage> {
-   DateTime pickedDate=DateTime.now();
-   var args = Get.arguments;
+  DateTime pickedDate = DateTime.now();
+  var args = Get.arguments;
   List studentdata = [
     {'name': 'Rustum shakeel', 'roll_no': 'BCSF18BM001', 'status': 'A'},
     {'name': 'Aamna Malik', 'roll_no': 'BCSF18BM002', 'status': 'A'},
@@ -53,7 +53,6 @@ class _ReportPageState extends State<ReportPage> {
         _scrollController!.hasClients &&
         _scrollController!.offset > (height - kToolbarHeight);
   }
-
 
   @override
   void initState() {
@@ -107,7 +106,7 @@ class _ReportPageState extends State<ReportPage> {
 
   Widget customlisttile(stdname, stdrollno, status) {
     return ListTile(
-      onTap: (){
+      onTap: () {
         Get.to(
           () => const subject_percentage(),
         );
@@ -139,36 +138,21 @@ class _ReportPageState extends State<ReportPage> {
               elevation: 0,
               // backgroundColor: Colors.teal,
               pinned: true,
-              expandedHeight: Responsive.isMobile(context)
-                  ? MediaQuery.of(context).size.height * 0.2
-                  : MediaQuery.of(context).size.height * 0.3,
-              collapsedHeight: Responsive.isMobile(context)
-                  ? MediaQuery.of(context).size.height * 0.1
-                  : MediaQuery.of(context).size.height * 0.15,
+              expandedHeight: MediaQuery.of(context).size.height * 0.2,
+              collapsedHeight: MediaQuery.of(context).size.height * 0.1,
               centerTitle: false,
-              // actions: [
-              //   Center(
-              //       child: DottedCircularProgressIndicatorFb(
-              //     size: 30,
-              //     numDots: 9,
-              //     dotSize: 3,
-              //     defaultDotColor: Colors.blue,
-              //     currentDotColor: Colors.orange,
-              //     secondsPerRotation: 1,
-              //   ))
-              // ],
               leading: IconButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
                   icon: const Icon(
-                    Icons.close,
+                    Icons.arrow_back,
                     color: Colors.white,
                     size: 25.0,
                   )),
               title: _isShrink
                   ? null
-                  :  Text(
+                  : Text(
                       "Date: ${args['date']}",
                       // textAlign: TextAlign.center,
                       style: TextStyle(
@@ -190,35 +174,36 @@ class _ReportPageState extends State<ReportPage> {
                 title: _isShrink
                     ? SafeArea(
                         child: RichText(
-                  textAlign: TextAlign.center,
-                  text: const TextSpan(children: [
-                    TextSpan(
-                      text: "Subject: ",
-                      style: TextStyle(
-                        fontSize: 17.0,
-                        color: Colors.teal,
-                      ),
-                    ),
-                    TextSpan(
-                      text: "Cloud Computing \n",
-                      style: TextStyle(
-                        fontSize: 17.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                    TextSpan(
-                      text: "Program: ",
-                      style: TextStyle(
-                        fontSize: 17.0,
-                        color: Colors.teal,
-                      ),
-                    ),
-                    TextSpan(
-                      text: "BSCS 8th-R",
-                      style: TextStyle(fontSize: 17.0, color: Colors.white),
-                    ),
-                  ]),
-                ),
+                          textAlign: TextAlign.left,
+                          text: const TextSpan(children: [
+                            TextSpan(
+                              text: "Subject: ",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.teal,
+                              ),
+                            ),
+                            TextSpan(
+                              text: "Cloud Computing \n",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                            TextSpan(
+                              text: "Program: ",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.teal,
+                              ),
+                            ),
+                            TextSpan(
+                              text: "BSCS 8th-R",
+                              style: TextStyle(
+                                  fontSize: 18.0, color: Colors.white),
+                            ),
+                          ]),
+                        ),
                       )
                     : null,
                 background: SafeArea(
@@ -226,35 +211,36 @@ class _ReportPageState extends State<ReportPage> {
                     children: <Widget>[
                       Center(
                         child: RichText(
-                  textAlign: TextAlign.center,
-                  text: const TextSpan(children: [
-                    TextSpan(
-                      text: "Subject: ",
-                      style: TextStyle(
-                        fontSize: 17.0,
-                        color: Colors.teal,
-                      ),
-                    ),
-                    TextSpan(
-                      text: "Cloud Computing \n",
-                      style: TextStyle(
-                        fontSize: 17.0,
-                        color: Colors.white,
-                      ),
-                    ),
-                    TextSpan(
-                      text: "Program:",
-                      style: TextStyle(
-                        fontSize: 17.0,
-                        color: Colors.teal,
-                      ),
-                    ),
-                    TextSpan(
-                      text: "BSCS 8th-R\n",
-                      style: TextStyle(fontSize: 17.0, color: Colors.white),
-                    ),
-                  ]),
-                ),
+                          textAlign: TextAlign.left,
+                          text: const TextSpan(children: [
+                            TextSpan(
+                              text: "Subject: ",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.teal,
+                              ),
+                            ),
+                            TextSpan(
+                              text: "Cloud Computing \n",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                            TextSpan(
+                              text: "Program:",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.teal,
+                              ),
+                            ),
+                            TextSpan(
+                              text: "BSCS 8th-R\n",
+                              style: TextStyle(
+                                  fontSize: 18.0, color: Colors.white),
+                            ),
+                          ]),
+                        ),
                       ),
                     ],
                   ),

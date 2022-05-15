@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_task/attendance_sheet.dart';
-import 'package:fyp_task/profile.dart';
+// import 'package:fyp_task/profile.dart';
 import 'package:fyp_task/reportpage.dart';
 import 'package:fyp_task/subjects_page.dart';
 import 'package:fyp_task/utils.dart';
@@ -18,7 +18,7 @@ class _HomeWidgetState extends State<HomeWidget> {
   bool showNavigationBar = false;
 
   var list = [
-    const ProfilePage(),
+    // const ProfilePage(),
     const AttendanceSheet(),
     // const SubjectsPage(),
     const ReportPage(),

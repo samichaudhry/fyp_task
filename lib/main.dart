@@ -8,8 +8,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(const MyApp());
+  ).then((value) {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
@@ -20,8 +21,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Attendance Sheet',
-      theme: ThemeData.dark(
-      ),
+      theme: ThemeData.dark(),
       home: const LoginPage(),
     );
   }
