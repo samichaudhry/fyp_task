@@ -42,7 +42,7 @@ dependencies:
   get: any
   font_awesome_flutter: any
   cached_network_image: any
-
+  fluttertoast: any
 
 dev_dependencies:
   flutter_test:
