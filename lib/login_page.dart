@@ -186,6 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                                   _loginFunc(_email.text.trim(),
                                       _password.text.trim());
                                 }
+                                // Get.to(() => const SubjectsPage());
                               },
                       ),
                     )),

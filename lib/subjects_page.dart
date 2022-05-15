@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyp_task/admin_main_page.dart';
 import 'package:fyp_task/attendance_sheet.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/nav_menu.dart';
@@ -189,24 +190,23 @@ class _SubjectsPageState extends State<SubjectsPage> {
                   fweight: FontWeight.w500,
                 ),
               ),
-              // customTile(
-              //   ontap: () {
-              //     _pickedDate();
-              //     // Get.to(
-              //     //   () => const ReportPage(),
-              //     // );
-              //   },
-              //   leading: const Icon(
-              //     FontAwesomeIcons.fileLines,
-              //     color: Colors.white,
-              //     size: 30.0,
-              //   ),
-              //   title: customText(
-              //     txt: 'View Report',
-              //     clr: Colors.white,
-              //     fweight: FontWeight.w500,
-              //   ),
-              // ),
+              customTile(
+                ontap: () {
+                  Get.to(
+                    () => const AdminMainPage(),
+                  );
+                },
+                leading: const Icon(
+                  FontAwesomeIcons.userShield,
+                  color: Colors.white,
+                  size: 30.0,
+                ),
+                title: customText(
+                  txt: 'Admin',
+                  clr: Colors.white,
+                  fweight: FontWeight.w500,
+                ),
+              ),
               customTile(
                 ontap: () {},
                 leading: const Icon(
