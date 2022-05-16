@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fyp_task/reportpage.dart';
 import 'package:fyp_task/utils.dart';
-import 'custom_widgets.dart';
+import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'custom widgets/custom_widgets.dart';
 import 'package:intl/intl.dart' as intl;
 
 class AttendanceSheet extends StatefulWidget {
@@ -16,7 +19,43 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
   List<int> selectedStatus = List.generate(
       totalStudents,
       (index) =>
-          0); // here we have to mention the strength of students by database in place of 15
+          1); // here we have to mention the strength of students by database in place of 15
+
+  _pickedDate() async {
+    DateTime? date = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2022),
+      lastDate: DateTime(2025),
+      builder: (context, child) {
+        return Theme(
+            data: ThemeData.dark().copyWith(
+              colorScheme: const ColorScheme.dark(
+                  primary: Colors.grey,
+                  primaryContainer: Colors.white,
+                  onPrimary: Colors.white,
+                  secondary: Colors.grey,
+                  secondaryContainer: Colors.grey,
+                  surface: Colors.black12),
+            ),
+            child: child!);
+      },
+    ).then((value) {
+      // if(value == null){
+      //   // print('not selected');
+
+      // }
+      if (value != null) {
+        //  setState(() {
+        // pickedDate = value;
+        Get.to(() => const ReportPage(), arguments: {
+          'date': DateFormat('dd-MMM-yyyy').format(value),
+        });
+        // print(value.toLocal());
+        // });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,19 +64,22 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
         slivers: [
           // First App Bar
           SliverAppBar(
+            automaticallyImplyLeading: false,
             expandedHeight: responsiveHW(context, ht: 25),
             flexibleSpace: FlexibleSpaceBar(
-              title: const Text(
-                'BS Computer Science',
-              ),
+              // title: customText(
+              //   txt: 'BS Computer Science',
+              //   clr: Colors.black,
+              // ),
               background: Image.asset(
-                "images/bscs.png",
+                "assets/images/bscs.png",
                 fit: BoxFit.fill,
               ),
             ),
           ),
           // Second App Bar
           SliverAppBar(
+            automaticallyImplyLeading: false,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
@@ -64,10 +106,10 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                     ),
                     TextSpan(
                       text: "\n\nTotal Students: $totalStudents",
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 12,
-                          color: Colors.grey),
+                          color: Colors.grey[400]),
                     )
                   ],
                 ),
@@ -84,11 +126,18 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      customButton("Show Percentage", () {}, context, 120),
+                      // customButton("Show Percentage", () {
+                      //   // Navigator.pushReplacement(
+                      //   //     context,
+                      //   //     MaterialPageRoute(
+                      //   //         builder: (context) => const LoginPage()));
+                      // }, context, 120),
                       const SizedBox(
                         height: 5,
                       ),
-                      customButton("View Report", () {}, context, 120)
+                      customButton("View Report", () {
+                        _pickedDate();
+                      }, context, 120)
                     ],
                   ),
                 ),
