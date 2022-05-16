@@ -44,7 +44,6 @@ dependencies:
   cached_network_image: any
   fluttertoast: any
 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
