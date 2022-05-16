@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_task/custom_formfield.dart';
-import 'package:fyp_task/custom_widgets.dart';
+import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/utils.dart';
 
 class ForgotPassword extends StatefulWidget {

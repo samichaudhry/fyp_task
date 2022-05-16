@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:fyp_task/percentage_page.dart';
 import 'package:fyp_task/utils.dart';
+import 'package:get/get.dart';
 
 class ReportPage extends StatefulWidget {
   const ReportPage({Key? key}) : super(key: key);
@@ -11,6 +13,8 @@ class ReportPage extends StatefulWidget {
 }
 
 class _ReportPageState extends State<ReportPage> {
+  DateTime pickedDate = DateTime.now();
+  var args = Get.arguments;
   List studentdata = [
     {'name': 'Rustum shakeel', 'roll_no': 'BCSF18BM001', 'status': 'A'},
     {'name': 'Aamna Malik', 'roll_no': 'BCSF18BM002', 'status': 'A'},
@@ -53,6 +57,8 @@ class _ReportPageState extends State<ReportPage> {
   @override
   void initState() {
     super.initState();
+    // pickedDate =DateTime.now();
+    // _pickedDate();
     _scrollController = ScrollController()..addListener(_scrollListener);
   }
 
@@ -82,9 +88,9 @@ class _ReportPageState extends State<ReportPage> {
 
   Widget customcircleavater(value) {
     Color? circlecolor;
-    if (value == 'P') {
+    if (value == 'P' || value == 'p') {
       circlecolor = Colors.green;
-    } else if (value == 'A') {
+    } else if (value == 'A' || value == 'a') {
       circlecolor = Colors.red;
     } else {
       circlecolor = Colors.black;
@@ -94,17 +100,29 @@ class _ReportPageState extends State<ReportPage> {
         radius: 16.0,
         child: customText(
           txt: value,
+          clr: Colors.white,
         ));
   }
 
   Widget customlisttile(stdname, stdrollno, status) {
     return ListTile(
+      onTap: () {
+        Get.to(
+          () => const subject_percentage(),
+        );
+      },
       dense: true,
-      tileColor: Colors.white70,
+      // tileColor: Colors.white70,
       title: customText(
         txt: stdname,
+        clr: Colors.white,
       ),
-      subtitle: customText(txt: stdrollno, fsize: 13.0),
+      subtitle: customText(
+        txt: stdrollno,
+        fsize: 14.0,
+        fweight: FontWeight.w400,
+        clr: Colors.grey[200],
+      ),
       trailing: customcircleavater(status),
     );
   }
@@ -118,37 +136,24 @@ class _ReportPageState extends State<ReportPage> {
           return [
             SliverAppBar(
               elevation: 0,
-              backgroundColor: Colors.teal,
+              // backgroundColor: Colors.teal,
               pinned: true,
-              expandedHeight: Responsive.isMobile(context)
-                  ? MediaQuery.of(context).size.height * 0.29
-                  : MediaQuery.of(context).size.height * 0.3,
-              collapsedHeight: Responsive.isMobile(context)
-                  ? MediaQuery.of(context).size.height * 0.10
-                  : MediaQuery.of(context).size.height * 0.15,
+              expandedHeight: MediaQuery.of(context).size.height * 0.2,
+              collapsedHeight: MediaQuery.of(context).size.height * 0.1,
               centerTitle: false,
-              // actions: [
-              //   Center(
-              //       child: DottedCircularProgressIndicatorFb(
-              //     size: 30,
-              //     numDots: 9,
-              //     dotSize: 3,
-              //     defaultDotColor: Colors.blue,
-              //     currentDotColor: Colors.orange,
-              //     secondsPerRotation: 1,
-              //   ))
-              // ],
               leading: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   icon: const Icon(
-                    Icons.close,
+                    Icons.arrow_back,
                     color: Colors.white,
                     size: 25.0,
                   )),
               title: _isShrink
                   ? null
-                  : const Text(
-                      "Date: 28-04-2022",
+                  : Text(
+                      "Date: ${args['date']}",
                       // textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20.0,
@@ -156,37 +161,48 @@ class _ReportPageState extends State<ReportPage> {
                     ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
-                      bottomLeft: const Radius.circular(20.0),
-                      bottomRight: const Radius.circular(0.0)
-                      // bottomRight: Radius.circular(40.0)
-                      )),
+                bottomLeft: _isShrink
+                    ? const Radius.circular(20.0)
+                    : const Radius.circular(0.0),
+                bottomRight: _isShrink
+                    ? const Radius.circular(20.0)
+                    : const Radius.circular(0.0),
+                // bottomRight: Radius.circular(40.0)
+              )),
               flexibleSpace: FlexibleSpaceBar(
                 collapseMode: CollapseMode.parallax,
                 title: _isShrink
                     ? SafeArea(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: const [
-                              Text(
-                                "Subject: Cloud Computing",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
+                        child: RichText(
+                          textAlign: TextAlign.left,
+                          text: const TextSpan(children: [
+                            TextSpan(
+                              text: "Subject: ",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.teal,
                               ),
-                              Text(
-                                "Class: BSCS 8th",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
+                            ),
+                            TextSpan(
+                              text: "Cloud Computing \n",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.white,
                               ),
-                            ],
-                          ),
+                            ),
+                            TextSpan(
+                              text: "Program: ",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.teal,
+                              ),
+                            ),
+                            TextSpan(
+                              text: "BSCS 8th-R",
+                              style: TextStyle(
+                                  fontSize: 18.0, color: Colors.white),
+                            ),
+                          ]),
                         ),
                       )
                     : null,
@@ -194,27 +210,36 @@ class _ReportPageState extends State<ReportPage> {
                   child: Stack(
                     children: <Widget>[
                       Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.max,
-                          children: const [
-                            Text(
-                              "Subject: Cloud Computing",
+                        child: RichText(
+                          textAlign: TextAlign.left,
+                          text: const TextSpan(children: [
+                            TextSpan(
+                              text: "Subject: ",
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24.0,
+                                fontSize: 18.0,
+                                color: Colors.teal,
                               ),
-                              textAlign: TextAlign.center,
                             ),
-                            Text(
-                              "Class: BSCS 8th",
+                            TextSpan(
+                              text: "Cloud Computing \n",
                               style: TextStyle(
+                                fontSize: 18.0,
                                 color: Colors.white,
-                                fontSize: 24.0,
                               ),
-                              textAlign: TextAlign.center,
                             ),
-                          ],
+                            TextSpan(
+                              text: "Program:",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.teal,
+                              ),
+                            ),
+                            TextSpan(
+                              text: "BSCS 8th-R\n",
+                              style: TextStyle(
+                                  fontSize: 18.0, color: Colors.white),
+                            ),
+                          ]),
                         ),
                       ),
                     ],

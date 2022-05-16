@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fyp_task/custom%20widgets/custom_toast.dart';
 import 'package:fyp_task/custom_formfield.dart';
 import 'package:flutter/material.dart';
-import 'package:fyp_task/custom_widgets.dart';
+import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/forget_password.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:fyp_task/wavy_design.dart';
@@ -19,12 +22,37 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   bool passwordVisible = true;
-
+  bool isauthenticating = false;
   // Visibility of password
   void _passwordVisibility() {
     setState(() {
       passwordVisible = !passwordVisible;
     });
+  }
+
+  Future<dynamic> _loginFunc(useremail, userpassword) async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: useremail.toString(), password: userpassword.toString());
+      setState(() {
+        isauthenticating = false;
+      });
+      Get.to(
+        () => const SubjectsPage(),
+      );
+      customtoast('Login Successful');
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        isauthenticating = false;
+      });
+      if (e.code == 'user-not-found') {
+        Get.snackbar('Invalid user', 'No user found for that email');
+        // print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        Get.snackbar('Warning!', 'Wrong password provided for that user');
+        // print('Wrong password provided for that user.');
+      }
+    }
   }
 
   @override
@@ -129,14 +157,38 @@ class _LoginPageState extends State<LoginPage> {
                   height: responsiveHW(context, ht: 3),
                 ),
                 Padding(
-                  padding: EdgeInsets.symmetric(
-                      horizontal: responsiveHW(context, wd: 6)!.toDouble()),
-                  child: customButton("Login", () {
-                    Get.to(
-                      () => const SubjectsPage(),
-                    );
-                  }, context, 35),
-                ),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: responsiveHW(context, wd: 6)!.toDouble()),
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(100)),
+                          color: Color(0xff009688)),
+                      child: TextButton(
+                        child: isauthenticating
+                            ? const CircularProgressIndicator(
+                                // backgroundColor: Colors.white,
+                                color: Colors.white,
+                              )
+                            : customText(
+                                txt: "Login",
+                                // style: TextStyle(
+                                clr: Colors.white,
+                                fweight: FontWeight.w700,
+                                // fontSize: heightSize * 3 / 100),
+                              ),
+                        onPressed: isauthenticating
+                            ? null
+                            : () async {
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                    isauthenticating = true;
+                                  });
+                                  _loginFunc(_email.text.trim(),
+                                      _password.text.trim());
+                                }
+                              },
+                      ),
+                    )),
                 SizedBox(
                   height: responsiveHW(context, ht: 0.8),
                 ),
