@@ -40,6 +40,7 @@ dependencies:
   firebase_storage: any
   intl: any
   get: any
+  font_awesome_flutter: ^10.1.0
 
 
 dev_dependencies:

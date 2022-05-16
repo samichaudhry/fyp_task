@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_attendence_1/customtext.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyp_task/custom%20widgets/custom_text.dart';
+import 'package:get/get.dart';
 
 class sessionpage extends StatefulWidget {
   const sessionpage({Key? key}) : super(key: key);
@@ -72,7 +73,13 @@ class _sessionpageState extends State<sessionpage> {
                     icon,
                     color: Colors.teal,
                     size: 33,
-                  )),
+                  ),
+                  onTap: (){
+                    Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => studentdata())
+                    );
+                  },
+                  ),
             ])));
   }
 
