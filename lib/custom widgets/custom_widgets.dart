@@ -20,9 +20,14 @@ Widget customButton(buttonText, onPressedFunc, ctx, bWd, {int bHt = 6}) {
 }
 
 Widget customText(
-    {txt, fsize = 16.0, clr = Colors.black, fweight = FontWeight.normal}) {
+    {txt,
+    fsize = 16.0,
+    clr,
+    fweight = FontWeight.normal,
+    txtalign = TextAlign.center}) {
   return Text(
     txt,
+    textAlign: txtalign,
     style: TextStyle(fontSize: fsize, color: clr, fontWeight: fweight),
   );
 }
@@ -56,6 +61,3 @@ Future<void> dialog_func(_title, _content, no_ontap, yes_ontap) async {
     ),
   );
 }
-
-
-
