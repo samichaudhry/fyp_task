@@ -179,14 +179,14 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: isauthenticating
                             ? null
                             : () async {
-                                if (_formKey.currentState!.validate()) {
-                                  setState(() {
-                                    isauthenticating = true;
-                                  });
-                                  _loginFunc(_email.text.trim(),
-                                      _password.text.trim());
-                                }
-                                // Get.to(() => const SubjectsPage());
+                                // if (_formKey.currentState!.validate()) {
+                                //   setState(() {
+                                //     isauthenticating = true;
+                                //   });
+                                //   _loginFunc(_email.text.trim(),
+                                //       _password.text.trim());
+                                // }
+                                Get.to(() => const SubjectsPage());
                               },
                       ),
                     )),

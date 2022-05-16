@@ -1,8 +1,10 @@
 import 'dart:math';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:fyp_task/admin_main_page.dart';
+import 'package:fyp_task/admin/admin_main_page.dart';
 import 'package:fyp_task/attendance_sheet.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/nav_menu.dart';
@@ -21,9 +23,17 @@ class SubjectsPage extends StatefulWidget {
 }
 
 class _SubjectsPageState extends State<SubjectsPage> {
+  bool isloggedin = false;
+  User? currentuser = FirebaseAuth.instance.currentUser;
+  String? photourl = '';
+  String? useremail = '';
   @override
   void initState() {
     super.initState();
+    if (currentuser != null) {
+      photourl = FirebaseAuth.instance.currentUser?.photoURL;
+      useremail = currentuser?.email;
+    }
   }
 
   List SubjectsList = [
@@ -54,29 +64,86 @@ class _SubjectsPageState extends State<SubjectsPage> {
     },
   ];
 
+  Future<void> logoutfunc() async {
+    return await showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Are you sure?'),
+        content: const Text('you want to logout?'),
+        actions: <Widget>[
+          MaterialButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('No'),
+          ),
+          MaterialButton(
+            onPressed: () async {
+              // await FirebaseAuth.instance.signOut();
+              // setState(() {
+              // isloggedin = false;
+              // });
+              Navigator.pop(context);
+            },
+            child: const Text('Yes'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> myfunc() async {
+    User? currentuser = FirebaseAuth.instance.currentUser;
+    if (currentuser != null) {
+      print(currentuser.uid);
+      // currentuser.updateDisplayName('Ahtsham Mehboob');
+      // currentuser.updatePhotoURL(
+      //     'https://cdn-icons-png.flaticon.com/512/149/149071.png');
+      // print(currentuser.photoURL);
+    }
+  }
+
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Are you sure?'),
+            content: const Text('Do you want to exit the App'),
+            actions: <Widget>[
+              MaterialButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('No'),
+              ),
+              MaterialButton(
+                onPressed: () => SystemNavigator.pop(),
+                child: const Text('Yes'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async => false,
+      onWillPop: _onWillPop,
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
             SliverAppBar(
               backgroundColor: Colors.transparent,
-
-              // shape: const RoundedRectangleBorder(
-              //   borderRadius: BorderRadius.only(
-              //     bottomLeft: Radius.circular(20),
-              //     bottomRight: Radius.circular(20),
-              //   ),
-              // ),
               title: customText(
                 txt: 'Subjects',
                 clr: Colors.white,
                 fsize: 20.0,
                 fweight: FontWeight.w500,
               ),
-
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      myfunc();
+                    },
+                    icon: Icon(Icons.ad_units_sharp)),
+              ],
               expandedHeight: Responsive.isMobile(context)
                   ? MediaQuery.of(context).size.height * 0.08
                   : MediaQuery.of(context).size.height * 0.45,
@@ -157,14 +224,14 @@ class _SubjectsPageState extends State<SubjectsPage> {
           child: Column(
             children: [
               UserAccountsDrawerHeader(
-                accountEmail:
-                    customText(txt: 'abc@gmail.com', clr: Colors.white),
+                accountEmail: customText(txt: '$useremail', clr: Colors.white),
                 accountName: customText(txt: 'Teacher', clr: Colors.white),
                 currentAccountPicture: GestureDetector(
                   onTap: () {},
-                  child: const CircleAvatar(
+                  child: CircleAvatar(
                     backgroundColor: Colors.teal,
-                    child: Icon(
+                    foregroundImage: NetworkImage(photourl!),
+                    child: const Icon(
                       Icons.person,
                       color: Colors.white,
                       size: 50.0,
@@ -208,7 +275,9 @@ class _SubjectsPageState extends State<SubjectsPage> {
                 ),
               ),
               customTile(
-                ontap: () {},
+                ontap: () {
+                  logoutfunc();
+                },
                 leading: const Icon(
                   Icons.power_settings_new,
                   color: Colors.white,
@@ -223,15 +292,6 @@ class _SubjectsPageState extends State<SubjectsPage> {
             ],
           ),
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {},
-        //   backgroundColor: Colors.teal,
-        //   child: const Icon(
-        //     Icons.add,
-        //     size: 25.0,
-        //     color: Colors.white,
-        //   ),
-        // ),
       ),
     );
   }

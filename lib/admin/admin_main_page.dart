@@ -2,9 +2,12 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyp_task/admin/sessions_page.dart';
+// import 'package:font_awesome_flutter/src/fa_icon.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/subjects_page.dart';
 import 'package:fyp_task/utils.dart';
+import 'package:get/get.dart';
 
 class AdminMainPage extends StatefulWidget {
   const AdminMainPage({Key? key}) : super(key: key);
@@ -16,34 +19,34 @@ class AdminMainPage extends StatefulWidget {
 class _AdminMainPageState extends State<AdminMainPage> {
   List OptionsList = [
     {
-      'title' : "Teachers",
-      'icon' : Icons.supervised_user_circle_sharp,
-      'route' : const SubjectsPage(),
-      'color' : const Color(0xff808C9D)
+      'title': "Teachers",
+      'icon': FontAwesomeIcons.personChalkboard,
+      'route': const SubjectsPage(),
+      'color': const Color(0xff245469)
     },
     {
-      'title' : "Students",
-      'icon' : Icons.abc_rounded,
-      'route' : const SubjectsPage(),
-      'color' : const Color(0xff588983)
+      'title': "Students",
+      'icon': FontAwesomeIcons.userGraduate,
+      'route': () => const sessionpage(),
+      'color': const Color(0xff2A5E75)
     },
     {
-      'title' : "Today's Attendance Report",
-      'icon' :  FontAwesomeIcons.file,
-      'route' : const SubjectsPage(),
-      'color' : const Color(0xff419F89)
+      'title': "Today's Attendance Report",
+      'icon': FontAwesomeIcons.fileContract,
+      'route': const SubjectsPage(),
+      'color': const Color(0xff314554)
     },
     {
-      'title' : "Attendance Record",
-      'icon' :  FontAwesomeIcons.filePrescription,
-      'route' : const SubjectsPage(),
-      'color' : const Color(0xff31493D)
+      'title': "Attendance Record",
+      'icon': FontAwesomeIcons.filePrescription,
+      'route': const SubjectsPage(),
+      'color': const Color(0xff263E52)
     },
     {
-      'title' : "Change Password",
-      'icon' :  FontAwesomeIcons.key,
-      'route' : const SubjectsPage(),
-      'color' :  Colors.blueGrey.withOpacity(5.0)
+      'title': "Change Password",
+      'icon': FontAwesomeIcons.key,
+      'route': const SubjectsPage(),
+      'color': const Color(0xff0F2030)
     },
   ];
   @override
@@ -82,28 +85,36 @@ class _AdminMainPageState extends State<AdminMainPage> {
             child: Container(
               // padding: EdgeInsets.all(5.0),
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.25,
+              height: MediaQuery.of(context).size.height * 0.2,
               decoration: const BoxDecoration(
                 color: Colors.teal,
                 borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(20.0),
                     bottomRight: Radius.circular(20.0)),
               ),
-              child: ListView(
-                children: const [
-                  Center(
+              child: Column(
+                children: [
+                  const Center(
                     child: CircleAvatar(
                       radius: 40.0,
                       // backgroundColor: Colors.white,
                       child: Icon(
-                        Icons.supervised_user_circle,
-                        size: 80.0,
+                        FontAwesomeIcons.userGear,
+                        size: 30.0,
                         // color: Colors.white,
                       ),
                       foregroundImage: NetworkImage('url here'),
                     ),
                   ),
-
+                  Center(
+                    child: customText(
+                        txt: 'Admin Name',
+                        fsize: 19.0,
+                        fweight: FontWeight.w500),
+                  ),
+                  Center(
+                    child: customText(txt: 'admin@gmail.com', fsize: 18.0),
+                  ),
                 ],
               ),
             ),
@@ -123,12 +134,15 @@ class _AdminMainPageState extends State<AdminMainPage> {
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
                 return GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Get.to(
+                      OptionsList[index]['route'],
+                    );
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15.0),
-                      color:  Colors.teal,
-                          // .withOpacity(0.4),
+                      color: OptionsList[index]['color'],
                     ),
                     margin: const EdgeInsets.all(3.0),
                     child: Padding(
@@ -137,18 +151,18 @@ class _AdminMainPageState extends State<AdminMainPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                           Center(
+                          Center(
                             child: Icon(
                               OptionsList[index]['icon'],
-                              // color: Colors.white,
-                              size: 70.0,
+                              color: Colors.white,
+                              size: 50.0,
                             ),
                           ),
                           Center(
                             child: customText(
                               txt: '${OptionsList[index]['title']}',
-                              fsize: 22.0,
-                              // clr: Colors.white,
+                              fsize: 20.0,
+                              clr: Colors.white,
                               fweight: FontWeight.w600,
                             ),
                           ),
