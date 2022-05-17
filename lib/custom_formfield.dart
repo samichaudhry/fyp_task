@@ -10,9 +10,16 @@ Widget customTextField(hintTitle, pIcon, isPassword, sIcon, controllerName,
         borderRadius: BorderRadius.circular(30),
         child: Container(
           width: wSize,
-          height: hSize * 7 / 100,
+          height: hSize * 6 / 100,
           decoration: BoxDecoration(
+            color: Colors.grey[800],
             borderRadius: BorderRadius.circular(30),
+            // boxShadow: const [
+            //   BoxShadow(
+            //       blurRadius: 3.5,
+            //       offset: Offset(.5, 2),
+            //       color: Colors.white30),
+            // ],
           ),
         ),
       ),

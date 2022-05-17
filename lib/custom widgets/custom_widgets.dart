@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:get/get.dart';
+import 'package:file_picker/file_picker.dart';
 
 // Custom Button Widget
 Widget customButton(buttonText, onPressedFunc, ctx, bWd, {int bHt = 6}) {
@@ -51,13 +52,26 @@ Future<void> dialog_func(_title, _content, no_ontap, yes_ontap) async {
       actions: <Widget>[
         MaterialButton(
           onPressed: no_ontap,
-          child: Text('No'),
+          child: const Text('No'),
         ),
         MaterialButton(
           onPressed: yes_ontap,
-          child: Text('Yes'),
+          child: const Text('Yes'),
         ),
       ],
     ),
   );
+}
+
+// File Picker
+
+Future filepicker() async {
+  FilePickerResult? result = await FilePicker.platform.pickFiles(
+    type: FileType.image,
+  );
+  if (result != null) {
+    return result.files.single.path.toString();
+  } else {
+    return '';
+  }
 }

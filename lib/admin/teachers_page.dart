@@ -1,5 +1,4 @@
 import 'package:fyp_task/admin/add_teacher.dart';
-import 'package:fyp_task/admin/admin_main_page.dart';
 import 'package:fyp_task/admin/teacher_info.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:flutter/material.dart';
@@ -16,79 +15,79 @@ class _TeachersPageState extends State<TeachersPage> {
   List teachers = [
     {
       "name": "Faheem Ahmad Khalid",
-      "desination": "Assistant Professor",
+      "designation": "Assistant Professor",
       "imgUrl":
           "http://greenacrescricket.co.uk/wp-content/uploads/2016/10/profile-images.jpg",
     },
     {
       "name": "Faheem Ahmad Khalid",
-      "desination": "Assistant Professor",
+      "designation": "Assistant Professor",
       "imgUrl":
           "https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png",
     },
     {
       "name": "Faheem Ahmad Khalid",
-      "desination": "Lecturer",
+      "designation": "Lecturer",
       "imgUrl":
           "https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png",
     },
     {
       "name": "Faheem Ahmad Khalid",
-      "desination": "Assistant Professor",
+      "designation": "Assistant Professor",
       "imgUrl":
           "http://greenacrescricket.co.uk/wp-content/uploads/2016/10/profile-images.jpg",
     },
     {
       "name": "Faheem Ahmad Khalid",
-      "desination": "Assistant Professor",
+      "designation": "Assistant Professor",
       "imgUrl":
           "https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png",
     },
     {
       "name": "Faheem Ahmad Khalid",
-      "desination": "Lecturer",
+      "designation": "Lecturer",
       "imgUrl":
           "https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png",
     },
     {
       "name": "Faheem Ahmad Khalid",
-      "desination": "Assistant Professor",
+      "designation": "Assistant Professor",
       "imgUrl":
           "http://greenacrescricket.co.uk/wp-content/uploads/2016/10/profile-images.jpg",
     },
     {
       "name": "Faheem Ahmad Khalid",
-      "desination": "Assistant Professor",
+      "designation": "Assistant Professor",
       "imgUrl":
           "https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png",
     },
     {
       "name": "Faheem Ahmad Khalid",
-      "desination": "Lecturer",
+      "designation": "Lecturer",
       "imgUrl":
           "https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png",
     },
     {
       "name": "Faheem Ahmad Khalid",
-      "desination": "Assistant Professor",
+      "designation": "Assistant Professor",
       "imgUrl":
           "http://greenacrescricket.co.uk/wp-content/uploads/2016/10/profile-images.jpg",
     },
     {
       "name": "Faheem Ahmad Khalid",
-      "desination": "Assistant Professor",
+      "designation": "Assistant Professor",
       "imgUrl":
           "https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png",
     },
     {
       "name": "Faheem Ahmad Khalid",
-      "desination": "Lecturer",
+      "designation": "Lecturer",
       "imgUrl":
           "https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png",
     },
     {
       "name": "Faheem Ahmad Khalid",
-      "desination": "Visiting Lecturer",
+      "designation": "Visiting Lecturer",
       "imgUrl":
           "https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png",
     },
@@ -170,7 +169,7 @@ class _TeachersPageState extends State<TeachersPage> {
                         ),
                       ),
                       subtitle: Text(
-                        teachers[index]['desination'],
+                        teachers[index]['designation'],
                         style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,

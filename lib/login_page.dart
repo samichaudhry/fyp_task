@@ -112,6 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ],
             ),
+            SizedBox(height: responsiveHW(context, ht: 4)),
             Expanded(
               child: ListView(children: [
                 customTextField("Email", Icons.email, false, null, _email,
