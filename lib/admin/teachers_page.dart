@@ -151,6 +151,8 @@ class _TeachersPageState extends State<TeachersPage> {
                   context: context,
                   tiles: [
                     ListTile(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
                       tileColor: Colors.grey[800],
                       onTap: () {
                         Get.to(() => const TeacherInfo());
