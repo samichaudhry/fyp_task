@@ -90,31 +90,65 @@ class _sessionpageState extends State<sessionpage> {
       'icon': FontAwesomeIcons.globe
     },
   ];
-  Widget customtextformfield(lbltext, isreadonly) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 19, right: 19, bottom: 10),
-      child: TextFormField(
-          readOnly: isreadonly,
-          cursorColor: Colors.teal,
-          style: const TextStyle(
-            fontSize: 15.0,
-            fontWeight: FontWeight.w400,
-          ),
-          decoration: InputDecoration(
-            labelText: lbltext,
-            labelStyle: const TextStyle(
-              color: Colors.teal,
-            ),
-            filled: true,
-            // enabled: true,
-            fillColor: Colors.transparent,
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(14.0),
-              borderSide: const BorderSide(color: Colors.teal),
-            ),
-          )),
-    );
-  }
+
+  String? dropdownvalue;
+  List<String> department = [
+    'Computer Science and IT',
+    'Biological Science',
+    'Chemistry',
+    'Physics',
+    'Business Administration',
+    'Commerce',
+    'Economics',
+    'Education',
+    'English',
+    'Mathematics',
+    'Psychology',
+    'Social Work',
+    'Sociology',
+    'Sports Sciences',
+    'Urdu'
+  ];
+  List<String> session = [
+    '2 years programs',
+    '2018-2020',
+    '2019-2021',
+    '2020-2022',
+    '2021-2023',
+    '2022-2024',
+    '2023-2025',
+    '2024-2026',
+    '2025-2027',
+    '2026-2028',
+    '2027-2029',
+    '2028-2030',
+    '2029-2031',
+    '2030-2032',
+    '2031-2033',
+    '2032-2034',
+    '2033-2035',
+    '2034-2036',
+    '2035-2037',
+    '2036-2038',
+    '4 years programs',
+    '2018-2022',
+    '2019-2023',
+    '2020-2024',
+    '2021-2025',
+    '2022-2026',
+    '2023-2027',
+    '2024-2028',
+    '2025-2029',
+    '2026-2030',
+    '2027-2031',
+    '2028-2032',
+    '2029-2033',
+    '2030-2034',
+    '2031-2035',
+    '2032-2036',
+    '2033-2037',
+    '2034-2038'
+  ];
 
   Widget customcard(title, subtitle, icon) {
     return Padding(
@@ -126,13 +160,19 @@ class _sessionpageState extends State<sessionpage> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               ListTile(
-                  title: customText(txt: title, fsize: 17.0),
-                  subtitle: customText(txt: subtitle, fsize: 15.0),
-                  trailing: Icon(
-                    icon,
-                    color: Colors.teal,
-                    size: 33,
-                  )),
+                title: customText(txt: title, fsize: 17.0),
+                subtitle: customText(txt: subtitle, fsize: 15.0),
+                trailing: Icon(
+                  icon,
+                  color: Colors.teal,
+                  size: 33,
+                ),
+                onTap: () {
+                  //   Navigator.of(context).pushReplacement(
+                  // MaterialPageRoute(builder: (context) => studentdata())
+                  //   );
+                },
+              ),
             ])));
   }
 
@@ -140,7 +180,7 @@ class _sessionpageState extends State<sessionpage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          // backgroundColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
           elevation: 0.0,
           leading: IconButton(
             onPressed: () {
@@ -169,16 +209,14 @@ class _sessionpageState extends State<sessionpage> {
                         child: TextField(
                             cursorColor: Colors.teal,
                             decoration: InputDecoration(
-                              hintText: 'Search for something',
-                              // prefixIcon: Icon(Icons.search),
-                              // suffixIcon: Icon(Icons.close),
+                              hintText: 'Search Session',
                               border: InputBorder.none,
                             )),
                       ),
                     );
                   } else {
-                    customIcon = const Icon(Icons.search);
-                    customSearchBar = const Text('Session');
+                    customIcon = Icon(Icons.search);
+                    customSearchBar = Text('Session');
                   }
                 });
               },
@@ -186,26 +224,6 @@ class _sessionpageState extends State<sessionpage> {
             ),
           ],
         ),
-        //  appBar: AppBar(
-        //    backgroundColor: Colors.transparent,
-        //    elevation: 0.0,
-        //       title: Container(
-        //         decoration: BoxDecoration(
-        //           color: Colors.grey[800],
-        //           borderRadius:  BorderRadius.circular(14.0),
-        //         ),
-        //         // width: double.infinity,
-        //         height: MediaQuery.of(context).size.height * 0.05,
-        //         child: TextField(
-        //   cursorColor: Colors.teal,
-        //   decoration: InputDecoration(
-        //     hintText: 'Search for something',
-        //         prefixIcon: Icon(Icons.search),
-        //         suffixIcon: Icon(Icons.close),
-        //      border : InputBorder.none,
-        //   )),
-        //       ),
-        //     ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showDialog(
@@ -216,8 +234,52 @@ class _sessionpageState extends State<sessionpage> {
                         child: customText(
                             txt: "Add Session", fweight: FontWeight.w500)),
                     actions: [
-                      customtextformfield('Session', false),
-                      customtextformfield('Department', false),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 19, right: 19, bottom: 10),
+                        child: DropdownButtonFormField(
+                          items: department
+                              .map((String value) => DropdownMenuItem<String>(
+                                  value: value, child: Text(value)))
+                              .toList(),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14.0),
+                              borderSide: BorderSide(color: Colors.teal),
+                            ),
+                            labelText: 'Department',
+                          ),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownvalue = newValue!;
+                            });
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 19, right: 19, bottom: 10),
+                        child: DropdownButtonFormField(
+                          items: session
+                              .map((String value) => DropdownMenuItem<String>(
+                                  value: value, child: Text(value)))
+                              .toList(),
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14.0),
+                              borderSide: BorderSide(color: Colors.teal),
+                            ),
+                            labelText: 'Session',
+                          ),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownvalue = newValue!;
+                            });
+                          },
+                        ),
+                      ),
+                      //  customdropdown( department,'department',),
+                      //  customdropdown(session,'session' ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
@@ -225,12 +287,12 @@ class _sessionpageState extends State<sessionpage> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: const Text('CANCEL')),
+                              child: Text('CANCLE')),
                           MaterialButton(
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: const Text('ADD')),
+                              child: Text('ADD')),
                         ],
                       ),
                     ],
@@ -265,7 +327,7 @@ class _sessionpageState extends State<sessionpage> {
                     ],
                   ),
                 ),
-              )
+              ),
             ]));
   }
 }
