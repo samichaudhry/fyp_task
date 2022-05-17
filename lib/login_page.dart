@@ -163,6 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                       decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(100)),
                           color: Color(0xff009688)),
+                      height: responsiveHW(context, ht: 6),
                       child: TextButton(
                         child: isauthenticating
                             ? const CircularProgressIndicator(
