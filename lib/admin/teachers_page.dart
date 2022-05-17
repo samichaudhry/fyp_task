@@ -118,19 +118,18 @@ class _TeachersPageState extends State<TeachersPage> {
               Navigator.pop(context);
             },
           ),
-          // automaticallyImplyLeading: false,
-          // shape: const RoundedRectangleBorder(
-          //   borderRadius: BorderRadius.only(
-          //     bottomLeft: Radius.circular(20),
-          //     bottomRight: Radius.circular(20),
-          //   ),
-          // ),
+          automaticallyImplyLeading: false,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
+          ),
           pinned: true,
           floating: true,
           snap: true,
           expandedHeight: responsiveHW(context, ht: 12),
-          collapsedHeight: responsiveHW(context, ht: 10),
-
+          collapsedHeight: responsiveHW(context, ht: 11),
           flexibleSpace: FlexibleSpaceBar(
               title: Text(
             "\n\n\nTotal Teachers: ${teachers.length}",
