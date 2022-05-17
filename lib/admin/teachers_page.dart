@@ -98,9 +98,9 @@ class _TeachersPageState extends State<TeachersPage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(
-            () => const AddTeacher(),
-          );
+          Get.to(() => const AddTeacher(), arguments: [
+            {"pageTitle": "Add Teacher", "buttonText": "Submit"}
+          ]);
         },
         child: const Icon(Icons.add),
       ),

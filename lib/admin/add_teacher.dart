@@ -6,6 +6,7 @@ import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/custom_formfield.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:fyp_task/wavy_design.dart';
+import 'package:get/get.dart';
 
 class AddTeacher extends StatefulWidget {
   const AddTeacher({Key? key}) : super(key: key);
@@ -25,7 +26,7 @@ class _AddTeacherState extends State<AddTeacher> {
   final TextEditingController _confirmpass = TextEditingController();
   bool passwordVisible = true;
   bool confirmPasswordVisible = true;
-
+  var editProfileArgument = Get.arguments;
   // Custom Sized Box
   SizedBox customSizedBox({height = 2}) => SizedBox(
         height: responsiveHW(context, ht: height),
@@ -50,18 +51,14 @@ class _AddTeacherState extends State<AddTeacher> {
       appBar: AppBar(
         backgroundColor: Colors.teal,
         elevation: 0,
-        title: const Text(
-          "Add Teacher",
-          style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+        title: Text(
+          editProfileArgument[0]['pageTitle'].toString(),
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
         ),
-        leading: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            );
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
           },
         ),
       ),
@@ -256,7 +253,7 @@ class _AddTeacherState extends State<AddTeacher> {
                       height: responsiveHW(context, ht: 6),
                       child: TextButton(
                         child: Text(
-                          "Submit",
+                          editProfileArgument[0]['buttonText'].toString(),
                           style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
