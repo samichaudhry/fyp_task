@@ -79,7 +79,7 @@ class _AddTeacherState extends State<AddTeacher> {
             SliverToBoxAdapter(
               child: Container(
                 width: responsiveHW(context, wd: 100),
-                height: responsiveHW(context, ht: 20),
+                height: responsiveHW(context, ht: 22),
                 decoration: const BoxDecoration(
                   color: Colors.teal,
                   borderRadius: BorderRadius.only(
