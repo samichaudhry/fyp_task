@@ -3,7 +3,6 @@ import 'package:fyp_task/admin/add_teacher.dart';
 import 'package:fyp_task/admin/teachers_subject.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/utils.dart';
-import 'package:fyp_task/wavy_design.dart';
 import 'package:get/get.dart';
 
 class TeacherInfo extends StatefulWidget {
