@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:fyp_task/admin/add_teacher.dart';
-import 'package:fyp_task/admin/teachers_subject.dart';
+import 'package:fyp_task/admin/add_subject.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:get/get.dart';
 
-class TeacherInfo extends StatefulWidget {
-  const TeacherInfo({Key? key}) : super(key: key);
+class SubjectInfo extends StatefulWidget {
+  const SubjectInfo({Key? key}) : super(key: key);
 
   @override
-  State<TeacherInfo> createState() => _TeacherInfoState();
+  State<SubjectInfo> createState() => _SubjectInfoState();
 }
 
-class _TeacherInfoState extends State<TeacherInfo> {
+class _SubjectInfoState extends State<SubjectInfo> {
   var imgUrl =
       "https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png";
 
@@ -20,7 +19,6 @@ class _TeacherInfoState extends State<TeacherInfo> {
   SizedBox customSizedBox({height = 2}) => SizedBox(
         height: responsiveHW(context, ht: height),
       );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +41,7 @@ class _TeacherInfoState extends State<TeacherInfo> {
             floating: true,
             elevation: 0.0,
             title: customText(
-              txt: "Teacher's Info",
+              txt: "Subject's Info",
               clr: Colors.white,
               fsize: 20.0,
               fweight: FontWeight.w500,
@@ -62,7 +60,7 @@ class _TeacherInfoState extends State<TeacherInfo> {
               ),
               child: Column(
                 children: [
-                  customSizedBox(height: 0.5),
+                  customSizedBox(height: 1),
                   CircleAvatar(
                     radius: 50.0,
                     foregroundImage: NetworkImage(imgUrl),
@@ -76,7 +74,7 @@ class _TeacherInfoState extends State<TeacherInfo> {
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
-                        text: "Teacher Name",
+                        text: "Subject Name",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
@@ -84,7 +82,7 @@ class _TeacherInfoState extends State<TeacherInfo> {
                         ),
                         children: [
                           TextSpan(
-                            text: "\nabc123@gmail.com",
+                            text: "\nBSCS-8th-SS (2018-2022)",
                             style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,
@@ -107,18 +105,10 @@ class _TeacherInfoState extends State<TeacherInfo> {
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: responsiveHW(context, wd: 6)!.toDouble()),
-              child: customButton("View Subjects", () {
-                Get.to(() => const TeacherSubjects());
-              }, context, 100),
-            ),
-            customSizedBox(),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: responsiveHW(context, wd: 6)!.toDouble()),
-              child: customButton("Edit Profile", () {
-                Get.to(() => const AddTeacher(), arguments: [
+              child: customButton("Edit Subject", () {
+                Get.to(() => const AddSubject(), arguments: [
                   {
-                    "pageTitle": "Edit Teacher's Profile",
+                    "pageTitle": "Edit Subject's Details",
                     "buttonText": "Update"
                   }
                 ]);
@@ -128,7 +118,7 @@ class _TeacherInfoState extends State<TeacherInfo> {
             Padding(
               padding: EdgeInsets.symmetric(
                   horizontal: responsiveHW(context, wd: 6)!.toDouble()),
-              child: customButton("Delete Profile", () {}, context, 100),
+              child: customButton("Delete Subject", () {}, context, 100),
             ),
           ]))
         ],

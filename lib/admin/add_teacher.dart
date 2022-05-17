@@ -5,7 +5,6 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/custom_formfield.dart';
 import 'package:fyp_task/utils.dart';
-import 'package:fyp_task/wavy_design.dart';
 import 'package:get/get.dart';
 
 class AddTeacher extends StatefulWidget {
@@ -79,7 +78,7 @@ class _AddTeacherState extends State<AddTeacher> {
             SliverToBoxAdapter(
               child: Container(
                 width: responsiveHW(context, wd: 100),
-                height: responsiveHW(context, ht: 20),
+                height: responsiveHW(context, ht: 22),
                 decoration: const BoxDecoration(
                   color: Colors.teal,
                   borderRadius: BorderRadius.only(
