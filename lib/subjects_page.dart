@@ -26,7 +26,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
   bool isloggedin = false;
   User? currentuser = FirebaseAuth.instance.currentUser;
   String? photourl = '';
-  String? useremail = '';
+  String? useremail = 'abc@gmail.com';
   @override
   void initState() {
     super.initState();
@@ -90,16 +90,16 @@ class _SubjectsPageState extends State<SubjectsPage> {
     );
   }
 
-  Future<void> myfunc() async {
-    User? currentuser = FirebaseAuth.instance.currentUser;
-    if (currentuser != null) {
-      print(currentuser.uid);
-      // currentuser.updateDisplayName('Ahtsham Mehboob');
-      // currentuser.updatePhotoURL(
-      //     'https://cdn-icons-png.flaticon.com/512/149/149071.png');
-      // print(currentuser.photoURL);
-    }
-  }
+  // Future<void> myfunc() async {
+  //   User? currentuser = FirebaseAuth.instance.currentUser;
+  //   if (currentuser != null) {
+  //     print(currentuser.uid);
+  //     // currentuser.updateDisplayName('Ahtsham Mehboob');
+  //     // currentuser.updatePhotoURL(
+  //     //     'https://cdn-icons-png.flaticon.com/512/149/149071.png');
+  //     // print(currentuser.photoURL);
+  //   }
+  // }
 
   Future<bool> _onWillPop() async {
     return (await showDialog(
@@ -137,13 +137,13 @@ class _SubjectsPageState extends State<SubjectsPage> {
                 fsize: 20.0,
                 fweight: FontWeight.w500,
               ),
-              actions: [
-                IconButton(
-                    onPressed: () {
-                      myfunc();
-                    },
-                    icon: Icon(Icons.ad_units_sharp)),
-              ],
+              // actions: [
+              //   IconButton(
+              //       onPressed: () {
+              //         myfunc();
+              //       },
+              //       icon: Icon(Icons.ad_units_sharp)),
+              // ],
               expandedHeight: Responsive.isMobile(context)
                   ? MediaQuery.of(context).size.height * 0.08
                   : MediaQuery.of(context).size.height * 0.45,
@@ -222,6 +222,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
         ),
         drawer: Drawer(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               UserAccountsDrawerHeader(
                 accountEmail: customText(txt: '$useremail', clr: Colors.white),
@@ -236,12 +237,12 @@ class _SubjectsPageState extends State<SubjectsPage> {
                       color: Colors.white,
                       size: 50.0,
                     ),
-                    radius: 45.0,
+                    radius: 40.0,
                   ),
                 ),
               ),
-              ListTile(
-                onTap: () {
+              customTile(
+                ontap: () {
                   Get.to(
                     () => const teacherprofile(),
                   );
