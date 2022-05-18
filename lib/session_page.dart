@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:fyp_task/custom%20widgets/custom_text.dart';
+import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 
 class sessionpage extends StatefulWidget {
   const sessionpage({Key? key}) : super(key: key);

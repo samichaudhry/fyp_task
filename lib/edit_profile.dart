@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:fyp_task/edit_profile_widget.dart';
 import 'package:fyp_task/profile_widget.dart';
 import 'package:fyp_task/teacher_profile.dart';
 
