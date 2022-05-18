@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp_task/admin/add_subject.dart';
 import 'package:fyp_task/admin/add_teacher.dart';
 import 'package:fyp_task/admin/teacher_info.dart';
+import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:get/get.dart';
 
@@ -98,14 +99,18 @@ class _TeacherSubjectsState extends State<TeacherSubjects> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.to(() => const AddSubject(), arguments: [
-            {"pageTitle": "Add Subject", "buttonText": "Submit"}
-          ]);
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: customFAB(
+          clr: Colors.teal,
+          ontap: () {
+            Get.to(() => const AddSubject(), arguments: [
+              {"pageTitle": "Add Subject", "buttonText": "Submit"}
+            ]);
+          },
+          icon: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          text: customText(txt: 'Subject', clr: Colors.white)),
       body: CustomScrollView(slivers: [
         SliverAppBar(
           title: const Text(

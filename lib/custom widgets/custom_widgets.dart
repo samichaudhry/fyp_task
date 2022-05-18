@@ -63,6 +63,15 @@ Future<void> dialog_func(_title, _content, no_ontap, yes_ontap) async {
   );
 }
 
+Widget customFAB({ontap, text, icon, clr}) {
+  return FloatingActionButton.extended(
+    onPressed: ontap,
+    label: text,
+    icon: icon,
+    backgroundColor: clr,
+  );
+}
+
 // File Picker
 
 Future filepicker() async {

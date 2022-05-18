@@ -224,8 +224,13 @@ class _sessionpageState extends State<sessionpage> {
             ),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
+        floatingActionButton: customFAB(
+          text: customText(txt: 'Session', clr: Colors.white),
+          icon: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          ontap: () {
             showDialog(
                 context: context,
                 builder: (BuildContext context) {
@@ -299,11 +304,11 @@ class _sessionpageState extends State<sessionpage> {
                   );
                 });
           },
-          backgroundColor: Colors.teal,
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
+          clr: Colors.teal,
+          // child: Icon(
+          //   Icons.add,
+          //   color: Colors.white,
+          // ),
         ),
         body: Column(
             mainAxisAlignment: MainAxisAlignment.center,

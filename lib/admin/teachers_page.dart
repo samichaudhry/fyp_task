@@ -1,5 +1,6 @@
 import 'package:fyp_task/admin/add_teacher.dart';
 import 'package:fyp_task/admin/teacher_info.dart';
+import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -96,14 +97,18 @@ class _TeachersPageState extends State<TeachersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.to(() => const AddTeacher(), arguments: [
-            {"pageTitle": "Add Teacher", "buttonText": "Submit"}
-          ]);
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: customFAB(
+          clr: Colors.teal,
+          ontap: () {
+            Get.to(() => const AddTeacher(), arguments: [
+              {"pageTitle": "Add Teacher", "buttonText": "Submit"}
+            ]);
+          },
+          icon: const Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
+          text: customText(txt: 'Teacher', clr: Colors.white)),
       body: CustomScrollView(slivers: [
         SliverAppBar(
           title: const Text(
