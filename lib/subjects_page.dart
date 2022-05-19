@@ -7,13 +7,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_task/admin/admin_main_page.dart';
 import 'package:fyp_task/attendance_sheet.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
-import 'package:fyp_task/nav_menu.dart';
-import 'package:fyp_task/reportpage.dart';
+// import 'package:fyp_task/nav_menu.dart';
+// import 'package:fyp_task/reportpage.dart';
 import 'package:fyp_task/user%20profile/teacher_profile.dart';
 // import 'package:fyp_task/user%20profile/user_profile.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 
 class SubjectsPage extends StatefulWidget {
   const SubjectsPage({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
   bool isloggedin = false;
   User? currentuser = FirebaseAuth.instance.currentUser;
   String? photourl = '';
-  String? useremail = '';
+  String? useremail = 'abc@gmail.com';
   @override
   void initState() {
     super.initState();
@@ -90,16 +90,16 @@ class _SubjectsPageState extends State<SubjectsPage> {
     );
   }
 
-  Future<void> myfunc() async {
-    User? currentuser = FirebaseAuth.instance.currentUser;
-    if (currentuser != null) {
-      print(currentuser.uid);
-      // currentuser.updateDisplayName('Ahtsham Mehboob');
-      // currentuser.updatePhotoURL(
-      //     'https://cdn-icons-png.flaticon.com/512/149/149071.png');
-      // print(currentuser.photoURL);
-    }
-  }
+  // Future<void> myfunc() async {
+  //   User? currentuser = FirebaseAuth.instance.currentUser;
+  //   if (currentuser != null) {
+  //     print(currentuser.uid);
+  //     // currentuser.updateDisplayName('Ahtsham Mehboob');
+  //     // currentuser.updatePhotoURL(
+  //     //     'https://cdn-icons-png.flaticon.com/512/149/149071.png');
+  //     // print(currentuser.photoURL);
+  //   }
+  // }
 
   Future<bool> _onWillPop() async {
     return (await showDialog(
@@ -137,13 +137,13 @@ class _SubjectsPageState extends State<SubjectsPage> {
                 fsize: 20.0,
                 fweight: FontWeight.w500,
               ),
-              actions: [
-                IconButton(
-                    onPressed: () {
-                      myfunc();
-                    },
-                    icon: Icon(Icons.ad_units_sharp)),
-              ],
+              // actions: [
+              //   IconButton(
+              //       onPressed: () {
+              //         myfunc();
+              //       },
+              //       icon: Icon(Icons.ad_units_sharp)),
+              // ],
               expandedHeight: Responsive.isMobile(context)
                   ? MediaQuery.of(context).size.height * 0.08
                   : MediaQuery.of(context).size.height * 0.45,
@@ -222,6 +222,8 @@ class _SubjectsPageState extends State<SubjectsPage> {
         ),
         drawer: Drawer(
           child: Column(
+            // crossAxisAlignment: CrossAxisAlignment.start,
+            // mainAxisAlignment: MainAxisAlignment.start,
             children: [
               UserAccountsDrawerHeader(
                 accountEmail: customText(txt: '$useremail', clr: Colors.white),
@@ -236,12 +238,12 @@ class _SubjectsPageState extends State<SubjectsPage> {
                       color: Colors.white,
                       size: 50.0,
                     ),
-                    radius: 45.0,
+                    radius: 40.0,
                   ),
                 ),
               ),
-              ListTile(
-                onTap: () {
+              customTile(
+                ontap: () {
                   Get.to(
                     () => const teacherprofile(),
                   );

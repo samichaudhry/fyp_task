@@ -21,11 +21,7 @@ Widget customButton(buttonText, onPressedFunc, ctx, bWd, {int bHt = 6}) {
 }
 
 Widget customText(
-    {txt,
-    fsize = 16.0,
-    clr,
-    fweight = FontWeight.normal,
-    txtalign = TextAlign.center}) {
+    {txt, fsize = 16.0, clr, fweight = FontWeight.normal, txtalign}) {
   return Text(
     txt,
     textAlign: txtalign,
@@ -41,6 +37,8 @@ Widget customTile({ontap, leading, title, subtitle, trailing, tilecolor}) {
     trailing: trailing,
     leading: leading,
     tileColor: tilecolor,
+    // minLeadingWidth: 5.0,
+    // horizontalTitleGap: 5.0,
   );
 }
 

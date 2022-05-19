@@ -31,12 +31,12 @@ class _AdminMainPageState extends State<AdminMainPage> {
       'route': () => const sessionpage(),
       'color': const Color(0xff2A5E75)
     },
-    {
-      'title': "Today's Attendance Report",
-      'icon': FontAwesomeIcons.fileContract,
-      'route': const SubjectsPage(),
-      'color': const Color(0xff314554)
-    },
+    // {
+    //   'title': "Today's Attendance Report",
+    //   'icon': FontAwesomeIcons.fileContract,
+    //   'route': const SubjectsPage(),
+    //   'color': const Color(0xff314554)
+    // },
     {
       'title': "Attendance Record",
       'icon': FontAwesomeIcons.filePrescription,

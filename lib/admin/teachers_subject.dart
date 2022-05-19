@@ -20,6 +20,7 @@ class _TeacherSubjectsState extends State<TeacherSubjects> {
       "program": "BSCS",
       "semester": "8th-R",
       "session": "2018-2022",
+      "subjectCode": "CSE-2231",
       "imgUrl":
           "http://greenacrescricket.co.uk/wp-content/uploads/2016/10/profile-images.jpg",
     },
@@ -28,6 +29,7 @@ class _TeacherSubjectsState extends State<TeacherSubjects> {
       "program": "BSCS",
       "semester": "8th-R",
       "session": "2018-2022",
+      "subjectCode": "CSE-2231",
       "imgUrl":
           "http://greenacrescricket.co.uk/wp-content/uploads/2016/10/profile-images.jpg",
     },
@@ -35,6 +37,25 @@ class _TeacherSubjectsState extends State<TeacherSubjects> {
       "subjectName": "Cloud Computing",
       "program": "BSCS",
       "semester": "8th-R",
+      "session": "2018-2022",
+      "subjectCode": "CSE-2231",
+      "imgUrl":
+          "http://greenacrescricket.co.uk/wp-content/uploads/2016/10/profile-images.jpg",
+    },
+    {
+      "subjectName": "Cloud Computing",
+      "program": "BSCS",
+      "semester": "8th-SS",
+      "session": "2018-2022",
+      "subjectCode": "CSE-2231",
+      "imgUrl":
+          "http://greenacrescricket.co.uk/wp-content/uploads/2016/10/profile-images.jpg",
+    },
+    {
+      "subjectName": "Cloud Computing",
+      "program": "BSCS",
+      "semester": "8th-R",
+      "subjectCode": "CSE-2231",
       "session": "2018-2022",
       "imgUrl":
           "http://greenacrescricket.co.uk/wp-content/uploads/2016/10/profile-images.jpg",
@@ -44,6 +65,7 @@ class _TeacherSubjectsState extends State<TeacherSubjects> {
       "program": "BSCS",
       "semester": "8th-SS",
       "session": "2018-2022",
+      "subjectCode": "CSE-2231",
       "imgUrl":
           "http://greenacrescricket.co.uk/wp-content/uploads/2016/10/profile-images.jpg",
     },
@@ -52,14 +74,7 @@ class _TeacherSubjectsState extends State<TeacherSubjects> {
       "program": "BSCS",
       "semester": "8th-R",
       "session": "2018-2022",
-      "imgUrl":
-          "http://greenacrescricket.co.uk/wp-content/uploads/2016/10/profile-images.jpg",
-    },
-    {
-      "subjectName": "Cloud Computing",
-      "program": "BSCS",
-      "semester": "8th-SS",
-      "session": "2018-2022",
+      "subjectCode": "CSE-2231",
       "imgUrl":
           "http://greenacrescricket.co.uk/wp-content/uploads/2016/10/profile-images.jpg",
     },
@@ -68,14 +83,7 @@ class _TeacherSubjectsState extends State<TeacherSubjects> {
       "program": "BSCS",
       "semester": "8th-R",
       "session": "2018-2022",
-      "imgUrl":
-          "http://greenacrescricket.co.uk/wp-content/uploads/2016/10/profile-images.jpg",
-    },
-    {
-      "subjectName": "Cloud Computing",
-      "program": "BSCS",
-      "semester": "8th-R",
-      "session": "2018-2022",
+      "subjectCode": "CSE-2231",
       "imgUrl":
           "http://greenacrescricket.co.uk/wp-content/uploads/2016/10/profile-images.jpg",
     },
@@ -84,6 +92,7 @@ class _TeacherSubjectsState extends State<TeacherSubjects> {
       "program": "BSCS",
       "semester": "8th-SS",
       "session": "2018-2022",
+      "subjectCode": "CSE-2231",
       "imgUrl":
           "http://greenacrescricket.co.uk/wp-content/uploads/2016/10/profile-images.jpg",
     },
@@ -92,6 +101,7 @@ class _TeacherSubjectsState extends State<TeacherSubjects> {
       "program": "BSCS",
       "semester": "8th-SS",
       "session": "2018-2022",
+      "subjectCode": "CSE-2231",
       "imgUrl":
           "http://greenacrescricket.co.uk/wp-content/uploads/2016/10/profile-images.jpg",
     },
@@ -189,6 +199,13 @@ class _TeacherSubjectsState extends State<TeacherSubjects> {
                                 text: " (${subjects[index]['session']})",
                               ),
                             ]),
+                      ),
+                      trailing: Text(
+                        subjects[index]['subjectCode'],
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
                   ],

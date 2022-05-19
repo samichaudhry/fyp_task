@@ -111,7 +111,7 @@ class _sessionpageState extends State<sessionpage> {
     'Urdu'
   ];
   List<String> session = [
-    '2 years programs',
+    // '2 years programs',
     '2018-2020',
     '2019-2021',
     '2020-2022',
@@ -131,7 +131,7 @@ class _sessionpageState extends State<sessionpage> {
     '2034-2036',
     '2035-2037',
     '2036-2038',
-    '4 years programs',
+    // '4 years programs',
     '2018-2022',
     '2019-2023',
     '2020-2024',
