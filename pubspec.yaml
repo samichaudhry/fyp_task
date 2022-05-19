@@ -41,7 +41,7 @@ dependencies:
   firebase_storage: any
   intl: any
   get: any
-  font_awesome_flutter: any
+  font_awesome_flutter: ^10.1.0
   cached_network_image: any
   fluttertoast: any
   connectivity_plus: any
