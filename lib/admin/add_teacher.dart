@@ -78,7 +78,7 @@ class _AddTeacherState extends State<AddTeacher> {
             SliverToBoxAdapter(
               child: Container(
                 width: responsiveHW(context, wd: 100),
-                height: responsiveHW(context, ht: 22),
+                height: responsiveHW(context, ht: 23),
                 decoration: const BoxDecoration(
                   color: Colors.teal,
                   borderRadius: BorderRadius.only(
@@ -180,55 +180,63 @@ class _AddTeacherState extends State<AddTeacher> {
               }, responsiveHW(context, wd: 100),
                   responsiveHW(context, ht: 100)),
               customSizedBox(),
-              customTextField(
-                  "Password",
-                  Icons.lock,
-                  passwordVisible,
-                  IconButton(
-                    icon: Icon(
-                      //choose the icon on based of passwordVisibility
-                      passwordVisible ? Icons.visibility : Icons.visibility_off,
-                      color: Colors.grey,
-                    ),
-                    onPressed: _passwordVisibility,
-                  ),
-                  _password, (value) {
-                if (value!.isEmpty) {
-                  return "Please enter your password";
-                }
-                if (value.length < 8) {
-                  return "Password length must be atleast 8 characters";
-                }
-              }, (value) {
-                _password.text = value!;
-              }, responsiveHW(context, wd: 100),
-                  responsiveHW(context, ht: 100)),
-              customSizedBox(),
-              customTextField(
-                  "Confirm Password",
-                  Icons.lock,
-                  confirmPasswordVisible,
-                  IconButton(
-                    icon: Icon(
-                      //choose the icon on based of passwordVisibility
-                      confirmPasswordVisible
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                      color: Colors.grey,
-                    ),
-                    onPressed: _confirmPasswordVisibility,
-                  ),
-                  _confirmpass, (value) {
-                if (value!.isEmpty) {
-                  return "Please Re-Enter Your Password";
-                }
-                if (value != _password.text) {
-                  return "Both Password Should Be Matched";
-                }
-              }, (value) {
-                _confirmpass.text = value!;
-              }, responsiveHW(context, wd: 100),
-                  responsiveHW(context, ht: 100)),
+              editProfileArgument[0]["pageTitle"].toString() == "Add Teacher"
+                  ? customTextField(
+                      "Password",
+                      Icons.lock,
+                      passwordVisible,
+                      IconButton(
+                        icon: Icon(
+                          //choose the icon on based of passwordVisibility
+                          passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Colors.grey,
+                        ),
+                        onPressed: _passwordVisibility,
+                      ),
+                      _password, (value) {
+                      if (value!.isEmpty) {
+                        return "Please enter your password";
+                      }
+                      if (value.length < 8) {
+                        return "Password length must be atleast 8 characters";
+                      }
+                    }, (value) {
+                      _password.text = value!;
+                    }, responsiveHW(context, wd: 100),
+                      responsiveHW(context, ht: 100))
+                  : customSizedBox(height: 0),
+              editProfileArgument[0]["pageTitle"].toString() == "Add Teacher"
+                  ? customSizedBox()
+                  : customSizedBox(height: 0),
+              editProfileArgument[0]["pageTitle"].toString() == "Add Teacher"
+                  ? customTextField(
+                      "Confirm Password",
+                      Icons.lock,
+                      confirmPasswordVisible,
+                      IconButton(
+                        icon: Icon(
+                          //choose the icon on based of passwordVisibility
+                          confirmPasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Colors.grey,
+                        ),
+                        onPressed: _confirmPasswordVisibility,
+                      ),
+                      _confirmpass, (value) {
+                      if (value!.isEmpty) {
+                        return "Please Re-Enter Your Password";
+                      }
+                      if (value != _password.text) {
+                        return "Both Password Should Be Matched";
+                      }
+                    }, (value) {
+                      _confirmpass.text = value!;
+                    }, responsiveHW(context, wd: 100),
+                      responsiveHW(context, ht: 100))
+                  : customSizedBox(height: 0),
               customSizedBox(height: 3),
               Padding(
                   padding: EdgeInsets.symmetric(
