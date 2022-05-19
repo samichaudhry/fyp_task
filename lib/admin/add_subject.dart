@@ -131,7 +131,7 @@ class _AddSubjectState extends State<AddSubject> {
                   responsiveHW(context, ht: 100)),
               customSizedBox(),
               customTextField(
-                  "Program", Icons.class_outlined, false, null, _program,
+                  "Program", Icons.class__outlined, false, null, _program,
                   (value) {
                 if (value!.isEmpty) {
                   return "Required*";

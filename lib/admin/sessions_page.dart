@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyp_task/admin/session_student.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 
 class sessionpage extends StatefulWidget {
@@ -168,9 +169,9 @@ class _sessionpageState extends State<sessionpage> {
                   size: 33,
                 ),
                 onTap: () {
-                  //   Navigator.of(context).pushReplacement(
-                  // MaterialPageRoute(builder: (context) => studentdata())
-                  //   );
+                    Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) => SessionStudent())
+                    );
                 },
               ),
             ])));
