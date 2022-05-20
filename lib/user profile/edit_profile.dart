@@ -76,7 +76,7 @@ class _edit_profileState extends State<edit_profile> {
         appBar: AppBar(
           leading: BackButton(onPressed: () {
             Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => teacherprofile()));
+                MaterialPageRoute(builder: (context) =>const teacherprofile()));
           }),
           title: Center(
               child: customText(
@@ -88,7 +88,7 @@ class _edit_profileState extends State<edit_profile> {
           actions: [
             IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon:const Icon(
                 Icons.check,
               ),
             )

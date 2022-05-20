@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyp_task/admin/session_student.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
+import 'package:get/get.dart';
+
+import '../utils.dart';
 
 class sessionpage extends StatefulWidget {
   const sessionpage({Key? key}) : super(key: key);
@@ -150,189 +154,192 @@ class _sessionpageState extends State<sessionpage> {
     '2034-2038'
   ];
 
-  Widget customcard(title, subtitle, icon) {
-    return Padding(
-        padding: const EdgeInsets.only(left: 15, right: 15, top: 3, bottom: 2),
-        child: Card(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0)),
-            elevation: 3.0,
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              ListTile(
-                title: customText(txt: title, fsize: 17.0),
-                subtitle: customText(txt: subtitle, fsize: 15.0),
-                trailing: Icon(
-                  icon,
-                  color: Colors.teal,
-                  size: 33,
-                ),
-                onTap: () {
-                  //   Navigator.of(context).pushReplacement(
-                  // MaterialPageRoute(builder: (context) => studentdata())
-                  //   );
-                },
-              ),
-            ])));
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back,
-            ),
-          ),
-          title: customSearchBar,
-          actions: [
-            IconButton(
+      floatingActionButton: customFAB(
+        text: customText(txt: 'Session', clr: Colors.white),
+        icon: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+        ontap: () {
+          showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Center(
+                      child: customText(
+                          txt: "Add Session", fweight: FontWeight.w500)),
+                  actions: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 19, right: 19, bottom: 10),
+                      child: DropdownButtonFormField(
+                        items: department
+                            .map((String value) => DropdownMenuItem<String>(
+                                value: value, child: Text(value)))
+                            .toList(),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14.0),
+                            borderSide:const BorderSide(color: Colors.teal),
+                          ),
+                          labelText: 'Department',
+                        ),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownvalue = newValue!;
+                          });
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: 19, right: 19, bottom: 10),
+                      child: DropdownButtonFormField(
+                        items: session
+                            .map((String value) => DropdownMenuItem<String>(
+                                value: value, child: Text(value)))
+                            .toList(),
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14.0),
+                            borderSide:const BorderSide(color: Colors.teal),
+                          ),
+                          labelText: 'Session',
+                        ),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            dropdownvalue = newValue!;
+                          });
+                        },
+                      ),
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        MaterialButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child:const Text('CANCLE')),
+                        MaterialButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child:const Text('ADD')),
+                      ],
+                    ),
+                  ],
+                );
+              });
+        },
+        clr: Colors.teal,
+        // child: Icon(
+        //   Icons.add,
+        //   color: Colors.white,
+        // ),
+      ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            leading: IconButton(
               onPressed: () {
-                setState(() {
-                  if (customIcon.icon == Icons.search) {
-                    customIcon = const Icon(
-                      Icons.cancel,
-                    );
-                    customSearchBar = Container(
-                      decoration: BoxDecoration(
-                          color: Colors.grey[800],
-                          borderRadius: BorderRadius.circular(14.0)),
-                      height: MediaQuery.of(context).size.height * 0.045,
-                      child: const Padding(
-                        padding: EdgeInsets.only(left: 10.0, top: 2),
-                        child: TextField(
-                            cursorColor: Colors.teal,
-                            decoration: InputDecoration(
-                              hintText: 'Search Session',
-                              border: InputBorder.none,
-                            )),
-                      ),
-                    );
-                  } else {
-                    customIcon = Icon(Icons.search);
-                    customSearchBar = Text('Session');
-                  }
-                });
+                Navigator.pop(context);
               },
-              icon: customIcon,
+              icon:const Icon(
+                Icons.arrow_back,
+              ),
             ),
-          ],
-        ),
-        floatingActionButton: customFAB(
-          text: customText(txt: 'Session', clr: Colors.white),
-          icon: const Icon(
-            Icons.add,
-            color: Colors.white,
+            title: customSearchBar,
+            actions: [
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    if (customIcon.icon == Icons.search) {
+                      customIcon = const Icon(
+                        Icons.cancel,
+                      );
+                      customSearchBar = SizedBox(
+                        // decoration: BoxDecoration(
+                        //     // color: Colors.grey[800],
+                        //     borderRadius: BorderRadius.circular(14.0)),
+                        height: MediaQuery.of(context).size.height * 0.045,
+                        child: const Padding(
+                          padding: EdgeInsets.only(left: 10.0, top: 2),
+                          child: TextField(
+                              cursorColor: Colors.teal,
+                              decoration: InputDecoration(
+                                hintText: 'Search Session',
+                                border: InputBorder.none,
+                              )),
+                        ),
+                      );
+                    } else {
+                      customIcon =const Icon(Icons.search);
+                      customSearchBar =const Text('Session');
+                    }
+                  });
+                },
+                icon: customIcon,
+              ),
+            ],
+            automaticallyImplyLeading: false,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(20),
+                bottomRight: Radius.circular(20),
+              ),
+            ),
+            pinned: true,
+            floating: true,
+            snap: true,
+            expandedHeight: responsiveHW(context, ht: 12),
+            collapsedHeight: responsiveHW(context, ht: 11),
+            flexibleSpace: FlexibleSpaceBar(
+                title: Text(
+              "\n\n\nTotal Session: ${sessiondata.length}",
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 12,
+                  color: Colors.grey[400]),
+            )),
           ),
-          ontap: () {
-            showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Center(
-                        child: customText(
-                            txt: "Add Session", fweight: FontWeight.w500)),
-                    actions: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 19, right: 19, bottom: 10),
-                        child: DropdownButtonFormField(
-                          items: department
-                              .map((String value) => DropdownMenuItem<String>(
-                                  value: value, child: Text(value)))
-                              .toList(),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(14.0),
-                              borderSide: BorderSide(color: Colors.teal),
-                            ),
-                            labelText: 'Department',
-                          ),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownvalue = newValue!;
-                            });
-                          },
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: 19, right: 19, bottom: 10),
-                        child: DropdownButtonFormField(
-                          items: session
-                              .map((String value) => DropdownMenuItem<String>(
-                                  value: value, child: Text(value)))
-                              .toList(),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(14.0),
-                              borderSide: BorderSide(color: Colors.teal),
-                            ),
-                            labelText: 'Session',
-                          ),
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownvalue = newValue!;
-                            });
-                          },
-                        ),
-                      ),
-                      //  customdropdown( department,'department',),
-                      //  customdropdown(session,'session' ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          MaterialButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('CANCLE')),
-                          MaterialButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('ADD')),
-                        ],
-                      ),
-                    ],
-                  );
-                });
-          },
-          clr: Colors.teal,
-          // child: Icon(
-          //   Icons.add,
-          //   color: Colors.white,
-          // ),
-        ),
-        body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.01,
-              ),
-              Expanded(
-                child: Container(
-                  child: CustomScrollView(
-                    slivers: [
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate((context, index) {
-                          return customcard(
-                              sessiondata[index]['title'],
-                              sessiondata[index]['subtitle'],
-                              sessiondata[index]['icon']);
-                        }, childCount: sessiondata.length),
-                      )
-                    ],
-                  ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate((context, index) {
+              return 
+               Padding(
+              padding: const EdgeInsets.only(left: 19, right: 19, top: 13),
+              child: Column(
+                children: ListTile.divideTiles(
+                  context: context,
+                  tiles: [
+                    ListTile(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
+                      tileColor: Colors.grey[800],
+                      onTap: () {
+                        Get.to(() => const SessionStudent());
+                      },
+                      title: customText(txt: sessiondata[index]['title'],  fsize: 17.0,
+                              fweight: FontWeight.w700,),
+                      subtitle: customText(txt: sessiondata[index]['subtitle'] , fsize: 16.0,
+                      fweight:  FontWeight.w600,),
+                        trailing: Icon(
+                   sessiondata[index]['icon'],
+                  color: Colors.teal,
+                  size: 33,
                 ),
+                    ),
+                  ],
+                ).toList(),
               ),
-            ]));
+            );
+            }, childCount: sessiondata.length),
+          )
+        ],
+      ),
+    );
   }
 }

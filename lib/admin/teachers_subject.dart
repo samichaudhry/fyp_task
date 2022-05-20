@@ -160,14 +160,14 @@ class _TeacherSubjectsState extends State<TeacherSubjects> {
             delegate: SliverChildBuilderDelegate(
           (context, index) {
             return Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.only(left: 19, right: 19, top: 13),
               child: Column(
                 children: ListTile.divideTiles(
                   context: context,
                   tiles: [
                     ListTile(
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(15)),
                       tileColor: Colors.grey[800],
                       onTap: () {
                         Get.to(() => const TeacherInfo());
