@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fyp_task/user profile/profile_widget.dart';
 import 'package:fyp_task/user profile/teacher_profile.dart';
 
+import '../custom widgets/custom_widgets.dart';
+
 class edit_profile extends StatefulWidget {
   const edit_profile({Key? key}) : super(key: key);
 
@@ -18,6 +20,7 @@ class _edit_profileState extends State<edit_profile> {
   String path = '';
   bool IsSelected = false;
   final maxlength = 5;
+  var imagePath = '';
 
   Widget customText(
       {txt,
@@ -50,13 +53,13 @@ class _edit_profileState extends State<edit_profile> {
           readOnly: isreadonly,
           cursorColor: Colors.teal,
           controller: _controller,
-          style: TextStyle(
+          style:const TextStyle(
             fontSize: 15.0,
             fontWeight: FontWeight.w400,
           ),
           decoration: InputDecoration(
             labelText: lbltext,
-            labelStyle: TextStyle(
+            labelStyle:const TextStyle(
               color: Colors.teal,
             ),
             filled: true,
@@ -64,7 +67,7 @@ class _edit_profileState extends State<edit_profile> {
             fillColor: Colors.transparent,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14.0),
-              borderSide: BorderSide(color: Colors.teal),
+              borderSide:const BorderSide(color: Colors.teal),
             ),
           )),
     );
@@ -101,7 +104,15 @@ class _edit_profileState extends State<edit_profile> {
           ProfileWidget(
               imagePath:
                   'https://e7.pngegg.com/pngimages/8/232/png-clipart-computer-icons-man-avatar-male-login-man-people-monochrome-thumbnail.png',
-              onClicked: () {},
+              onClicked: () {
+                 filepicker().then((selectedpath) {
+                            if (selectedpath.toString().isNotEmpty) {
+                              setState(() {
+                                imagePath = selectedpath;
+                              });
+                            }
+                          });
+              },
               icon: Icons.camera_enhance),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.03,
