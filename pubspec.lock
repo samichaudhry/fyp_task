@@ -148,6 +148,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  custom_datatable:
+    dependency: "direct main"
+    description:
+      name: custom_datatable
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1"
   dbus:
     dependency: transitive
     description:

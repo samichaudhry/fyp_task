@@ -45,6 +45,7 @@ dependencies:
   cached_network_image: any
   fluttertoast: any
   connectivity_plus: any
+  custom_datatable: any
 
 dev_dependencies:
   flutter_test:
