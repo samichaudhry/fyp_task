@@ -19,14 +19,167 @@ class _AddSubjectState extends State<AddSubject> {
   var imgPath = '';
   final TextEditingController _subjName = TextEditingController();
   final TextEditingController _subjCode = TextEditingController();
-  final TextEditingController _program = TextEditingController();
-  final TextEditingController _semester = TextEditingController();
-  final TextEditingController _session = TextEditingController();
+  // final TextEditingController _program = TextEditingController();
+  // final TextEditingController _semester = TextEditingController();
+  // final TextEditingController _session = TextEditingController();
   var editSubjectArgument = Get.arguments;
+
+  String? selectedProgram;
+  String? selectedSemester;
+  String? selectedSession;
+  String? selectedYear;
+  String? selectedFallOrSpring;
+
+  // Semester Type
+  List<String> fallORSpring = ['Fall', 'Spring'];
+  List<String> years = [
+    "2018",
+    "2019",
+    "2020",
+    '2021',
+    '2022',
+    '2023',
+    '2024',
+    '2025',
+    '2026',
+    '2027',
+    '2028',
+    '2029',
+    '2030',
+    '2031',
+    '2032',
+    '2033',
+    '2034',
+    '2035',
+    '2036',
+    '2037',
+    '2038',
+    '2039',
+    '2040',
+  ];
+  //Program's lists
+  List<String> programs4years = [
+    "BS Computer Science",
+    "BS Information Technology",
+    "BS Chemistry",
+    "BS Physics",
+    "BS English",
+    "BS Education",
+    "BS Economics",
+    "BBA",
+    "B.com",
+    "BS Sociology",
+    "BS Social Work",
+    "BS Botonay",
+    "BS Psychology",
+    "BS Sports Sciences"
+  ];
+  List<String> programs2years = [
+    "MIT",
+    "Msc Chemistry",
+    "Msc Physics",
+    "MA English",
+    "B.ED",
+    "MA Sports Sciences"
+  ];
+
+  //Session's lists
+  List<String> sessions4years = [
+    '2018-2022',
+    '2019-2023',
+    '2020-2024',
+    '2021-2025',
+    '2022-2026',
+    '2023-2027',
+    '2024-2028',
+    '2025-2029',
+    '2026-2030',
+    '2027-2031',
+    '2028-2032',
+    '2029-2033',
+    '2030-2034',
+    '2031-2035',
+    '2032-2036',
+    '2033-2037',
+    '2034-2038',
+    '2035-2039',
+    '2036-2040',
+    '2037-2041',
+    '2038-2042',
+  ];
+  List<String> sessions2years = [
+    '2018-2020',
+    '2019-2021',
+    '2020-2022',
+    '2021-2023',
+    '2022-2024',
+    '2023-2025',
+    '2024-2026',
+    '2025-2027',
+    '2026-2028',
+    '2027-2029',
+    '2028-2030',
+    '2029-2031',
+    '2030-2032',
+    '2031-2033',
+    '2032-2034',
+    '2033-2035',
+    '2034-2036',
+    '2035-2037',
+    '2036-2038',
+    '2037-2039',
+    '2038-2040',
+  ];
+  // semester's lists
+  List<String> semester2years = ['1st', '2nd', '3rd', '4th'];
+  List<String> semester4years = [
+    '1st',
+    '2nd',
+    '3rd',
+    '4th',
+    '5th',
+    '6th',
+    '7th',
+    '8th'
+  ];
+
   // Custom Sized Box
   SizedBox customSizedBox({height = 2}) => SizedBox(
         height: responsiveHW(context, ht: height),
       );
+
+  // custom dropdown buttons field
+
+  Widget customDropDownFormField(
+      fieldTitle, dropDownValue, List<String> listOfItems, onChangedFunc) {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: responsiveHW(context, wd: 6)!.toDouble()),
+      child: DropdownButtonFormField(
+          decoration: InputDecoration(
+            labelText: fieldTitle,
+            focusColor: Colors.grey,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            filled: true,
+            fillColor: Colors.grey[800],
+          ),
+          validator: (value) => value == null ? 'Required*' : null,
+          icon: const Icon(
+            Icons.arrow_drop_down,
+            color: Colors.grey,
+          ),
+          hint: Text(
+            'Select $fieldTitle',
+          ),
+          value: dropDownValue,
+          items: listOfItems.map((String value) {
+            return DropdownMenuItem<String>(value: value, child: Text(value));
+          }).toList(),
+          onChanged: onChangedFunc),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +215,7 @@ class _AddSubjectState extends State<AddSubject> {
             SliverToBoxAdapter(
               child: Container(
                 width: responsiveHW(context, wd: 100),
-                height: responsiveHW(context, ht: 22),
+                height: responsiveHW(context, ht: 23),
                 decoration: const BoxDecoration(
                   color: Colors.teal,
                   borderRadius: BorderRadius.only(
@@ -132,36 +285,50 @@ class _AddSubjectState extends State<AddSubject> {
               }, responsiveHW(context, wd: 100),
                   responsiveHW(context, ht: 100)),
               customSizedBox(),
-              customTextField(
-                  "Program", Icons.class_outlined, false, null, _program,
+              customDropDownFormField(
+                  "Program", selectedProgram, programs4years + programs2years,
                   (value) {
-                if (value!.isEmpty) {
-                  return "Required*";
-                }
-              }, (value) {
-                _program.text = value!;
-              }, responsiveHW(context, wd: 100),
-                  responsiveHW(context, ht: 100)),
+                setState(() {
+                  selectedProgram = value;
+                  selectedSession = null;
+                  selectedSemester = null;
+                });
+              }),
               customSizedBox(),
-              customTextField("Semester", Icons.format_list_numbered_sharp,
-                  false, null, _semester, (value) {
-                if (value!.isEmpty) {
-                  return "Required*";
-                }
-              }, (value) {
-                _semester.text = value!;
-              }, responsiveHW(context, wd: 100),
-                  responsiveHW(context, ht: 100)),
+              customDropDownFormField(
+                  "Session",
+                  selectedSession,
+                  programs4years.contains(selectedProgram)
+                      ? sessions4years
+                      : sessions2years, (value) {
+                setState(() {
+                  selectedSession = value;
+                });
+              }),
               customSizedBox(),
-              customTextField("Session", Icons.screen_search_desktop_outlined,
-                  false, null, _session, (value) {
-                if (value!.isEmpty) {
-                  return "Required*";
-                }
-              }, (value) {
-                _session.text = value!;
-              }, responsiveHW(context, wd: 100),
-                  responsiveHW(context, ht: 100)),
+              customDropDownFormField(
+                  "Semester",
+                  selectedSemester,
+                  programs4years.contains(selectedProgram)
+                      ? semester4years
+                      : semester2years, (value) {
+                setState(() {
+                  selectedSemester = value;
+                });
+              }),
+              customSizedBox(),
+              customDropDownFormField(
+                  "Fall / Spring", selectedFallOrSpring, fallORSpring, (value) {
+                setState(() {
+                  selectedFallOrSpring = value;
+                });
+              }),
+              customSizedBox(),
+              customDropDownFormField("Year", selectedYear, years, (value) {
+                setState(() {
+                  selectedYear = value;
+                });
+              }),
               customSizedBox(height: 3),
               Padding(
                   padding: EdgeInsets.symmetric(
