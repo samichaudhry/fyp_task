@@ -21,11 +21,19 @@ Widget customButton(buttonText, onPressedFunc, ctx, bWd, {int bHt = 6}) {
 }
 
 Widget customText(
-    {txt, fsize = 16.0, clr, fweight = FontWeight.normal, txtalign}) {
-  return Text(
-    txt,
-    textAlign: txtalign,
-    style: TextStyle(fontSize: fsize, color: clr, fontWeight: fweight),
+    {txt,
+    fsize = 16.0,
+    clr,
+    fweight = FontWeight.normal,
+    txtalign,
+    padding = 0.0}) {
+  return Padding(
+    padding: EdgeInsets.all(padding),
+    child: Text(
+      txt,
+      textAlign: txtalign,
+      style: TextStyle(fontSize: fsize, color: clr, fontWeight: fweight),
+    ),
   );
 }
 
@@ -72,9 +80,10 @@ Widget customFAB({ontap, text, icon, clr}) {
 
 // File Picker
 
-Future filepicker() async {
+Future filepicker({required filetype, allowedextensions}) async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
-    type: FileType.image,
+    type: filetype,
+    allowedExtensions: allowedextensions,
   );
   if (result != null) {
     return result.files.single.path.toString();

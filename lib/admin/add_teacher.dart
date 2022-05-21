@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
@@ -90,7 +91,8 @@ class _AddTeacherState extends State<AddTeacher> {
                     customSizedBox(height: 1),
                     GestureDetector(
                         onTap: () {
-                          filepicker().then((selectedpath) {
+                          filepicker(filetype: FileType.image)
+                              .then((selectedpath) {
                             if (selectedpath.toString().isNotEmpty) {
                               setState(() {
                                 imgPath = selectedpath;

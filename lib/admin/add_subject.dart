@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/custom_formfield.dart';
@@ -73,7 +74,8 @@ class _AddSubjectState extends State<AddSubject> {
                     customSizedBox(height: 1),
                     GestureDetector(
                         onTap: () {
-                          filepicker().then((selectedpath) {
+                          filepicker(filetype: FileType.image)
+                              .then((selectedpath) {
                             if (selectedpath.toString().isNotEmpty) {
                               setState(() {
                                 imgPath = selectedpath;

@@ -13,120 +13,72 @@ class _AttendanceDataState extends State<AttendanceData> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: customText(txt: 'Report'),
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        centerTitle: true,
+        title: customText(txt: 'Report', fsize: 20.0),
       ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Center(
-                child: customText(
-                    txt: 'BSCS-R-2018-2022',
-                    fsize: 20.0,
-                    fweight: FontWeight.w500)),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.5,
-            child: Center(
-              child: DataTable(
-                columnSpacing: 20.0,
-                showBottomBorder: true,
-                columns: [
-                  DataColumn(
-                      label: customText(
-                          txt: 'RollNo',
-                          fsize: 19.0,
-                          fweight: FontWeight.w400)),
-                  DataColumn(
-                      label: customText(
-                          txt: 'Name', fsize: 19.0, fweight: FontWeight.w400)),
-                  DataColumn(
-                      label: customText(
-                          txt: 'subject',
-                          fsize: 19.0,
-                          fweight: FontWeight.w400)),
-                  DataColumn(
-                      label: customText(
-                          txt: 'percentage',
-                          fsize: 19.0,
-                          fweight: FontWeight.w400)),
-                ],
-                rows: [
-                  DataRow(cells: [
-                    DataCell(SizedBox(
-                      child: customText(
-                          fsize: 17.0,
-                          fweight: FontWeight.w400,
-                          txt: 'BCSF18BM001'),
-                    )),
-                    DataCell(customText(
-                        fsize: 17.0,
-                        fweight: FontWeight.w400,
-                        txt: 'Rustam Shakeel')),
-                    // DataCell(Text('2018-2022')),
-                    DataCell(customText(
-                        fsize: 17.0,
-                        fweight: FontWeight.w400,
-                        txt: 'Operating System')),
-                    DataCell(customText(
-                        fsize: 17.0, fweight: FontWeight.w400, txt: '85%')),
+      body: ListView.builder(
+        itemCount: 3,
+        itemBuilder: (context, ind) {
+          return ExpansionTile(
+            textColor: Colors.white,
+            iconColor: Colors.white,
+            title: customText(txt: 'Operating Systems'),
+            // childrenPadding: EdgeInsets.all(10.0),
+
+            children: [
+              Table(
+                defaultColumnWidth: const FlexColumnWidth(4.0),
+                columnWidths: const {
+                  0: FlexColumnWidth(7.0),
+                  1: FlexColumnWidth(8.0),
+                  2: FlexColumnWidth(6.0),
+                },
+                children: [
+                  TableRow(
+                      decoration: const BoxDecoration(
+                        color: Colors.teal,
+                      ),
+                      children: [
+                        customText(
+                            txt: 'Roll No', clr: Colors.white, padding: 10.0),
+                        customText(
+                            txt: 'Name', clr: Colors.white, padding: 10.0),
+                        customText(
+                            txt: 'Percentage',
+                            clr: Colors.white,
+                            padding: 10.0),
+                      ]),
+                  TableRow(children: [
+                    customText(txt: 'BCSF18BM001', padding: 10.0),
+                    customText(txt: 'Rustam Shakeel', padding: 10.0),
+                    customText(
+                        txt: '96%', padding: 10.0, txtalign: TextAlign.center),
                   ]),
-                  DataRow(cells: [
-                    DataCell(customText(
-                        fsize: 17.0,
-                        fweight: FontWeight.w400,
-                        txt: 'BCSF18BM002')),
-                    DataCell(customText(
-                        fsize: 17.0,
-                        fweight: FontWeight.w400,
-                        txt: 'Amna Malik')),
-                    // DataCell(Text('2018-2022')),
-                    DataCell(customText(
-                        fsize: 17.0,
-                        fweight: FontWeight.w400,
-                        txt: 'Operating System')),
-                    DataCell(customText(
-                        fsize: 17.0, fweight: FontWeight.w400, txt: '95%')),
+                  TableRow(children: [
+                    customText(txt: 'BCSF18BM002', padding: 10.0),
+                    customText(txt: 'Amna Malik', padding: 10.0),
+                    customText(
+                        txt: '80%', padding: 10.0, txtalign: TextAlign.center),
                   ]),
-                  DataRow(cells: [
-                    DataCell(customText(
-                        fsize: 17.0,
-                        fweight: FontWeight.w400,
-                        txt: 'BCSF18BM003')),
-                    DataCell(customText(
-                        fsize: 17.0,
-                        fweight: FontWeight.w400,
-                        txt: 'Sami Ullah')),
-                    // DataCell(Text('2018-2022')),
-                    DataCell(customText(
-                        fsize: 17.0,
-                        fweight: FontWeight.w400,
-                        txt: 'Operating System')),
-                    DataCell(customText(
-                        fsize: 17.0, fweight: FontWeight.w400, txt: '99%')),
+                  TableRow(children: [
+                    customText(txt: 'BCSF18BM003', padding: 10.0),
+                    customText(txt: 'Sami Ullah', padding: 10.0),
+                    customText(
+                        txt: '99%', padding: 10.0, txtalign: TextAlign.center),
                   ]),
-                  DataRow(cells: [
-                    DataCell(customText(
-                        fsize: 17.0,
-                        fweight: FontWeight.w400,
-                        txt: 'BCSF18BM004')),
-                    DataCell(customText(
-                        fsize: 17.0,
-                        fweight: FontWeight.w400,
-                        txt: 'Usman Fayaz')),
-                    // DataCell(Text('2018-2022')),
-                    DataCell(customText(
-                        fsize: 17.0,
-                        fweight: FontWeight.w400,
-                        txt: 'Operating System')),
-                    DataCell(customText(
-                        fsize: 17.0, fweight: FontWeight.w400, txt: '65%')),
+                  TableRow(children: [
+                    customText(txt: 'BCSF18BM004', padding: 10.0),
+                    customText(txt: 'Usman Fayaz', padding: 10.0),
+                    customText(
+                        txt: '60%', padding: 10.0, txtalign: TextAlign.center),
                   ]),
                 ],
               ),
-            ),
-          ),
-        ],
+            ],
+          );
+        },
       ),
     );
   }

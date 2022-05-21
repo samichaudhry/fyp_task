@@ -78,39 +78,42 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
             ),
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () {
-                    Get.to(
-                      () => const AttendanceData(),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.0),
-                      color: Colors
-                          .primaries[Random().nextInt(Colors.primaries.length)]
-                          .withOpacity(0.4),
-                    ),
-                    margin: const EdgeInsets.all(3.0),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: customText(
-                                txt: '${semesters[index]['name']}',
-                                fsize: 20.0,
-                                clr: Colors.white,
-                                fweight: FontWeight.w500),
-                          ),
-                          // customText(
-                          //     txt: 'CSE 4th Year',
-                          //     fsize: 19.0,
-                          //     clr: Colors.white,
-                          //     fweight: FontWeight.w400),
-                        ],
+                return Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Get.to(
+                        () => const AttendanceData(),
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        color: Colors.primaries[
+                                Random().nextInt(Colors.primaries.length)]
+                            .withOpacity(0.4),
+                      ),
+                      margin: const EdgeInsets.all(3.0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Center(
+                              child: customText(
+                                  txt: '${semesters[index]['name']}',
+                                  fsize: 24.0,
+                                  clr: Colors.white,
+                                  fweight: FontWeight.w500),
+                            ),
+                            // customText(
+                            //     txt: 'CSE 4th Year',
+                            //     fsize: 19.0,
+                            //     clr: Colors.white,
+                            //     fweight: FontWeight.w400),
+                          ],
+                        ),
                       ),
                     ),
                   ),
