@@ -70,17 +70,17 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
               bottom: 2.5,
             )),
           ),
-          SliverGrid(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: Responsive.isMobile(context) ? 2 : 4,
-              crossAxisSpacing: 5.0,
-              mainAxisSpacing: 5.0,
-            ),
-            delegate: SliverChildBuilderDelegate(
-              (BuildContext context, int index) {
-                return Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: GestureDetector(
+          SliverPadding(
+            padding: const EdgeInsets.all(10.0),
+            sliver: SliverGrid(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: Responsive.isMobile(context) ? 2 : 4,
+                crossAxisSpacing: 5.0,
+                mainAxisSpacing: 5.0,
+              ),
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return GestureDetector(
                     onTap: () {
                       Get.to(
                         () => const AttendanceData(),
@@ -116,10 +116,10 @@ class _AttendanceRecordState extends State<AttendanceRecord> {
                         ),
                       ),
                     ),
-                  ),
-                );
-              },
-              childCount: semesters.length,
+                  );
+                },
+                childCount: semesters.length,
+              ),
             ),
           )
         ],
