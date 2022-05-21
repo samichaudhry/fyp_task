@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+
+import '../custom widgets/custom_widgets.dart';
 
 class ProfileWidget extends StatelessWidget {
   final String imagePath;
@@ -30,12 +34,21 @@ class ProfileWidget extends StatelessWidget {
     return ClipOval(
       child: Material(
         color: Colors.transparent,
-        child: Ink.image(
-          image: image,
-          fit: BoxFit.cover,
-          width: 128,
-          height: 128,
-        ),
+        child:  CircleAvatar(
+                          radius: 50.0,
+                          foregroundImage: FileImage(File(imagePath)),
+                          child: const Icon(
+                            Icons.person,
+                            size: 80.0,
+                            color: Colors.white,
+                          ),
+                        )
+        // child: Ink.image(
+        //   image: image,
+        //   fit: BoxFit.cover,
+        //   width: 128,
+        //   height: 128,
+        // ),
       ),
     );
   }
@@ -64,4 +77,6 @@ class ProfileWidget extends StatelessWidget {
           child: child,
         ),
       );
+
+  void setState(Null Function() param0) {}
 }
