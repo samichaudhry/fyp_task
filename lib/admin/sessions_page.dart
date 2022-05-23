@@ -287,6 +287,7 @@ class _sessionpageState extends State<sessionpage> {
                               borderSide: const BorderSide(color: Colors.teal),
                             ),
                             labelText: 'Department',
+                            prefixIcon:const Icon(FontAwesomeIcons.building),
                           ),
                           onChanged: (String? newValue) {
                             statesetter(() {
@@ -312,7 +313,11 @@ class _sessionpageState extends State<sessionpage> {
                               borderSide: const BorderSide(color: Colors.teal),
                             ),
                             labelText: 'Program',
+                             prefixIcon:const Icon(FontAwesomeIcons.barsProgress
+                             ),
                           ),
+                         
+                          
                           onChanged: (String? newValue) {
                             statesetter(() {
                               selectedsession = null;
@@ -345,6 +350,7 @@ class _sessionpageState extends State<sessionpage> {
                               borderSide: const BorderSide(color: Colors.teal),
                             ),
                             labelText: 'Session',
+                            prefixIcon:const Icon(FontAwesomeIcons.calendar),
                           ),
                           onChanged: (String? newValue) {
                             statesetter(() {

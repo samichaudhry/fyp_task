@@ -1,4 +1,3 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
@@ -14,7 +13,7 @@ class SessionStudent extends StatefulWidget {
 }
 
 class _SessionStudentState extends State<SessionStudent> {
-  bool _isShowDial = false;
+   bool _isShowDial = false;
   List student = [
     {
       "studentName": "Rustum shakeel",
@@ -78,19 +77,44 @@ class _SessionStudentState extends State<SessionStudent> {
     },
   ];
 
-  Widget customtextformfield(lbltext, isreadonly) {
+  Widget customdailog(title,label1,label2,picon,picon2,button){
+    return AlertDialog(
+                    title: Center(
+                        child: customText(
+                            txt: title, fweight: FontWeight.w500)),
+                    actions: [
+                      customtextformfield(label1, false, picon),
+                      customtextformfield(label2, false,picon2),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          MaterialButton(
+                              onPressed: () {
+                                 Navigator.pop(context);
+                              }, child:const Text('CANCLE')),
+                          MaterialButton(onPressed: () {
+                             Navigator.pop(context);
+                          }, child: Text(button)),
+                        ],
+                      ),
+                    ],
+                  );
+                }
+
+   Widget customtextformfield(lbltext, isreadonly,icon) {
     return Padding(
       padding: const EdgeInsets.only(left: 19, right: 19, bottom: 10),
       child: TextFormField(
           readOnly: isreadonly,
           cursorColor: Colors.teal,
-          style: TextStyle(
+          style:const TextStyle(
             fontSize: 15.0,
             fontWeight: FontWeight.w400,
           ),
           decoration: InputDecoration(
-            labelText: lbltext,
-            labelStyle: TextStyle(
+             prefixIcon: Icon(icon),
+            hintText: lbltext,
+            labelStyle:const TextStyle(
               color: Colors.teal,
             ),
             filled: true,
@@ -98,7 +122,7 @@ class _SessionStudentState extends State<SessionStudent> {
             fillColor: Colors.transparent,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14.0),
-              borderSide: BorderSide(color: Colors.teal),
+              borderSide:const BorderSide(color: Colors.teal),
             ),
           )),
     );
@@ -107,79 +131,51 @@ class _SessionStudentState extends State<SessionStudent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: SpeedDialMenuButton(
-        isShowSpeedDial: _isShowDial,
-        updateSpeedDialStatus: (isShow) {
-          this._isShowDial = isShow;
-        },
-        isMainFABMini: true,
-        mainMenuFloatingActionButton: MainMenuFloatingActionButton(
-            isExtended: true,
-            tooltip: 'Add student',
-            mini: false,
-            backgroundColor: Colors.teal,
-            foregroundColor: Colors.white,
-            child: const Icon(Icons.add),
-            onPressed: () {},
-            closeMenuChild: const Icon(Icons.close),
-            closeMenuForegroundColor: Colors.white,
-            closeMenuBackgroundColor: Colors.red),
-        floatingActionButtonWidgetChildren: <FloatingActionButton>[
-          FloatingActionButton.extended(
-            label: customText(txt: 'upload file'),
-            heroTag: 'btn1',
-            // mini: true,
-
-            icon: const Icon(FontAwesomeIcons.upload),
-            onPressed: () {
-              filepicker(
-                  filetype: FileType.custom,
-                  allowedextensions: ['csv', 'xlsx']);
-            },
-            backgroundColor: Colors.teal,
-            foregroundColor: Colors.white,
+      floatingActionButton:SpeedDialMenuButton(
+      isShowSpeedDial: _isShowDial,
+      updateSpeedDialStatus: (isShow) {
+      this._isShowDial = isShow;
+      },
+      isMainFABMini: false,
+      mainMenuFloatingActionButton: MainMenuFloatingActionButton(
+          mini: false,
+          backgroundColor: Colors.teal,
+          foregroundColor: Colors.white,
+          child:const Icon(Icons.add),
+          onPressed: () {},
+          closeMenuChild:const Icon(Icons.close),
+          closeMenuForegroundColor: Colors.white,
+          closeMenuBackgroundColor: Colors.red
           ),
-          FloatingActionButton.extended(
-            // mini: true,
-            label: customText(txt: 'add student'),
-            icon: const Icon(FontAwesomeIcons.penToSquare),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Center(
-                          child: customText(
-                              txt: "Add Student", fweight: FontWeight.w500)),
-                      actions: [
-                        customtextformfield('Name', false),
-                        customtextformfield('Roll No', false),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            MaterialButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('CANCLE')),
-                            MaterialButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('ADD')),
-                          ],
-                        ),
-                      ],
-                    );
-                  });
-            },
-            backgroundColor: Colors.teal,
-            foregroundColor: Colors.white,
-          ),
-        ],
-        isSpeedDialFABsMini: true,
-        paddingBtwSpeedDialButton: 60.0,
-      ),
+      floatingActionButtonWidgetChildren: <FloatingActionButton>[
+        FloatingActionButton(
+          heroTag: 'btn1',
+          mini: true,
+          child:const Icon(FontAwesomeIcons.upload),
+          onPressed: () {
+            // filepicker();
+          },
+          backgroundColor: Colors.teal,
+          foregroundColor: Colors.white,
+        ),
+        FloatingActionButton(
+          mini: true,
+          child:const Icon(FontAwesomeIcons.penToSquare),
+          onPressed: () {
+             showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return customdailog('Add Student', 'Name', 
+                  'Roll No(Semester)', Icons.edit, FontAwesomeIcons.graduationCap,'ADD');
+                });
+          },
+          backgroundColor: Colors.teal,
+          foregroundColor: Colors.white,
+        ),
+      ],
+      isSpeedDialFABsMini: true,
+      paddingBtwSpeedDialButton: 60.0,
+    ),
       body: CustomScrollView(slivers: [
         SliverAppBar(
           title: const Text(
@@ -229,12 +225,15 @@ class _SessionStudentState extends State<SessionStudent> {
                           borderRadius: BorderRadius.circular(15)),
                       tileColor: Colors.grey[800],
                       onTap: () {
-                        // Get.to(() => const TeacherInfo());
+                         showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return customdailog('Edit Student', student[index]['studentName'],
+                  student[index]['rollno'],
+                    Icons.edit, FontAwesomeIcons.graduationCap,'UPDATE');
+                });
                       },
-                      leading: const Icon(
-                        FontAwesomeIcons.userGraduate,
-                        color: Colors.teal,
-                      ),
+                      leading:const Icon(FontAwesomeIcons.userGraduate,color: Colors.teal,),
                       title: Text(
                         student[index]['studentName'],
                         style: const TextStyle(
@@ -251,9 +250,10 @@ class _SessionStudentState extends State<SessionStudent> {
                             ),
                             children: [
                               TextSpan(
-                                text: " (${student[index]['semester']})",
+                                text:  " (${student[index]['semester']})",
                               ),
-                            ]),
+                            ]
+                            ),
                       ),
                     ),
                   ],
