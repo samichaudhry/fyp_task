@@ -314,8 +314,9 @@ class _sessionpageState extends State<sessionpage> {
                               borderRadius: BorderRadius.circular(14.0),
                               borderSide: const BorderSide(color: Colors.teal),
                             ),
-                            labelText: 'Session',
-                             prefixIcon:const Icon(FontAwesomeIcons.calendar),
+                            labelText: 'Program',
+                             prefixIcon:const Icon(FontAwesomeIcons.barsProgress
+                             ),
                           ),
                          
                           
@@ -340,6 +341,7 @@ class _sessionpageState extends State<sessionpage> {
                               borderSide: const BorderSide(color: Colors.teal),
                             ),
                             labelText: 'Session',
+                            prefixIcon:const Icon(FontAwesomeIcons.calendar),
                           ),
                           onChanged: (String? newValue) {
                             statesetter(() {

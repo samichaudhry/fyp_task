@@ -113,7 +113,7 @@ class _SessionStudentState extends State<SessionStudent> {
           ),
           decoration: InputDecoration(
              prefixIcon: Icon(icon),
-            labelText: lbltext,
+            hintText: lbltext,
             labelStyle:const TextStyle(
               color: Colors.teal,
             ),
@@ -228,8 +228,9 @@ class _SessionStudentState extends State<SessionStudent> {
                          showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return customdailog('Edit Student', 'Name','Roll No(Semester)',
-                    Icons.edit, FontAwesomeIcons.graduationCap,'SAVE');
+                  return customdailog('Edit Student', student[index]['studentName'],
+                  student[index]['rollno'],
+                    Icons.edit, FontAwesomeIcons.graduationCap,'UPDATE');
                 });
                       },
                       leading:const Icon(FontAwesomeIcons.userGraduate,color: Colors.teal,),
