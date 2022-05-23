@@ -107,6 +107,7 @@ class _SessionStudentState extends State<SessionStudent> {
       padding: const EdgeInsets.only(left: 19, right: 19, bottom: 10),
       child: TextFormField(
           readOnly: isreadonly,
+          initialValue: lbltext,
           cursorColor: Colors.teal,
           style: const TextStyle(
             fontSize: 15.0,
@@ -167,13 +168,8 @@ class _SessionStudentState extends State<SessionStudent> {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return customdailog(
-                        'Add Student',
-                        'Name',
-                        'Roll No(Semester)',
-                        Icons.edit,
-                        FontAwesomeIcons.graduationCap,
-                        'ADD');
+                    return customdailog('Add Student', 'Name', 'Roll No',
+                        Icons.edit, FontAwesomeIcons.graduationCap, 'ADD');
                   });
             },
             backgroundColor: Colors.teal,
@@ -231,7 +227,7 @@ class _SessionStudentState extends State<SessionStudent> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)),
                       tileColor: Colors.grey[800],
-                      onTap: () {
+                      onLongPress: () {
                         showDialog(
                             context: context,
                             builder: (BuildContext context) {
