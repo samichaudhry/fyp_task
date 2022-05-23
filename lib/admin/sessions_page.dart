@@ -185,6 +185,7 @@ class _sessionpageState extends State<sessionpage> {
                             borderRadius: BorderRadius.circular(14.0),
                             borderSide:const BorderSide(color: Colors.teal),
                           ),
+                          prefixIcon:const Icon(FontAwesomeIcons.building),
                           labelText: 'Department',
                         ),
                         onChanged: (String? newValue) {
@@ -207,6 +208,7 @@ class _sessionpageState extends State<sessionpage> {
                             borderRadius: BorderRadius.circular(14.0),
                             borderSide:const BorderSide(color: Colors.teal),
                           ),
+                          prefixIcon:const Icon(FontAwesomeIcons.calendar),
                           labelText: 'Session',
                         ),
                         onChanged: (String? newValue) {

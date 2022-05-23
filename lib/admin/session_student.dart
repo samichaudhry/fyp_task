@@ -77,19 +77,44 @@ class _SessionStudentState extends State<SessionStudent> {
     },
   ];
 
-   Widget customtextformfield(lbltext, isreadonly) {
+  Widget customdailog(title,label1,label2,picon,picon2,button){
+    return AlertDialog(
+                    title: Center(
+                        child: customText(
+                            txt: title, fweight: FontWeight.w500)),
+                    actions: [
+                      customtextformfield(label1, false, picon),
+                      customtextformfield(label2, false,picon2),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          MaterialButton(
+                              onPressed: () {
+                                 Navigator.pop(context);
+                              }, child:const Text('CANCLE')),
+                          MaterialButton(onPressed: () {
+                             Navigator.pop(context);
+                          }, child: Text(button)),
+                        ],
+                      ),
+                    ],
+                  );
+                }
+
+   Widget customtextformfield(lbltext, isreadonly,icon) {
     return Padding(
       padding: const EdgeInsets.only(left: 19, right: 19, bottom: 10),
       child: TextFormField(
           readOnly: isreadonly,
           cursorColor: Colors.teal,
-          style: TextStyle(
+          style:const TextStyle(
             fontSize: 15.0,
             fontWeight: FontWeight.w400,
           ),
           decoration: InputDecoration(
+             prefixIcon: Icon(icon),
             labelText: lbltext,
-            labelStyle: TextStyle(
+            labelStyle:const TextStyle(
               color: Colors.teal,
             ),
             filled: true,
@@ -97,7 +122,7 @@ class _SessionStudentState extends State<SessionStudent> {
             fillColor: Colors.transparent,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14.0),
-              borderSide: BorderSide(color: Colors.teal),
+              borderSide:const BorderSide(color: Colors.teal),
             ),
           )),
     );
@@ -140,27 +165,8 @@ class _SessionStudentState extends State<SessionStudent> {
              showDialog(
                 context: context,
                 builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Center(
-                        child: customText(
-                            txt: "Add Student", fweight: FontWeight.w500)),
-                    actions: [
-                      customtextformfield('Name', false),
-                      customtextformfield('Roll No(Semester)', false),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          MaterialButton(
-                              onPressed: () {
-                                 Navigator.pop(context);
-                              }, child: Text('CANCLE')),
-                          MaterialButton(onPressed: () {
-                             Navigator.pop(context);
-                          }, child: Text('ADD')),
-                        ],
-                      ),
-                    ],
-                  );
+                  return customdailog('Add Student', 'Name', 
+                  'Roll No(Semester)', Icons.edit, FontAwesomeIcons.graduationCap,'ADD');
                 });
           },
           backgroundColor: Colors.teal,
@@ -219,7 +225,12 @@ class _SessionStudentState extends State<SessionStudent> {
                           borderRadius: BorderRadius.circular(15)),
                       tileColor: Colors.grey[800],
                       onTap: () {
-                        // Get.to(() => const TeacherInfo());
+                         showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return customdailog('Edit Student', 'Name','Roll No(Semester)',
+                    Icons.edit, FontAwesomeIcons.graduationCap,'SAVE');
+                });
                       },
                       leading:const Icon(FontAwesomeIcons.userGraduate,color: Colors.teal,),
                       title: Text(

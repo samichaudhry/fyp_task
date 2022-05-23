@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'custom widgets/custom_widgets.dart';
+
 class subject_percentage extends StatefulWidget {
   const subject_percentage({Key? key}) : super(key: key);
 
@@ -34,23 +36,6 @@ class _subject_percentageState extends State<subject_percentage> {
       value: bvalue,
       color: barcolor,
       // backgroundColor: Color.fromARGB(255, 20, 69, 106),
-    );
-  }
-
-  Widget customText(
-      {txt,
-      textAlign,
-      fsize = 18.0,
-      clr = Colors.white,
-      fweight = FontWeight.normal}) {
-    return Text(
-      txt,
-      textAlign: textAlign,
-      style: TextStyle(
-        fontSize: fsize,
-        color: clr,
-        fontWeight: fweight,
-      ),
     );
   }
 
