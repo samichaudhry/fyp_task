@@ -13,7 +13,7 @@ class SessionStudent extends StatefulWidget {
 }
 
 class _SessionStudentState extends State<SessionStudent> {
-   bool _isShowDial = false;
+  bool _isShowDial = false;
   List student = [
     {
       "studentName": "Rustum shakeel",
@@ -77,44 +77,45 @@ class _SessionStudentState extends State<SessionStudent> {
     },
   ];
 
-  Widget customdailog(title,label1,label2,picon,picon2,button){
+  Widget customdailog(title, label1, label2, picon, picon2, button) {
     return AlertDialog(
-                    title: Center(
-                        child: customText(
-                            txt: title, fweight: FontWeight.w500)),
-                    actions: [
-                      customtextformfield(label1, false, picon),
-                      customtextformfield(label2, false,picon2),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          MaterialButton(
-                              onPressed: () {
-                                 Navigator.pop(context);
-                              }, child:const Text('CANCLE')),
-                          MaterialButton(onPressed: () {
-                             Navigator.pop(context);
-                          }, child: Text(button)),
-                        ],
-                      ),
-                    ],
-                  );
-                }
+      title: Center(child: customText(txt: title, fweight: FontWeight.w500)),
+      actions: [
+        customtextformfield(label1, false, picon),
+        customtextformfield(label2, false, picon2),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            MaterialButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('CANCLE')),
+            MaterialButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(button)),
+          ],
+        ),
+      ],
+    );
+  }
 
-   Widget customtextformfield(lbltext, isreadonly,icon) {
+  Widget customtextformfield(lbltext, isreadonly, icon) {
     return Padding(
       padding: const EdgeInsets.only(left: 19, right: 19, bottom: 10),
       child: TextFormField(
           readOnly: isreadonly,
           cursorColor: Colors.teal,
-          style:const TextStyle(
+          style: const TextStyle(
             fontSize: 15.0,
             fontWeight: FontWeight.w400,
           ),
           decoration: InputDecoration(
-             prefixIcon: Icon(icon),
+            prefixIcon: Icon(icon),
             hintText: lbltext,
-            labelStyle:const TextStyle(
+            labelStyle: const TextStyle(
               color: Colors.teal,
             ),
             filled: true,
@@ -122,7 +123,7 @@ class _SessionStudentState extends State<SessionStudent> {
             fillColor: Colors.transparent,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14.0),
-              borderSide:const BorderSide(color: Colors.teal),
+              borderSide: const BorderSide(color: Colors.teal),
             ),
           )),
     );
@@ -131,51 +132,57 @@ class _SessionStudentState extends State<SessionStudent> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton:SpeedDialMenuButton(
-      isShowSpeedDial: _isShowDial,
-      updateSpeedDialStatus: (isShow) {
-      this._isShowDial = isShow;
-      },
-      isMainFABMini: false,
-      mainMenuFloatingActionButton: MainMenuFloatingActionButton(
-          mini: false,
-          backgroundColor: Colors.teal,
-          foregroundColor: Colors.white,
-          child:const Icon(Icons.add),
-          onPressed: () {},
-          closeMenuChild:const Icon(Icons.close),
-          closeMenuForegroundColor: Colors.white,
-          closeMenuBackgroundColor: Colors.red
+      floatingActionButton: SpeedDialMenuButton(
+        isShowSpeedDial: _isShowDial,
+        updateSpeedDialStatus: (isShow) {
+          this._isShowDial = isShow;
+        },
+        isMainFABMini: false,
+        mainMenuFloatingActionButton: MainMenuFloatingActionButton(
+            mini: false,
+            backgroundColor: Colors.teal,
+            foregroundColor: Colors.white,
+            child: const Icon(Icons.add),
+            onPressed: () {},
+            closeMenuChild: const Icon(Icons.close),
+            closeMenuForegroundColor: Colors.white,
+            closeMenuBackgroundColor: Colors.red),
+        floatingActionButtonWidgetChildren: <FloatingActionButton>[
+          FloatingActionButton.extended(
+            heroTag: 'btn1',
+            // mini: true,
+            label: customText(txt: 'Upload File'),
+            icon: const Icon(FontAwesomeIcons.upload),
+            onPressed: () {
+              // filepicker();
+            },
+            backgroundColor: Colors.teal,
+            foregroundColor: Colors.white,
           ),
-      floatingActionButtonWidgetChildren: <FloatingActionButton>[
-        FloatingActionButton(
-          heroTag: 'btn1',
-          mini: true,
-          child:const Icon(FontAwesomeIcons.upload),
-          onPressed: () {
-            // filepicker();
-          },
-          backgroundColor: Colors.teal,
-          foregroundColor: Colors.white,
-        ),
-        FloatingActionButton(
-          mini: true,
-          child:const Icon(FontAwesomeIcons.penToSquare),
-          onPressed: () {
-             showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return customdailog('Add Student', 'Name', 
-                  'Roll No(Semester)', Icons.edit, FontAwesomeIcons.graduationCap,'ADD');
-                });
-          },
-          backgroundColor: Colors.teal,
-          foregroundColor: Colors.white,
-        ),
-      ],
-      isSpeedDialFABsMini: true,
-      paddingBtwSpeedDialButton: 60.0,
-    ),
+          FloatingActionButton.extended(
+            // mini: true,
+            label: customText(txt: 'Add Student'),
+            icon: const Icon(FontAwesomeIcons.penToSquare),
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return customdailog(
+                        'Add Student',
+                        'Name',
+                        'Roll No(Semester)',
+                        Icons.edit,
+                        FontAwesomeIcons.graduationCap,
+                        'ADD');
+                  });
+            },
+            backgroundColor: Colors.teal,
+            foregroundColor: Colors.white,
+          ),
+        ],
+        isSpeedDialFABsMini: true,
+        paddingBtwSpeedDialButton: 60.0,
+      ),
       body: CustomScrollView(slivers: [
         SliverAppBar(
           title: const Text(
@@ -225,15 +232,22 @@ class _SessionStudentState extends State<SessionStudent> {
                           borderRadius: BorderRadius.circular(15)),
                       tileColor: Colors.grey[800],
                       onTap: () {
-                         showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return customdailog('Edit Student', student[index]['studentName'],
-                  student[index]['rollno'],
-                    Icons.edit, FontAwesomeIcons.graduationCap,'UPDATE');
-                });
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return customdailog(
+                                  'Edit Student',
+                                  student[index]['studentName'],
+                                  student[index]['rollno'],
+                                  Icons.edit,
+                                  FontAwesomeIcons.graduationCap,
+                                  'UPDATE');
+                            });
                       },
-                      leading:const Icon(FontAwesomeIcons.userGraduate,color: Colors.teal,),
+                      leading: const Icon(
+                        FontAwesomeIcons.userGraduate,
+                        color: Colors.teal,
+                      ),
                       title: Text(
                         student[index]['studentName'],
                         style: const TextStyle(
@@ -250,10 +264,9 @@ class _SessionStudentState extends State<SessionStudent> {
                             ),
                             children: [
                               TextSpan(
-                                text:  " (${student[index]['semester']})",
+                                text: " (${student[index]['semester']})",
                               ),
-                            ]
-                            ),
+                            ]),
                       ),
                     ),
                   ],
