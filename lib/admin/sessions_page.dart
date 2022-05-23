@@ -96,8 +96,10 @@ class _sessionpageState extends State<sessionpage> {
   ];
 
   String? dropdownvalue;
-  var selecteddepartment = '';
-  var selectedprogram = '';
+  String? selecteddepartment;
+  String? selectedprogram;
+  String selectedprogramname = 'Msc';
+  String? selectedsession;
   List<String> department = [
     'Computer Science and IT',
     'Biological Science',
@@ -163,11 +165,6 @@ class _sessionpageState extends State<sessionpage> {
     'Sports Sciences': <String>["BS Sports Sciences", "MA Sports Sciences"],
     'Urdu': <String>['BS Urdu', 'MA Urdu'],
   };
-  // List<String> programs2years = [
-
-  // ];
-
-  //Session's lists
   List<String> sessions4years = [
     '2018-2022',
     '2019-2023',
@@ -279,6 +276,7 @@ class _sessionpageState extends State<sessionpage> {
                         padding: const EdgeInsets.only(
                             left: 19, right: 19, bottom: 10),
                         child: DropdownButtonFormField(
+                          value: selecteddepartment,
                           items: department
                               .map((String value) => DropdownMenuItem<String>(
                                   value: value, child: Text(value)))
@@ -292,10 +290,9 @@ class _sessionpageState extends State<sessionpage> {
                           ),
                           onChanged: (String? newValue) {
                             statesetter(() {
-                              // dropdownvalue = newValue!;
-                              selectedprogram = '';
                               selecteddepartment = newValue!;
-                              dropdownvalue = '';
+                              selectedprogram = null;
+                              selectedsession = null;
                             });
                           },
                         ),
@@ -304,6 +301,7 @@ class _sessionpageState extends State<sessionpage> {
                         padding: const EdgeInsets.only(
                             left: 19, right: 19, bottom: 10),
                         child: DropdownButtonFormField(
+                          value: selectedprogram,
                           items: programs[selecteddepartment]
                               ?.map((value) => DropdownMenuItem<String>(
                                   value: value, child: Text(value)))
@@ -317,7 +315,10 @@ class _sessionpageState extends State<sessionpage> {
                           ),
                           onChanged: (String? newValue) {
                             statesetter(() {
-                              dropdownvalue = newValue!;
+                              selectedsession = null;
+                              selectedprogram = null;
+                              selectedprogram = newValue!;
+                              selectedprogramname = newValue;
                             });
                           },
                         ),
@@ -326,10 +327,18 @@ class _sessionpageState extends State<sessionpage> {
                         padding: const EdgeInsets.only(
                             left: 19, right: 19, bottom: 10),
                         child: DropdownButtonFormField(
-                          items: session
-                              .map((String value) => DropdownMenuItem<String>(
-                                  value: value, child: Text(value)))
-                              .toList(),
+                          value: selectedsession,
+                          items: selectedprogramname.contains('BS')
+                              ? sessions4years
+                                  .map((String value) =>
+                                      DropdownMenuItem<String>(
+                                          value: value, child: Text(value)))
+                                  .toList()
+                              : sessions2years
+                                  .map((String value) =>
+                                      DropdownMenuItem<String>(
+                                          value: value, child: Text(value)))
+                                  .toList(),
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(14.0),
@@ -339,7 +348,7 @@ class _sessionpageState extends State<sessionpage> {
                           ),
                           onChanged: (String? newValue) {
                             statesetter(() {
-                              dropdownvalue = newValue!;
+                              selectedsession = newValue!;
                             });
                           },
                         ),
