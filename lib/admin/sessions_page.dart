@@ -264,10 +264,13 @@ class _sessionpageState extends State<sessionpage> {
         ),
         ontap: () {
           showDialog(
+              useSafeArea: true,
               context: context,
               builder: (BuildContext context) {
                 return StatefulBuilder(builder: (context, statesetter) {
                   return AlertDialog(
+                    scrollable: true,
+                    insetPadding: const EdgeInsets.symmetric(horizontal: 20.0),
                     title: Center(
                         child: customText(
                             txt: "Add Session", fweight: FontWeight.w500)),
@@ -287,7 +290,7 @@ class _sessionpageState extends State<sessionpage> {
                               borderSide: const BorderSide(color: Colors.teal),
                             ),
                             labelText: 'Department',
-                            prefixIcon:const Icon(FontAwesomeIcons.building),
+                            prefixIcon: const Icon(FontAwesomeIcons.building),
                           ),
                           onChanged: (String? newValue) {
                             statesetter(() {
@@ -313,11 +316,9 @@ class _sessionpageState extends State<sessionpage> {
                               borderSide: const BorderSide(color: Colors.teal),
                             ),
                             labelText: 'Program',
-                             prefixIcon:const Icon(FontAwesomeIcons.barsProgress
-                             ),
+                            prefixIcon:
+                                const Icon(FontAwesomeIcons.barsProgress),
                           ),
-                         
-                          
                           onChanged: (String? newValue) {
                             statesetter(() {
                               selectedsession = null;
@@ -350,7 +351,7 @@ class _sessionpageState extends State<sessionpage> {
                               borderSide: const BorderSide(color: Colors.teal),
                             ),
                             labelText: 'Session',
-                            prefixIcon:const Icon(FontAwesomeIcons.calendar),
+                            prefixIcon: const Icon(FontAwesomeIcons.calendar),
                           ),
                           onChanged: (String? newValue) {
                             statesetter(() {
