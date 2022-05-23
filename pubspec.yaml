@@ -45,7 +45,8 @@ dependencies:
   cached_network_image: any
   fluttertoast: any
   connectivity_plus: any
-  flutter_arc_speed_dial: ^2.0.0
+  custom_datatable: any
+  flutter_arc_speed_dial: any
 
 dev_dependencies:
   flutter_test:

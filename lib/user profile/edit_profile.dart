@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_task/user profile/profile_widget.dart';
@@ -38,14 +39,14 @@ class _edit_profileState extends State<edit_profile> {
           readOnly: isreadonly,
           cursorColor: Colors.teal,
           controller: _controller,
-          style:const TextStyle(
+          style: const TextStyle(
             fontSize: 15.0,
             fontWeight: FontWeight.w400,
           ),
           decoration: InputDecoration(
             prefixIcon: Icon(icon),
             labelText: lbltext,
-            labelStyle:const TextStyle(
+            labelStyle: const TextStyle(
               color: Colors.teal,
             ),
             filled: true,
@@ -53,7 +54,7 @@ class _edit_profileState extends State<edit_profile> {
             fillColor: Colors.transparent,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14.0),
-              borderSide:const BorderSide(color: Colors.teal),
+              borderSide: const BorderSide(color: Colors.teal),
             ),
           )),
     );
@@ -64,8 +65,8 @@ class _edit_profileState extends State<edit_profile> {
     return Scaffold(
         appBar: AppBar(
           leading: BackButton(onPressed: () {
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) =>const teacherprofile()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (context) => const teacherprofile()));
           }),
           title: Center(
               child: customText(
@@ -77,7 +78,7 @@ class _edit_profileState extends State<edit_profile> {
           actions: [
             IconButton(
               onPressed: () {},
-              icon:const Icon(
+              icon: const Icon(
                 Icons.check,
               ),
             )
@@ -91,13 +92,13 @@ class _edit_profileState extends State<edit_profile> {
               imagePath:
                   'https://e7.pngegg.com/pngimages/8/232/png-clipart-computer-icons-man-avatar-male-login-man-people-monochrome-thumbnail.png',
               onClicked: () {
-                 filepicker().then((selectedpath) {
-                            if (selectedpath.toString().isNotEmpty) {
-                              setState(() {
-                                imagePath = selectedpath;
-                              });
-                            }
-                          });
+                filepicker(filetype: FileType.image).then((selectedpath) {
+                  if (selectedpath.toString().isNotEmpty) {
+                    setState(() {
+                      imagePath = selectedpath;
+                    });
+                  }
+                });
               },
               icon: Icons.camera_enhance),
           SizedBox(
