@@ -6,6 +6,7 @@ import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/custom_formfield.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:get/get.dart';
+import 'package:time_range_picker/time_range_picker.dart';
 
 class AddSubject extends StatefulWidget {
   const AddSubject({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class _AddSubjectState extends State<AddSubject> {
   // final TextEditingController _semester = TextEditingController();
   // final TextEditingController _session = TextEditingController();
   var editSubjectArgument = Get.arguments;
+  TimeRange? subjectDuration;
 
   String? selectedProgram;
   String? selectedSemester;
@@ -284,6 +286,42 @@ class _AddSubjectState extends State<AddSubject> {
                 _subjCode.text = value!;
               }, responsiveHW(context, wd: 100),
                   responsiveHW(context, ht: 100)),
+              customSizedBox(),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: responsiveHW(context, wd: 6)!.toDouble()),
+                child: TextField(
+                  onTap: (() async {
+                    TimeRange? result = await showTimeRangePicker(
+                      context: context,
+                      use24HourFormat: false,
+                      padding: 30,
+                      strokeWidth: 10,
+                      handlerRadius: 12,
+                      strokeColor: Colors.teal,
+                      selectedColor: Colors.teal[300],
+                      ticks: 12,
+                      ticksColor: Colors.white,
+                    );
+                    setState(() {
+                      subjectDuration = result;
+                    });
+                  }),
+                  readOnly: true,
+                  decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.grey[800],
+                      hintText: subjectDuration == null
+                          ? "Select Subject Duration"
+                          : "${subjectDuration!.startTime.format(context)}-${subjectDuration!.endTime.format(context)}",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30)),
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal:
+                              responsiveHW(context, wd: 2.5)!.toDouble(),
+                          vertical: responsiveHW(context, ht: 2)!.toDouble())),
+                ),
+              ),
               customSizedBox(),
               customDropDownFormField(
                   "Program", selectedProgram, programs4years + programs2years,

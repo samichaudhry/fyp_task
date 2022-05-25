@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_task/admin/add_subject.dart';
-import 'package:fyp_task/admin/add_teacher.dart';
-import 'package:fyp_task/admin/teacher_info.dart';
+import 'package:fyp_task/admin/subject_info.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:get/get.dart';
@@ -170,7 +169,7 @@ class _TeacherSubjectsState extends State<TeacherSubjects> {
                           borderRadius: BorderRadius.circular(15)),
                       tileColor: Colors.grey[800],
                       onTap: () {
-                        Get.to(() => const TeacherInfo());
+                        Get.to(() => const SubjectInfo());
                       },
                       leading: CircleAvatar(
                         backgroundColor: Colors.teal,
