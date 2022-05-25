@@ -62,7 +62,7 @@ class _TeacherInfoState extends State<TeacherInfo> {
               ),
               child: Column(
                 children: [
-                  customSizedBox(height: 1),
+                  customSizedBox(height: 0.5),
                   CircleAvatar(
                     radius: 50.0,
                     foregroundImage: NetworkImage(imgUrl),

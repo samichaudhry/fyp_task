@@ -25,11 +25,15 @@ Widget customText(
     fsize = 16.0,
     clr,
     fweight = FontWeight.normal,
-    txtalign = TextAlign.center}) {
-  return Text(
-    txt,
-    textAlign: txtalign,
-    style: TextStyle(fontSize: fsize, color: clr, fontWeight: fweight),
+    txtalign,
+    padding = 0.0}) {
+  return Padding(
+    padding: EdgeInsets.all(padding),
+    child: Text(
+      txt,
+      textAlign: txtalign,
+      style: TextStyle(fontSize: fsize, color: clr, fontWeight: fweight),
+    ),
   );
 }
 
@@ -41,6 +45,8 @@ Widget customTile({ontap, leading, title, subtitle, trailing, tilecolor}) {
     trailing: trailing,
     leading: leading,
     tileColor: tilecolor,
+    // minLeadingWidth: 5.0,
+    // horizontalTitleGap: 5.0,
   );
 }
 
@@ -63,11 +69,21 @@ Future<void> dialog_func(_title, _content, no_ontap, yes_ontap) async {
   );
 }
 
+Widget customFAB({ontap, text, icon, clr}) {
+  return FloatingActionButton.extended(
+    onPressed: ontap,
+    label: text,
+    icon: icon,
+    backgroundColor: clr,
+  );
+}
+
 // File Picker
 
-Future filepicker() async {
+Future filepicker({required filetype, allowedextensions}) async {
   FilePickerResult? result = await FilePicker.platform.pickFiles(
-    type: FileType.image,
+    type: filetype,
+    allowedExtensions: allowedextensions,
   );
   if (result != null) {
     return result.files.single.path.toString();

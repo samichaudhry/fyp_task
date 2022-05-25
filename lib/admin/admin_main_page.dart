@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyp_task/admin/attendance_record.dart';
 import 'package:fyp_task/admin/sessions_page.dart';
 import 'package:fyp_task/admin/teachers_page.dart';
 // import 'package:font_awesome_flutter/src/fa_icon.dart';
@@ -31,22 +32,22 @@ class _AdminMainPageState extends State<AdminMainPage> {
       'route': () => const sessionpage(),
       'color': const Color(0xff2A5E75)
     },
-    {
-      'title': "Today's Attendance Report",
-      'icon': FontAwesomeIcons.fileContract,
-      'route': const SubjectsPage(),
-      'color': const Color(0xff314554)
-    },
+    // {
+    //   'title': "Today's Attendance Report",
+    //   'icon': FontAwesomeIcons.fileContract,
+    //   'route': const SubjectsPage(),
+    //   'color': const Color(0xff314554)
+    // },
     {
       'title': "Attendance Record",
       'icon': FontAwesomeIcons.filePrescription,
-      'route': const SubjectsPage(),
+      'route': const AttendanceRecord(),
       'color': const Color(0xff263E52)
     },
     {
       'title': "Change Password",
       'icon': FontAwesomeIcons.key,
-      'route': const SubjectsPage(),
+      'route': () {},
       'color': const Color(0xff0F2030)
     },
   ];

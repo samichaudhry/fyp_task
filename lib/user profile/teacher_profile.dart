@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fyp_task/user profile/profile_widget.dart';
 import 'package:fyp_task/user%20profile/edit_profile.dart';
 
+import '../custom widgets/custom_widgets.dart';
+
 class teacherprofile extends StatefulWidget {
   const teacherprofile({Key? key}) : super(key: key);
 
@@ -10,22 +12,6 @@ class teacherprofile extends StatefulWidget {
 }
 
 class _teacherprofileState extends State<teacherprofile> {
-  Widget customText(
-      {txt,
-      textAlign,
-      fsize = 18.0,
-      clr = Colors.white,
-      fweight = FontWeight.normal}) {
-    return Text(
-      txt,
-      textAlign: textAlign,
-      style: TextStyle(
-        fontSize: fsize,
-        color: clr,
-        fontWeight: fweight,
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
