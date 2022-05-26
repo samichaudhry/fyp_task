@@ -259,23 +259,23 @@ class _SubjectsPageState extends State<SubjectsPage> {
                   fweight: FontWeight.w500,
                 ),
               ),
-              customTile(
-                ontap: () {
-                  Get.to(
-                    () => const AdminMainPage(),
-                  );
-                },
-                leading: const Icon(
-                  FontAwesomeIcons.userShield,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
-                title: customText(
-                  txt: 'Admin',
-                  clr: Colors.white,
-                  fweight: FontWeight.w500,
-                ),
-              ),
+              // customTile(
+              //   ontap: () {
+              //     Get.to(
+              //       () => const AdminMainPage(),
+              //     );
+              //   },
+              //   leading: const Icon(
+              //     FontAwesomeIcons.userShield,
+              //     color: Colors.white,
+              //     size: 30.0,
+              //   ),
+              //   title: customText(
+              //     txt: 'Admin',
+              //     clr: Colors.white,
+              //     fweight: FontWeight.w500,
+              //   ),
+              // ),
               customTile(
                 ontap: () {
                   logoutfunc();
