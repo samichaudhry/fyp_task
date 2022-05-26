@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:fyp_task/percentage_page.dart';
-import 'package:fyp_task/utils.dart';
 import 'package:get/get.dart';
 
 class ReportPage extends StatefulWidget {

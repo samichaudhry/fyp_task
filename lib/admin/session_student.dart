@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyp_task/admin/upload_file.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:flutter_arc_speed_dial/flutter_speed_dial_menu_button.dart';
 import 'package:flutter_arc_speed_dial/main_menu_floating_action_button.dart';
+import 'package:get/get.dart';
 
 class SessionStudent extends StatefulWidget {
   const SessionStudent({Key? key}) : super(key: key);
@@ -77,12 +79,12 @@ class _SessionStudentState extends State<SessionStudent> {
     },
   ];
 
-  Widget customdailog(title, label1, label2, picon, picon2, button) {
+  Widget customdailog(title, picon, picon2, button,{initialvalue1,initialvalue2,hinttext1, hinttext2}) {
     return AlertDialog(
       title: Center(child: customText(txt: title, fweight: FontWeight.w500)),
       actions: [
-        customtextformfield(label1, false, picon),
-        customtextformfield(label2, false, picon2),
+        customtextformfield(hinttext1,false,picon,initialvalue1),
+        customtextformfield(hinttext2, false, picon2,initialvalue2),
         Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
@@ -90,7 +92,7 @@ class _SessionStudentState extends State<SessionStudent> {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('CANCLE')),
+                child: const Text('CANCEL')),
             MaterialButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -102,12 +104,12 @@ class _SessionStudentState extends State<SessionStudent> {
     );
   }
 
-  Widget customtextformfield(lbltext, isreadonly, icon) {
+  Widget customtextformfield(hinttext, isreadonly, icon,initialvalue) {
     return Padding(
       padding: const EdgeInsets.only(left: 19, right: 19, bottom: 10),
       child: TextFormField(
           readOnly: isreadonly,
-          initialValue: lbltext,
+          initialValue: initialvalue,
           cursorColor: Colors.teal,
           style: const TextStyle(
             fontSize: 15.0,
@@ -115,7 +117,7 @@ class _SessionStudentState extends State<SessionStudent> {
           ),
           decoration: InputDecoration(
             prefixIcon: Icon(icon),
-            hintText: lbltext,
+            hintText: hinttext,
             labelStyle: const TextStyle(
               color: Colors.teal,
             ),
@@ -136,7 +138,7 @@ class _SessionStudentState extends State<SessionStudent> {
       floatingActionButton: SpeedDialMenuButton(
         isShowSpeedDial: _isShowDial,
         updateSpeedDialStatus: (isShow) {
-          this._isShowDial = isShow;
+          _isShowDial = isShow;
         },
         isMainFABMini: false,
         mainMenuFloatingActionButton: MainMenuFloatingActionButton(
@@ -155,7 +157,7 @@ class _SessionStudentState extends State<SessionStudent> {
             label: customText(txt: 'Upload File'),
             icon: const Icon(FontAwesomeIcons.upload),
             onPressed: () {
-              // filepicker();
+              Get.to(const UploadFile());
             },
             backgroundColor: Colors.teal,
             foregroundColor: Colors.white,
@@ -168,8 +170,8 @@ class _SessionStudentState extends State<SessionStudent> {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return customdailog('Add Student', 'Name', 'Roll No',
-                        Icons.edit, FontAwesomeIcons.graduationCap, 'ADD');
+                    return customdailog('Add Student',Icons.edit, FontAwesomeIcons.graduationCap,
+                     'ADD',hinttext1: 'Name',hinttext2: 'Roll No',);
                   });
             },
             backgroundColor: Colors.teal,
@@ -233,11 +235,10 @@ class _SessionStudentState extends State<SessionStudent> {
                             builder: (BuildContext context) {
                               return customdailog(
                                   'Edit Student',
-                                  student[index]['studentName'],
-                                  student[index]['rollno'],
                                   Icons.edit,
                                   FontAwesomeIcons.graduationCap,
-                                  'UPDATE');
+                                  'UPDATE',initialvalue1: student[index]['studentName'],
+                                  initialvalue2: student[index]['rollno'] );
                             });
                       },
                       leading: const Icon(

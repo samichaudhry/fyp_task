@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  final ConnectivityResult _connectionStatus = ConnectivityResult.none;
   final Connectivity _connectivity = Connectivity();
   // late StreamSubscription<ConnectivityResult> _connectivitySubscription;
   bool isonline = true;
@@ -165,7 +164,7 @@ class _SplashScreenState extends State<SplashScreen> {
     var widthSize = MediaQuery.of(context).size.width;
     var heightSize = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: Container(
+      body: SizedBox(
         // color: Colors.white,
         width: widthSize,
         height: heightSize,
@@ -206,7 +205,7 @@ class _SplashScreenState extends State<SplashScreen> {
               height: heightSize * 3 / 100,
             ),
             !isonline
-                ? Center()
+                ? const Center()
                 : Text(
                     "Loading",
                     style: TextStyle(

@@ -47,6 +47,7 @@ dependencies:
   connectivity_plus: any
   custom_datatable: any
   flutter_arc_speed_dial: any
+  percent_indicator: any
 
 dev_dependencies:
   flutter_test:

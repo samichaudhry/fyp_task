@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -7,7 +6,6 @@ import 'package:fyp_task/admin/sessions_page.dart';
 import 'package:fyp_task/admin/teachers_page.dart';
 // import 'package:font_awesome_flutter/src/fa_icon.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
-import 'package:fyp_task/subjects_page.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:get/get.dart';
 

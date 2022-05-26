@@ -15,10 +15,10 @@ class edit_profile extends StatefulWidget {
 
 class _edit_profileState extends State<edit_profile> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController _fullname = TextEditingController();
-  TextEditingController _about = TextEditingController();
-  TextEditingController _designation = TextEditingController();
-  TextEditingController _department = TextEditingController();
+  final TextEditingController _fullname = TextEditingController();
+  final TextEditingController _about = TextEditingController();
+  final TextEditingController _designation = TextEditingController();
+  final TextEditingController _department = TextEditingController();
   String path = '';
   bool IsSelected = false;
   final maxlength = 5;
@@ -35,6 +35,7 @@ class _edit_profileState extends State<edit_profile> {
             if (_val!.isEmpty) {
               return 'required';
             }
+            return null;
           },
           readOnly: isreadonly,
           cursorColor: Colors.teal,

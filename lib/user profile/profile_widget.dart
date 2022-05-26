@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../custom widgets/custom_widgets.dart';
 
 class ProfileWidget extends StatelessWidget {
   final String imagePath;

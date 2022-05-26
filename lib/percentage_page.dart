@@ -72,7 +72,7 @@ class _subject_percentageState extends State<subject_percentage> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.white,
           ),

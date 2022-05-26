@@ -50,18 +50,18 @@ Widget customTile({ontap, leading, title, subtitle, trailing, tilecolor}) {
   );
 }
 
-Future<void> dialog_func(_title, _content, no_ontap, yes_ontap) async {
+Future<void> dialog_func(_title, _content, noOntap, yesOntap) async {
   return Get.dialog(
     AlertDialog(
       title: _title,
       content: _content,
       actions: <Widget>[
         MaterialButton(
-          onPressed: no_ontap,
+          onPressed: noOntap,
           child: const Text('No'),
         ),
         MaterialButton(
-          onPressed: yes_ontap,
+          onPressed: yesOntap,
           child: const Text('Yes'),
         ),
       ],

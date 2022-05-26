@@ -367,7 +367,7 @@ class _sessionpageState extends State<sessionpage> {
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: const Text('CANCLE')),
+                              child: const Text('CANCEL')),
                           MaterialButton(
                               onPressed: () {
                                 Navigator.pop(context);
