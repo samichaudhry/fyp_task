@@ -7,6 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_task/admin/admin_main_page.dart';
 import 'package:fyp_task/attendance_sheet.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
+import 'package:fyp_task/login_page.dart';
 // import 'package:fyp_task/nav_menu.dart';
 // import 'package:fyp_task/reportpage.dart';
 import 'package:fyp_task/user%20profile/teacher_profile.dart';
@@ -77,11 +78,13 @@ class _SubjectsPageState extends State<SubjectsPage> {
           ),
           MaterialButton(
             onPressed: () async {
-              // await FirebaseAuth.instance.signOut();
-              // setState(() {
-              // isloggedin = false;
-              // });
-              Navigator.pop(context);
+              await FirebaseAuth.instance.signOut();
+              setState(() {
+                isloggedin = false;
+              });
+              Get.to(
+                () => const LoginPage(),
+              );
             },
             child: const Text('Yes'),
           ),
