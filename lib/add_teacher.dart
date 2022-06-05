@@ -96,6 +96,7 @@ class _AddTeacherState extends State<AddTeacher> {
     return editProfileArgument[0]["pageTitle"].toString() == "Add Teacher"
         ? teachers.doc(teacherId).set({
             'isTeacher': true,
+            'status': 'Pending',
             'teacher_name': _name.text.trim(),
             'designation': _designation.text.trim(),
             'department': _department.text.trim(),
@@ -103,7 +104,7 @@ class _AddTeacherState extends State<AddTeacher> {
             'imgUrl': downloadImgUrl,
           }, SetOptions(merge: true))
         : teachers.doc(teacherId).set({
-            'isTeacher': true,
+            // 'isTeacher': true,
             'teacher_name': _name.text.trim(),
             'designation': _designation.text.trim(),
             'department': _department.text.trim(),

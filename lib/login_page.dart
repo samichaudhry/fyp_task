@@ -117,28 +117,37 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: responsiveHW(context, ht: 4)),
             Expanded(
               child: ListView(children: [
-                customTextField("Email", Icons.email, false, null, _email,
+                 customTextField(
+                    "Email",
+                    false,
+                    null,
+                    _email,
                     (value) {
-                  if (value!.isEmpty) {
-                    return "Please Enter Your Email";
-                  }
-                  if (!RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                      .hasMatch(value)) {
-                    return "Please Enter Valid Email Address";
-                  }
-                }, (value) {
-                  _email.text = value!;
-                }, responsiveHW(context, wd: 100),
-                    responsiveHW(context, ht: 100)),
-                SizedBox(
-                  height: responsiveHW(context, ht: 2),
-                ),
-                customTextField(
+                      if (value!.isEmpty) {
+                        return "Please Enter Your Email";
+                      }
+                      if (!RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value)) {
+                        return "Please Enter Valid Email Address";
+                      }
+                    },
+                    (value) {
+                      _email.text = value!;
+                    },
+                    responsiveHW(context, wd: 100),
+                    responsiveHW(context, ht: 100),
+                    InputBorder.none,
+                    pIcon: Icons.email,
+                  ),
+                  SizedBox(
+                    height: responsiveHW(context, ht: 2),
+                  ),
+                  customTextField(
                     "Password",
-                    Icons.lock,
                     passwordVisible,
                     IconButton(
+                      splashColor: Colors.transparent,
                       icon: Icon(
                         //choose the icon on based of passwordVisibility
                         passwordVisible
@@ -148,14 +157,20 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       onPressed: _passwordVisibility,
                     ),
-                    _password, (value) {
-                  if (value!.isEmpty) {
-                    return "Please Enter Your Password";
-                  }
-                }, (value) {
-                  _password.text = value!;
-                }, responsiveHW(context, wd: 100),
-                    responsiveHW(context, ht: 100)),
+                    _password,
+                    (value) {
+                      if (value!.isEmpty) {
+                        return "Please Enter Your Password";
+                      }
+                    },
+                    (value) {
+                      _password.text = value!;
+                    },
+                    responsiveHW(context, wd: 100),
+                    responsiveHW(context, ht: 100),
+                    InputBorder.none,
+                    pIcon: Icons.lock,
+                  ),
                 SizedBox(
                   height: responsiveHW(context, ht: 3),
                 ),
@@ -183,14 +198,14 @@ class _LoginPageState extends State<LoginPage> {
                         onPressed: isauthenticating
                             ? null
                             : () async {
-                                // if (_formKey.currentState!.validate()) {
-                                //   setState(() {
-                                //     isauthenticating = true;
-                                //   });
-                                //   _loginFunc(_email.text.trim(),
-                                //       _password.text.trim());
-                                // }
-                                Get.to(() => const SubjectsPage());
+                                if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                    isauthenticating = true;
+                                  });
+                                  _loginFunc(_email.text.trim(),
+                                      _password.text.trim());
+                                }
+                                // Get.to(() => const SubjectsPage());
                               },
                       ),
                     )),

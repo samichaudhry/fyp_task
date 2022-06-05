@@ -4,17 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:fyp_task/admin/admin_main_page.dart';
 import 'package:fyp_task/attendance_sheet.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/login_page.dart';
-// import 'package:fyp_task/nav_menu.dart';
-// import 'package:fyp_task/reportpage.dart';
 import 'package:fyp_task/user%20profile/teacher_profile.dart';
-// import 'package:fyp_task/user%20profile/user_profile.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:get/get.dart';
-// import 'package:intl/intl.dart';
 
 class SubjectsPage extends StatefulWidget {
   const SubjectsPage({Key? key}) : super(key: key);
