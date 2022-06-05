@@ -1,12 +1,18 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/custom_formfield.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:get/get.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
+
+import 'custom widgets/custom_toast.dart';
 
 class AddTeacher extends StatefulWidget {
   const AddTeacher({Key? key}) : super(key: key);
@@ -18,6 +24,7 @@ class AddTeacher extends StatefulWidget {
 class _AddTeacherState extends State<AddTeacher> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   var imgPath = '';
+  String? downloadImgUrl;
   final TextEditingController _name = TextEditingController();
   final TextEditingController _designation = TextEditingController();
   final TextEditingController _department = TextEditingController();
@@ -26,7 +33,22 @@ class _AddTeacherState extends State<AddTeacher> {
   final TextEditingController _confirmpass = TextEditingController();
   bool passwordVisible = true;
   bool confirmPasswordVisible = true;
+  bool isauthenticating = false;
+  bool isImageSelected = false;
+
   var editProfileArgument = Get.arguments;
+  String? teacherId;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _name.text = editProfileArgument[0]['teacher_name'];
+    _department.text = editProfileArgument[0]['department'];
+    _designation.text = editProfileArgument[0]['designation'];
+    teacherId = editProfileArgument[0]['teacherId'];
+  }
+
   // Custom Sized Box
   SizedBox customSizedBox({height = 2}) => SizedBox(
         height: responsiveHW(context, ht: height),
@@ -43,6 +65,131 @@ class _AddTeacherState extends State<AddTeacher> {
     setState(() {
       confirmPasswordVisible = !confirmPasswordVisible;
     });
+  }
+
+  //backend Functionality
+
+  CollectionReference teachers =
+      FirebaseFirestore.instance.collection('teachers');
+
+  Future<void> uploadFile(String filePath) async {
+    File file = File(filePath);
+    try {
+      await FirebaseStorage.instance
+          .ref('images/profile_pictures/$teacherId.png')
+          .putFile(file);
+    } on firebase_core.FirebaseException catch (e) {
+      Get.snackbar('Error occured.', '$e');
+    }
+  }
+
+  Future<void> downloadURLfunc(teacherName) async {
+    String imgurl = await FirebaseStorage.instance
+        .ref('images/profile_pictures/$teacherId.png')
+        .getDownloadURL();
+    setState(() {
+      downloadImgUrl = imgurl;
+    });
+  }
+
+  Future _addTeacherQuery() async {
+    return editProfileArgument[0]["pageTitle"].toString() == "Add Teacher"
+        ? teachers.doc(teacherId).set({
+            'isTeacher': true,
+            'teacher_name': _name.text.trim(),
+            'designation': _designation.text.trim(),
+            'department': _department.text.trim(),
+            'email': _email.text.trim(),
+            'imgUrl': downloadImgUrl,
+          }, SetOptions(merge: true))
+        : teachers.doc(teacherId).set({
+            'isTeacher': true,
+            'teacher_name': _name.text.trim(),
+            'designation': _designation.text.trim(),
+            'department': _department.text.trim(),
+            'imgUrl': (isImageSelected)
+                ? downloadImgUrl
+                : editProfileArgument[0]['imgUrl'],
+          }, SetOptions(merge: true));
+  }
+
+  Future<void> saveTeacherData() async {
+    return _addTeacherQuery().then((value) {
+      editProfileArgument[0]['pageTitle'] == "Edit Teacher's Profile"
+          ? null
+          : _name.clear();
+      editProfileArgument[0]['pageTitle'] == "Edit Teacher's Profile"
+          ? null
+          : _designation.clear();
+      editProfileArgument[0]['pageTitle'] == "Edit Teacher's Profile"
+          ? null
+          : _department.clear();
+      _email.clear();
+      _password.clear();
+      _confirmpass.clear();
+      editProfileArgument[0]['pageTitle'] == "Edit Teacher's Profile"
+          ? customtoast("Teacher's Data Updated")
+          : customtoast('Teacher Added');
+    }).catchError((error) {
+      editProfileArgument[0]['pageTitle'] == "Edit Teacher's Profile"
+          ? customtoast("Failed to update Teacher's data: $error")
+          : customtoast("Failed to add Teacher: $error");
+    });
+  }
+
+  Future<void> addTeacherData() async {
+    if (isImageSelected) {
+      uploadFile(imgPath).then((value) {
+        downloadURLfunc(_name.text).then((value) {
+          saveTeacherData();
+        });
+      });
+    } else {
+      saveTeacherData();
+    }
+  }
+
+  // signup for teachers
+
+  Future _createuserwithemail(useremail, userpassword) async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: useremail, password: userpassword);
+              setState(() {
+                teacherId = userCredential.user?.uid;
+              });
+      addTeacherData();
+
+      setState(() {
+        isauthenticating = false;
+      });
+      // Get.rawSnackbar(
+      //   messageText: const Text(
+      //     'Ask Teachers To verify his/her email',
+      //     style: TextStyle(
+      //       fontSize: 17.0,
+      //       fontWeight: FontWeight.w400,
+      //       color: Colors.white,
+      //     ),
+      //   ),
+      // );
+
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        isauthenticating = false;
+      });
+      if (e.code == 'weak-password') {
+        Get.snackbar('', 'Password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        Get.snackbar('', 'Account already exists for that email.');
+      }
+    } catch (e) {
+      setState(() {
+        isauthenticating = false;
+      });
+      Get.snackbar('', e.toString());
+    }
   }
 
   @override
@@ -90,25 +237,39 @@ class _AddTeacherState extends State<AddTeacher> {
                   children: [
                     customSizedBox(height: 1),
                     GestureDetector(
-                        onTap: () {
-                          filepicker(filetype: FileType.image)
-                              .then((selectedpath) {
-                            if (selectedpath.toString().isNotEmpty) {
-                              setState(() {
-                                imgPath = selectedpath;
-                              });
-                            }
-                          });
-                        },
-                        child: CircleAvatar(
-                          radius: 50.0,
-                          foregroundImage: FileImage(File(imgPath)),
-                          child: const Icon(
-                            Icons.person,
-                            size: 80.0,
-                            color: Colors.white,
-                          ),
-                        )),
+                      onTap: () {
+                        filepicker(filetype: FileType.image)
+                            .then((selectedpath) {
+                          if (selectedpath.toString().isNotEmpty) {
+                            setState(() {
+                              imgPath = selectedpath;
+                              isImageSelected = true;
+                            });
+                          }
+                        });
+                      },
+                      child: isImageSelected
+                          ? CircleAvatar(
+                              radius: 50.0,
+                              foregroundImage: FileImage(File(imgPath)),
+                              child: const Icon(
+                                Icons.person,
+                                size: 80.0,
+                                color: Colors.white,
+                              ),
+                            )
+                          : CircleAvatar(
+                              radius: 50.0,
+                              foregroundImage: NetworkImage(
+                                  editProfileArgument[0]['imgUrl'].toString()),
+                              backgroundColor: Colors.black26,
+                              child: const Icon(
+                                Icons.person,
+                                size: 80.0,
+                                color: Colors.white,
+                              ),
+                            ),
+                    ),
                     customSizedBox(height: 1),
                     Text(
                       "Select Profile Image",
@@ -129,63 +290,101 @@ class _AddTeacherState extends State<AddTeacher> {
             ),
             SliverList(
                 delegate: SliverChildListDelegate([
-              customTextField("Name", Icons.edit, false, null, _name, (value) {
-                if (value!.isEmpty) {
-                  return "Please Enter Teacher Name ";
-                }
-                if (!RegExp(r"^[A-Z+a-z]+").hasMatch(value)) {
-                  return "Please Enter Valid Name";
-                }
-              }, (value) {
-                _name.text = value!;
-              }, responsiveHW(context, wd: 100),
-                  responsiveHW(context, ht: 100)),
+              customTextField(
+                "Name",
+                false,
+                null,
+                _name,
+                (value) {
+                  if (value!.isEmpty) {
+                    return "Please Enter Teacher Name ";
+                  }
+                  if (!RegExp(r"^[A-Z+a-z]+").hasMatch(value)) {
+                    return "Please Enter Valid Name";
+                  }
+                },
+                (value) {
+                  _name.text = value!;
+                },
+                responsiveHW(context, wd: 100),
+                responsiveHW(context, ht: 100),
+                InputBorder.none,
+                pIcon: Icons.edit,
+              ),
               customSizedBox(),
-              customTextField("Designation", Icons.workspace_premium_outlined,
-                  false, null, _designation, (value) {
-                if (value!.isEmpty) {
-                  return "Please Enter Teacher's Designation";
-                }
-                if (!RegExp(r"^[a-z+A-Z]+").hasMatch(value)) {
-                  return "Please Enter Valid Designation";
-                }
-              }, (value) {
-                _designation.text = value!;
-              }, responsiveHW(context, wd: 100),
-                  responsiveHW(context, ht: 100)),
+              customTextField(
+                "Designation",
+                false,
+                null,
+                _designation,
+                (value) {
+                  if (value!.isEmpty) {
+                    return "Please Enter Teacher's Designation";
+                  }
+                  if (!RegExp(r"^[a-z+A-Z]+").hasMatch(value)) {
+                    return "Please Enter Valid Designation";
+                  }
+                },
+                (value) {
+                  _designation.text = value!;
+                },
+                responsiveHW(context, wd: 100),
+                responsiveHW(context, ht: 100),
+                InputBorder.none,
+                pIcon: Icons.workspace_premium_outlined,
+              ),
               customSizedBox(),
-              customTextField("Department", FontAwesomeIcons.building, false,
-                  null, _department, (value) {
-                if (value!.isEmpty) {
-                  return "Please Enter Teacher's Department";
-                }
-                if (!RegExp(r"^[a-z+A-Z]+").hasMatch(value)) {
-                  return "Please Enter Valid Department";
-                }
-              }, (value) {
-                _department.text = value!;
-              }, responsiveHW(context, wd: 100),
-                  responsiveHW(context, ht: 100)),
+              customTextField(
+                "Department",
+                false,
+                null,
+                _department,
+                (value) {
+                  if (value!.isEmpty) {
+                    return "Please Enter Teacher's Department";
+                  }
+                  if (!RegExp(r"^[a-z+A-Z]+").hasMatch(value)) {
+                    return "Please Enter Valid Department";
+                  }
+                },
+                (value) {
+                  _department.text = value!;
+                },
+                responsiveHW(context, wd: 100),
+                responsiveHW(context, ht: 100),
+                InputBorder.none,
+                pIcon: FontAwesomeIcons.building,
+              ),
               customSizedBox(),
-              customTextField("Email", Icons.email, false, null, _email,
-                  (value) {
-                if (value!.isEmpty) {
-                  return "Please Enter Your Email";
-                }
-                if (!RegExp(
-                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                    .hasMatch(value)) {
-                  return "Please Enter Valid Email Address";
-                }
-              }, (value) {
-                _email.text = value!;
-              }, responsiveHW(context, wd: 100),
-                  responsiveHW(context, ht: 100)),
+              editProfileArgument[0]["pageTitle"].toString() == "Add Teacher"
+                  ? customTextField(
+                      "Email",
+                      false,
+                      null,
+                      _email,
+                      (value) {
+                        if (value!.isEmpty) {
+                          return "Please Enter Your Email";
+                        }
+                        if (!RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value)) {
+                          return "Please Enter Valid Email Address";
+                        }
+                      },
+                      (value) {
+                        _email.text = value!;
+                      },
+                      responsiveHW(context, wd: 100),
+                      responsiveHW(context, ht: 100),
+                      InputBorder.none,
+                      pIcon: Icons.email,
+                    )
+                  : customSizedBox(height: 0),
               customSizedBox(),
               editProfileArgument[0]["pageTitle"].toString() == "Add Teacher"
                   ? customTextField(
                       "Password",
-                      Icons.lock,
                       passwordVisible,
                       IconButton(
                         icon: Icon(
@@ -197,17 +396,23 @@ class _AddTeacherState extends State<AddTeacher> {
                         ),
                         onPressed: _passwordVisibility,
                       ),
-                      _password, (value) {
-                      if (value!.isEmpty) {
-                        return "Please enter your password";
-                      }
-                      if (value.length < 8) {
-                        return "Password length must be atleast 8 characters";
-                      }
-                    }, (value) {
-                      _password.text = value!;
-                    }, responsiveHW(context, wd: 100),
-                      responsiveHW(context, ht: 100))
+                      _password,
+                      (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter your password";
+                        }
+                        if (value.length < 8) {
+                          return "Password length must be atleast 8 characters";
+                        }
+                      },
+                      (value) {
+                        _password.text = value!;
+                      },
+                      responsiveHW(context, wd: 100),
+                      responsiveHW(context, ht: 100),
+                      InputBorder.none,
+                      pIcon: Icons.lock,
+                    )
                   : customSizedBox(height: 0),
               editProfileArgument[0]["pageTitle"].toString() == "Add Teacher"
                   ? customSizedBox()
@@ -215,7 +420,6 @@ class _AddTeacherState extends State<AddTeacher> {
               editProfileArgument[0]["pageTitle"].toString() == "Add Teacher"
                   ? customTextField(
                       "Confirm Password",
-                      Icons.lock,
                       confirmPasswordVisible,
                       IconButton(
                         icon: Icon(
@@ -227,17 +431,23 @@ class _AddTeacherState extends State<AddTeacher> {
                         ),
                         onPressed: _confirmPasswordVisibility,
                       ),
-                      _confirmpass, (value) {
-                      if (value!.isEmpty) {
-                        return "Please Re-Enter Your Password";
-                      }
-                      if (value != _password.text) {
-                        return "Both Password Should Be Matched";
-                      }
-                    }, (value) {
-                      _confirmpass.text = value!;
-                    }, responsiveHW(context, wd: 100),
-                      responsiveHW(context, ht: 100))
+                      _confirmpass,
+                      (value) {
+                        if (value!.isEmpty) {
+                          return "Please Re-Enter Your Password";
+                        }
+                        if (value != _password.text) {
+                          return "Both Password Should Be Matched";
+                        }
+                      },
+                      (value) {
+                        _confirmpass.text = value!;
+                      },
+                      responsiveHW(context, wd: 100),
+                      responsiveHW(context, ht: 100),
+                      InputBorder.none,
+                      pIcon: Icons.lock,
+                    )
                   : customSizedBox(height: 0),
               customSizedBox(height: 3),
               Padding(
@@ -249,16 +459,32 @@ class _AddTeacherState extends State<AddTeacher> {
                         color: Color(0xff009688)),
                     height: responsiveHW(context, ht: 6),
                     child: TextButton(
-                      child: Text(
-                        editProfileArgument[0]['buttonText'].toString(),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: responsiveHW(context, ht: 3)),
-                      ),
-                      onPressed: () async {
-                        Navigator.pop(context);
-                      },
+                      onPressed: isauthenticating
+                          ? null
+                          : () async {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  isauthenticating = true;
+                                });
+                                editProfileArgument[0]["pageTitle"]
+                                            .toString() ==
+                                        "Add Teacher"
+                                    ? _createuserwithemail(_email.text.trim(),
+                                        _password.text.trim())
+                                    : addTeacherData();
+                              }
+                            },
+                      child: isauthenticating
+                          ? const CircularProgressIndicator(
+                              color: Colors.white,
+                            )
+                          : Text(
+                              editProfileArgument[0]['buttonText'].toString(),
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: responsiveHW(context, ht: 3)),
+                            ),
                     ),
                   ))
             ]))
