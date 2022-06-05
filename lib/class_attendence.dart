@@ -3,6 +3,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'custom widgets/custom_widgets.dart';
+
 class class_attendence extends StatefulWidget {
   const class_attendence({Key? key}) : super(key: key);
 
@@ -63,22 +65,6 @@ class _class_attendence extends State<class_attendence> {
     super.dispose();
   }
 
-  Widget customText(
-      {txt,
-      textAlign,
-      fsize = 18.0,
-      clr = Colors.black,
-      fweight = FontWeight.normal}) {
-    return Text(
-      txt,
-      textAlign: textAlign,
-      style: TextStyle(
-        fontSize: fsize,
-        color: clr,
-        fontWeight: fweight,
-      ),
-    );
-  }
 
   Widget customcircleavater(value) {
     Color? circlecolor;

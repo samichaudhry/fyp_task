@@ -12,10 +12,10 @@ class edit_profile extends StatefulWidget {
 
 class _edit_profileState extends State<edit_profile> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController _fullname = TextEditingController();
-  TextEditingController _about = TextEditingController();
-  TextEditingController _designation = TextEditingController();
-  TextEditingController _department = TextEditingController();
+  final TextEditingController _fullname = TextEditingController();
+  final TextEditingController _about = TextEditingController();
+  final TextEditingController _designation = TextEditingController();
+  final TextEditingController _department = TextEditingController();
   String path = '';
   bool IsSelected = false;
   final maxlength = 5;
@@ -47,17 +47,18 @@ class _edit_profileState extends State<edit_profile> {
             if (_val!.isEmpty) {
               return 'required';
             }
+            return null;
           },
           readOnly: isreadonly,
           cursorColor: Colors.teal,
           controller: _controller,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15.0,
             fontWeight: FontWeight.w400,
           ),
           decoration: InputDecoration(
             labelText: lbltext,
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
               color: Colors.teal,
             ),
             filled: true,
@@ -65,7 +66,7 @@ class _edit_profileState extends State<edit_profile> {
             fillColor: Colors.transparent,
              border : OutlineInputBorder(
               borderRadius: BorderRadius.circular(14.0),
-              borderSide: BorderSide(color: Colors.teal),
+              borderSide: const BorderSide(color: Colors.teal),
             ),
           )),
     );
@@ -77,7 +78,7 @@ class _edit_profileState extends State<edit_profile> {
         appBar: AppBar(
           leading: BackButton(onPressed: () {
             Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) =>teacherprofile()));
+                MaterialPageRoute(builder: (context) =>const teacherprofile()));
           }),
           title: Center(
               child: customText(
@@ -89,7 +90,7 @@ class _edit_profileState extends State<edit_profile> {
           actions: [
             IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 Icons.check,
               ),
             )

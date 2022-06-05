@@ -27,7 +27,7 @@ class _teacherprofileState extends State<teacherprofile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(),
+        leading: const BackButton(),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -38,7 +38,7 @@ class _teacherprofileState extends State<teacherprofile> {
             imagePath: 'assets/images/images (4).png',
             onClicked: () async {
               Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => edit_profile()));
+                  MaterialPageRoute(builder: (context) => const edit_profile()));
             },
             icon: Icons.edit,
           ),
@@ -95,7 +95,7 @@ class _teacherprofileState extends State<teacherprofile> {
             height: MediaQuery.of(context).size.height * 0.05,
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 48),
+            padding: const EdgeInsets.symmetric(horizontal: 48),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

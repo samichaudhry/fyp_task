@@ -1,13 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_task/attendance_sheet.dart';
 // import 'package:fyp_task/profile.dart';
 import 'package:fyp_task/reportpage.dart';
-import 'package:fyp_task/subjects_page.dart';
 import 'package:fyp_task/utils.dart';
 
 class HomeWidget extends StatefulWidget {
-  HomeWidget({Key? key}) : super(key: key);
+  const HomeWidget({Key? key}) : super(key: key);
 
   @override
   _HomeWidgetState createState() => _HomeWidgetState();
@@ -136,7 +134,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.red,
-      child: Center(
+      child: const Center(
           child: Text('Home Page',
               style: TextStyle(
                   color: Colors.white,
@@ -151,7 +149,7 @@ class WalkPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.blue,
-      child: Center(
+      child: const Center(
           child: Text('Walk Page',
               style: TextStyle(
                   color: Colors.white,
@@ -166,7 +164,7 @@ class LocationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.orange,
-      child: Center(
+      child: const Center(
           child: Text('Location Page',
               style: TextStyle(
                   color: Colors.white,
@@ -181,7 +179,7 @@ class NotificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.green,
-      child: Center(
+      child: const Center(
           child: Text('Notification Page',
               style: TextStyle(
                   color: Colors.white,
@@ -196,7 +194,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.amber,
-      child: Center(
+      child: const Center(
           child: Text('Settings Page',
               style: TextStyle(
                   color: Colors.white,
@@ -211,7 +209,7 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.teal,
-      child: Center(
+      child: const Center(
           child: Text('Search Page',
               style: TextStyle(
                   color: Colors.white,

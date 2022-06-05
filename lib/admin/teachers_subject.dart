@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_task/admin/add_subject.dart';
+<<<<<<< HEAD
 import 'package:fyp_task/add_teacher.dart';
+=======
+>>>>>>> 719839b8e17c043a44433e5ff2f63f8a87f8756f
 import 'package:fyp_task/admin/teacher_info.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/utils.dart';

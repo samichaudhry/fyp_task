@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fyp_task/user profile/profile_widget.dart';
 import 'package:fyp_task/user%20profile/edit_profile.dart';
 
+import '../custom widgets/custom_widgets.dart';
+
 class teacherprofile extends StatefulWidget {
   const teacherprofile({Key? key}) : super(key: key);
 
@@ -10,28 +12,12 @@ class teacherprofile extends StatefulWidget {
 }
 
 class _teacherprofileState extends State<teacherprofile> {
-  Widget customText(
-      {txt,
-      textAlign,
-      fsize = 18.0,
-      clr = Colors.white,
-      fweight = FontWeight.normal}) {
-    return Text(
-      txt,
-      textAlign: textAlign,
-      style: TextStyle(
-        fontSize: fsize,
-        color: clr,
-        fontWeight: fweight,
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: BackButton(),
+        leading: const BackButton(),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -45,7 +31,7 @@ class _teacherprofileState extends State<teacherprofile> {
                 'https://e7.pngegg.com/pngimages/8/232/png-clipart-computer-icons-man-avatar-male-login-man-people-monochrome-thumbnail.png',
             onClicked: () async {
               Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => edit_profile()));
+                  MaterialPageRoute(builder: (context) => const edit_profile()));
             },
             icon: Icons.edit,
           ),
@@ -105,7 +91,7 @@ class _teacherprofileState extends State<teacherprofile> {
             height: MediaQuery.of(context).size.height * 0.05,
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 48),
+            padding: const EdgeInsets.symmetric(horizontal: 48),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

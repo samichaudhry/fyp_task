@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_task/user profile/profile_widget.dart';
 import 'package:fyp_task/user profile/teacher_profile.dart';
 
@@ -14,33 +15,17 @@ class edit_profile extends StatefulWidget {
 
 class _edit_profileState extends State<edit_profile> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController _fullname = TextEditingController();
-  TextEditingController _about = TextEditingController();
-  TextEditingController _designation = TextEditingController();
-  TextEditingController _department = TextEditingController();
+  final TextEditingController _fullname = TextEditingController();
+  final TextEditingController _about = TextEditingController();
+  final TextEditingController _designation = TextEditingController();
+  final TextEditingController _department = TextEditingController();
   String path = '';
   bool IsSelected = false;
   final maxlength = 5;
   var imagePath = '';
 
-  Widget customText(
-      {txt,
-      textAlign,
-      fsize = 18.0,
-      clr = Colors.white,
-      fweight = FontWeight.normal}) {
-    return Text(
-      txt,
-      textAlign: textAlign,
-      style: TextStyle(
-        fontSize: fsize,
-        color: clr,
-        fontWeight: fweight,
-      ),
-    );
-  }
 
-  Widget customtextformfield(lbltext, _controller, isreadonly, {maxlength}) {
+  Widget customtextformfield(lbltext, _controller,icon, isreadonly, {maxlength}) {
     return Padding(
       padding: const EdgeInsets.only(left: 35, right: 35, top: 15, bottom: 15),
       child: TextFormField(
@@ -50,6 +35,7 @@ class _edit_profileState extends State<edit_profile> {
             if (_val!.isEmpty) {
               return 'required';
             }
+            return null;
           },
           readOnly: isreadonly,
           cursorColor: Colors.teal,
@@ -59,6 +45,7 @@ class _edit_profileState extends State<edit_profile> {
             fontWeight: FontWeight.w400,
           ),
           decoration: InputDecoration(
+            prefixIcon: Icon(icon),
             labelText: lbltext,
             labelStyle: const TextStyle(
               color: Colors.teal,
@@ -123,12 +110,12 @@ class _edit_profileState extends State<edit_profile> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                customtextformfield('Full Name', _fullname, false),
-                customtextformfield('Designation', _designation, false),
-                customtextformfield('Department', _department, false),
+                customtextformfield('Full Name', _fullname,Icons.edit ,false,),
+                customtextformfield('Designation', _designation, Icons.workspace_premium_outlined,false),
+                customtextformfield('Department', _department,FontAwesomeIcons.building ,false),
                 SizedBox(
                     height: maxlength * 30.0,
-                    child: customtextformfield('About', _about, false)),
+                    child: customtextformfield('About', _about,FontAwesomeIcons.circleInfo,false)),
               ],
             ),
           ),

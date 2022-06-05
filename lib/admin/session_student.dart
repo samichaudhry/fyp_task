@@ -1,10 +1,11 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:fyp_task/admin/upload_file.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:flutter_arc_speed_dial/flutter_speed_dial_menu_button.dart';
 import 'package:flutter_arc_speed_dial/main_menu_floating_action_button.dart';
+import 'package:get/get.dart';
 
 class SessionStudent extends StatefulWidget {
   const SessionStudent({Key? key}) : super(key: key);
@@ -78,19 +79,46 @@ class _SessionStudentState extends State<SessionStudent> {
     },
   ];
 
-  Widget customtextformfield(lbltext, isreadonly) {
+  Widget customdailog(title, picon, picon2, button,{initialvalue1,initialvalue2,hinttext1, hinttext2}) {
+    return AlertDialog(
+      title: Center(child: customText(txt: title, fweight: FontWeight.w500)),
+      actions: [
+        customtextformfield(hinttext1,false,picon,initialvalue1),
+        customtextformfield(hinttext2, false, picon2,initialvalue2),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            MaterialButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('CANCEL')),
+            MaterialButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(button)),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget customtextformfield(hinttext, isreadonly, icon,initialvalue) {
     return Padding(
       padding: const EdgeInsets.only(left: 19, right: 19, bottom: 10),
       child: TextFormField(
           readOnly: isreadonly,
+          initialValue: initialvalue,
           cursorColor: Colors.teal,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 15.0,
             fontWeight: FontWeight.w400,
           ),
           decoration: InputDecoration(
-            labelText: lbltext,
-            labelStyle: TextStyle(
+            prefixIcon: Icon(icon),
+            hintText: hinttext,
+            labelStyle: const TextStyle(
               color: Colors.teal,
             ),
             filled: true,
@@ -98,7 +126,7 @@ class _SessionStudentState extends State<SessionStudent> {
             fillColor: Colors.transparent,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14.0),
-              borderSide: BorderSide(color: Colors.teal),
+              borderSide: const BorderSide(color: Colors.teal),
             ),
           )),
     );
@@ -110,12 +138,10 @@ class _SessionStudentState extends State<SessionStudent> {
       floatingActionButton: SpeedDialMenuButton(
         isShowSpeedDial: _isShowDial,
         updateSpeedDialStatus: (isShow) {
-          this._isShowDial = isShow;
+          _isShowDial = isShow;
         },
-        isMainFABMini: true,
+        isMainFABMini: false,
         mainMenuFloatingActionButton: MainMenuFloatingActionButton(
-            isExtended: true,
-            tooltip: 'Add student',
             mini: false,
             backgroundColor: Colors.teal,
             foregroundColor: Colors.white,
@@ -126,51 +152,26 @@ class _SessionStudentState extends State<SessionStudent> {
             closeMenuBackgroundColor: Colors.red),
         floatingActionButtonWidgetChildren: <FloatingActionButton>[
           FloatingActionButton.extended(
-            label: customText(txt: 'upload file'),
             heroTag: 'btn1',
             // mini: true,
-
+            label: customText(txt: 'Upload File'),
             icon: const Icon(FontAwesomeIcons.upload),
             onPressed: () {
-              filepicker(
-                  filetype: FileType.custom,
-                  allowedextensions: ['csv', 'xlsx']);
+              Get.to(const UploadFile());
             },
             backgroundColor: Colors.teal,
             foregroundColor: Colors.white,
           ),
           FloatingActionButton.extended(
             // mini: true,
-            label: customText(txt: 'add student'),
+            label: customText(txt: 'Add Student'),
             icon: const Icon(FontAwesomeIcons.penToSquare),
             onPressed: () {
               showDialog(
                   context: context,
                   builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Center(
-                          child: customText(
-                              txt: "Add Student", fweight: FontWeight.w500)),
-                      actions: [
-                        customtextformfield('Name', false),
-                        customtextformfield('Roll No', false),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            MaterialButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('CANCLE')),
-                            MaterialButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text('ADD')),
-                          ],
-                        ),
-                      ],
-                    );
+                    return customdailog('Add Student',Icons.edit, FontAwesomeIcons.graduationCap,
+                     'ADD',hinttext1: 'Name',hinttext2: 'Roll No',);
                   });
             },
             backgroundColor: Colors.teal,
@@ -228,8 +229,17 @@ class _SessionStudentState extends State<SessionStudent> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)),
                       tileColor: Colors.grey[800],
-                      onTap: () {
-                        // Get.to(() => const TeacherInfo());
+                      onLongPress: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return customdailog(
+                                  'Edit Student',
+                                  Icons.edit,
+                                  FontAwesomeIcons.graduationCap,
+                                  'UPDATE',initialvalue1: student[index]['studentName'],
+                                  initialvalue2: student[index]['rollno'] );
+                            });
                       },
                       leading: const Icon(
                         FontAwesomeIcons.userGraduate,

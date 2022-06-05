@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'custom widgets/custom_widgets.dart';
+
 class subject_percentage extends StatefulWidget {
   const subject_percentage({Key? key}) : super(key: key);
 
@@ -37,23 +39,6 @@ class _subject_percentageState extends State<subject_percentage> {
     );
   }
 
-  Widget customText(
-      {txt,
-      textAlign,
-      fsize = 18.0,
-      clr = Colors.white,
-      fweight = FontWeight.normal}) {
-    return Text(
-      txt,
-      textAlign: textAlign,
-      style: TextStyle(
-        fontSize: fsize,
-        color: clr,
-        fontWeight: fweight,
-      ),
-    );
-  }
-
   Widget customcard(title, cvalue, cpercentage) {
     return Padding(
         padding: const EdgeInsets.only(left: 15, right: 15, top: 7, bottom: 5),
@@ -87,7 +72,7 @@ class _subject_percentageState extends State<subject_percentage> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.white,
           ),
