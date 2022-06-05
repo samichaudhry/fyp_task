@@ -24,15 +24,17 @@ class SubjectsPage extends StatefulWidget {
 
 class _SubjectsPageState extends State<SubjectsPage> {
   bool isloggedin = false;
-  User? currentuser = FirebaseAuth.instance.currentUser;
   String? photourl = '';
   String? useremail = 'abc@gmail.com';
   @override
   void initState() {
     super.initState();
+  User? currentuser = FirebaseAuth.instance.currentUser;
     if (currentuser != null) {
-      photourl = FirebaseAuth.instance.currentUser?.photoURL;
-      useremail = currentuser?.email;
+      photourl = currentuser.photoURL;
+      useremail = currentuser.email;
+    }else{
+      photourl = '';
     }
   }
 
@@ -230,10 +232,10 @@ class _SubjectsPageState extends State<SubjectsPage> {
                 accountName: customText(txt: 'Teacher', clr: Colors.white),
                 currentAccountPicture: GestureDetector(
                   onTap: () {},
-                  child: CircleAvatar(
+                  child: const CircleAvatar(
                     backgroundColor: Colors.teal,
-                    foregroundImage: NetworkImage(photourl!),
-                    child: const Icon(
+                    foregroundImage: NetworkImage('photourl!'),
+                    child: Icon(
                       Icons.person,
                       color: Colors.white,
                       size: 50.0,

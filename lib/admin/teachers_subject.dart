@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fyp_task/admin/add_subject.dart';
-import 'package:fyp_task/admin/add_teacher.dart';
+import 'package:fyp_task/add_teacher.dart';
 import 'package:fyp_task/admin/teacher_info.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/utils.dart';

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fyp_task/add_teacher.dart';
 import 'package:fyp_task/custom%20widgets/custom_toast.dart';
 import 'package:fyp_task/custom_formfield.dart';
 import 'package:flutter/material.dart';
@@ -219,6 +220,58 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.4 / 100,
+                ),
+                Center(
+                  child: Text(
+                    'OR',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: MediaQuery.of(context).size.width * 5 / 100,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.4 / 100,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      "Don't have an Account ? ",
+                      style: TextStyle(
+                          // color: Colors.black,
+                          fontSize:
+                              MediaQuery.of(context).size.height * 2 / 100,
+                          fontWeight: FontWeight.normal),
+                    ),
+                    TextButton(
+                      child: Text(
+                        "Sign Up",
+                        style: TextStyle(
+                          color: Colors.teal,
+                          fontWeight: FontWeight.w700,
+                          fontSize:
+                              MediaQuery.of(context).size.height * 2 / 100,
+                        ),
+                      ),
+                      onPressed: () {
+                        Get.to(() => const AddTeacher(), arguments: [
+              {
+                "pageTitle": "Add Teacher",
+                "buttonText": "Submit",
+                'teacher_name': '',
+                'designation': '',
+                'department': '',
+                'imgUrl': '',
+                'teacherId': '',
+              }
+            ]);
+                      },
+                    ),
+                  ],
+                )
               ]),
             ),
           ],
