@@ -95,6 +95,7 @@ Future filepicker({required filetype, allowedextensions}) async {
 
 void rawsnackbar(txt, {duration = 3}) {
   Get.rawSnackbar(
+    backgroundColor: Colors.teal,
     // message: e.message.toString(),
     messageText: Text(
       txt,
