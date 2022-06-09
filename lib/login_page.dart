@@ -35,13 +35,51 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: useremail.toString(), password: userpassword.toString());
-      setState(() {
+           await FirebaseFirestore.instance
+          .collection('teachers')
+          .doc(FirebaseAuth.instance.currentUser?.uid)
+          .get()
+          .then((DocumentSnapshot user) {
+        if (user.exists) {
+          if (!user['isTeacher']) {
+            customtoast('Invalid teacher credentials');
+            FirebaseAuth.instance.signOut();
+          } else {
+            if(user['status'] == 'Approved'){
+               Get.to(
+              () => const SubjectsPage(),
+            );
+
+            customtoast('Login Successful');
+            }
+            else if(user['status'] == 'Pending'){
+            customtoast('Request pending\nlogin not allowed.');
+            FirebaseAuth.instance.signOut();
+            }else{
+              customtoast('Request declined. login not allowed.');
+            FirebaseAuth.instance.signOut();
+            }
+           
+          }
+           setState(() {
         isauthenticating = false;
       });
-      Get.to(
-        () => const SubjectsPage(),
-      );
-      customtoast('Login Successful');
+        } else {
+          customtoast('Teacher not found');
+          FirebaseAuth.instance.signOut();
+           setState(() {
+        isauthenticating = false;
+      });
+        }
+      });
+     
+      // setState(() {
+      //   isauthenticating = false;
+      // });
+      // Get.to(
+      //   () => const SubjectsPage(),
+      // );
+      // customtoast('Login Successful');
     } on FirebaseAuthException catch (e) {
       setState(() {
         isauthenticating = false;

@@ -91,3 +91,19 @@ Future filepicker({required filetype, allowedextensions}) async {
     return '';
   }
 }
+
+
+void rawsnackbar(txt, {duration = 3}) {
+  Get.rawSnackbar(
+    // message: e.message.toString(),
+    messageText: Text(
+      txt,
+      style: const TextStyle(
+        fontSize: 17.0,
+        fontWeight: FontWeight.w400,
+        color: Colors.white,
+      ),
+    ),
+    duration: Duration(seconds: duration),
+  );
+}

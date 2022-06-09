@@ -130,7 +130,10 @@ class _AddTeacherState extends State<AddTeacher> {
       _confirmpass.clear();
       editProfileArgument[0]['pageTitle'] == "Edit Teacher's Profile"
           ? customtoast("Teacher's Data Updated")
-          : customtoast('Teacher Added');
+          : rawsnackbar('Your request is submitted to admin. you can login only after the approval request');
+    setState(() {
+        isauthenticating = false;
+      });
     }).catchError((error) {
       editProfileArgument[0]['pageTitle'] == "Edit Teacher's Profile"
           ? customtoast("Failed to update Teacher's data: $error")
@@ -160,11 +163,9 @@ class _AddTeacherState extends State<AddTeacher> {
               setState(() {
                 teacherId = userCredential.user?.uid;
               });
-      addTeacherData();
+      await addTeacherData();
 
-      setState(() {
-        isauthenticating = false;
-      });
+     
       // Get.rawSnackbar(
       //   messageText: const Text(
       //     'Ask Teachers To verify his/her email',
