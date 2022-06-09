@@ -111,7 +111,7 @@ class _ReportPageState extends State<ReportPage> {
         );
       },
       dense: true,
-      // tileColor: Colors.white70,
+      // tileColor: Colors.grey,
       title: customText(
         txt: stdname,
         clr: Colors.white,
@@ -134,10 +134,10 @@ class _ReportPageState extends State<ReportPage> {
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              elevation: 0,
-              // backgroundColor: Colors.teal,
+              elevation: 0.0,
+              // backgroundColor: Colors.grey[850],
               pinned: true,
-              expandedHeight: MediaQuery.of(context).size.height * 0.2,
+              expandedHeight: MediaQuery.of(context).size.height * 0.17,
               collapsedHeight: MediaQuery.of(context).size.height * 0.1,
               centerTitle: false,
               leading: IconButton(
@@ -161,10 +161,10 @@ class _ReportPageState extends State<ReportPage> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                 bottomLeft: _isShrink
-                    ? const Radius.circular(20.0)
+                    ? const Radius.circular(33.0)
                     : const Radius.circular(0.0),
                 bottomRight: _isShrink
-                    ? const Radius.circular(20.0)
+                    ? const Radius.circular(33.0)
                     : const Radius.circular(0.0),
                 // bottomRight: Radius.circular(40.0)
               )),
@@ -213,7 +213,7 @@ class _ReportPageState extends State<ReportPage> {
                           textAlign: TextAlign.left,
                           text: const TextSpan(children: [
                             TextSpan(
-                              text: "Subject: ",
+                              text: "\n\n\nSubject: ",
                               style: TextStyle(
                                 fontSize: 18.0,
                                 color: Colors.teal,
