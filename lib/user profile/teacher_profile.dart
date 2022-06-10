@@ -1,6 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_task/user profile/profile_widget.dart';
 import 'package:fyp_task/user%20profile/edit_profile.dart';
+import 'package:get/get.dart';
 
 import '../custom widgets/custom_widgets.dart';
 
@@ -12,6 +15,27 @@ class teacherprofile extends StatefulWidget {
 }
 
 class _teacherprofileState extends State<teacherprofile> {
+var teacherdata;
+var currentuserid;
+  @override
+  void initState() {
+    super.initState();
+    User? currentuser = FirebaseAuth.instance.currentUser;
+    if (currentuser != null) {
+      currentuserid = FirebaseAuth.instance.currentUser?.uid;
+      teacherprofiledata();
+    } 
+  }
+
+Future teacherprofiledata() async {
+   await FirebaseFirestore.instance.collection('teachers').doc(currentuserid).get().then((DocumentSnapshot teacher){
+      teacherdata = teacher.data();
+    });
+    setState(() {
+    });
+      print(teacherdata);
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +52,18 @@ class _teacherprofileState extends State<teacherprofile> {
           ),
           ProfileWidget(
             imagePath:
-                'https://e7.pngegg.com/pngimages/8/232/png-clipart-computer-icons-man-avatar-male-login-man-people-monochrome-thumbnail.png',
+                '${teacherdata["imgUrl"]}',
             onClicked: () async {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const edit_profile()));
+            Get.to(
+              () => const edit_profile(),
+              arguments: {
+                'teacher_name': '${teacherdata["teacher_name"]}',
+                'imgUrl': '${teacherdata["imgUrl"]}',
+                'designation': '${teacherdata["designation"]}',
+                'department': '${teacherdata["department"]}',
+                // 'email': '${teacherdata["email"]}',
+              }
+            );
             },
             icon: Icons.edit,
           ),
@@ -41,13 +73,13 @@ class _teacherprofileState extends State<teacherprofile> {
           Column(
             children: [
               customText(
-                  txt: 'Fizza Chauhdary',
+                  txt: '${teacherdata["teacher_name"]}',
                   fweight: FontWeight.bold,
                   fsize: 24.0),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.001,
               ),
-              customText(txt: 'fizachauhdary783@gmail.com'),
+              customText(txt: '${teacherdata["email"]}'),
             ],
           ),
           SizedBox(
@@ -56,8 +88,8 @@ class _teacherprofileState extends State<teacherprofile> {
           Center(
             child: RichText(
                 textAlign: TextAlign.left,
-                text: const TextSpan(children: [
-                  TextSpan(
+                text:  TextSpan(children: [
+                  const TextSpan(
                     text: "Designation: ",
                     style: TextStyle(
                       fontSize: 17.0,
@@ -65,13 +97,13 @@ class _teacherprofileState extends State<teacherprofile> {
                     ),
                   ),
                   TextSpan(
-                    text: "Lecturer\n",
-                    style: TextStyle(
+                    text: "${teacherdata['designation']} \n",
+                    style: const TextStyle(
                       fontSize: 17.0,
                       color: Colors.white,
                     ),
                   ),
-                  TextSpan(
+                  const TextSpan(
                     text: "Department: ",
                     style: TextStyle(
                       fontSize: 17.0,
@@ -79,8 +111,8 @@ class _teacherprofileState extends State<teacherprofile> {
                     ),
                   ),
                   TextSpan(
-                    text: "Computer Science\n",
-                    style: TextStyle(
+                    text: "${teacherdata['department']}\n",
+                    style: const TextStyle(
                       fontSize: 17.0,
                       color: Colors.white,
                     ),
@@ -90,27 +122,27 @@ class _teacherprofileState extends State<teacherprofile> {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.05,
           ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 48),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                customText(
-                  txt: 'About',
-                  fsize: 24.0,
-                  fweight: FontWeight.bold,
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.02,
-                ),
-                customText(
-                  txt:
-                      'Certified Personal Trainer and Nutritionist with years of experience in creating effective diets and training plans focused on achieving individual customers goals in a smooth way.',
-                  fsize: 16.0,
-                ),
-              ],
-            ),
-          ),
+          // Container(
+          //   padding: const EdgeInsets.symmetric(horizontal: 48),
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       customText(
+          //         txt: 'About',
+          //         fsize: 24.0,
+          //         fweight: FontWeight.bold,
+          //       ),
+          //       SizedBox(
+          //         height: MediaQuery.of(context).size.height * 0.02,
+          //       ),
+          //       customText(
+          //         txt:
+          //             'Certified Personal Trainer and Nutritionist with years of experience in creating effective diets and training plans focused on achieving individual customers goals in a smooth way.',
+          //         fsize: 16.0,
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

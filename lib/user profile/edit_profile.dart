@@ -1,8 +1,10 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_task/user profile/profile_widget.dart';
 import 'package:fyp_task/user profile/teacher_profile.dart';
+import 'package:get/get.dart';
 
 import '../custom widgets/custom_widgets.dart';
 
@@ -23,7 +25,20 @@ class _edit_profileState extends State<edit_profile> {
   bool IsSelected = false;
   final maxlength = 5;
   var imagePath = '';
-
+var currentuserid;
+var args = Get.arguments;
+  @override
+  void initState() {
+    super.initState();
+    User? currentuser = FirebaseAuth.instance.currentUser;
+    if (currentuser != null) {
+      currentuserid = FirebaseAuth.instance.currentUser?.uid;
+    } 
+    imagePath = args["imgUrl"].toString();
+    _fullname.text = args['teacher_name'];
+    _designation.text = args['designation'];
+    _department.text = args['department'];
+  }
 
   Widget customtextformfield(lbltext, _controller,icon, isreadonly, {maxlength}) {
     return Padding(
@@ -91,12 +106,13 @@ class _edit_profileState extends State<edit_profile> {
           ),
           ProfileWidget(
               imagePath:
-                  'https://e7.pngegg.com/pngimages/8/232/png-clipart-computer-icons-man-avatar-male-login-man-people-monochrome-thumbnail.png',
+                  imagePath,
               onClicked: () {
                 filepicker(filetype: FileType.image).then((selectedpath) {
                   if (selectedpath.toString().isNotEmpty) {
+                    imagePath = selectedpath;
                     setState(() {
-                      imagePath = selectedpath;
+                      // imagePath = selectedpath;
                     });
                   }
                 });
@@ -113,9 +129,9 @@ class _edit_profileState extends State<edit_profile> {
                 customtextformfield('Full Name', _fullname,Icons.edit ,false,),
                 customtextformfield('Designation', _designation, Icons.workspace_premium_outlined,false),
                 customtextformfield('Department', _department,FontAwesomeIcons.building ,false),
-                SizedBox(
-                    height: maxlength * 30.0,
-                    child: customtextformfield('About', _about,FontAwesomeIcons.circleInfo,false)),
+                // SizedBox(
+                //     height: maxlength * 30.0,
+                //     child: customtextformfield('About', _about,FontAwesomeIcons.circleInfo,false)),
               ],
             ),
           ),
