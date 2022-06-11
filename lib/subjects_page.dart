@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,17 +29,80 @@ class _SubjectsPageState extends State<SubjectsPage> {
   String? useremail = 'abc@gmail.com';
   String? username = '';
   var currentuserid;
+      ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  final Connectivity _connectivity = Connectivity();
+  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+
   @override
   void initState() {
     super.initState();
+     _connectivitySubscription =
+        _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     User? currentuser = FirebaseAuth.instance.currentUser;
     if (currentuser != null) {
       currentuserid = FirebaseAuth.instance.currentUser?.uid;
       // photourl = currentuser.photoURL;
       useremail = currentuser.email;
-      teacherprofiledata();
+    teacherprofiledata();
     } 
   }
+
+  Future<void> _updateConnectionStatus(ConnectivityResult result) async {
+    // setState(() {
+    //   _connectionStatus = result;
+    // });
+     if (result == ConnectivityResult.mobile ||
+        result == ConnectivityResult.wifi) {
+         Get.rawSnackbar(
+           margin: const EdgeInsets.all(15.0),
+        messageText: const Text(
+          "You are online now",
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18.0,
+            fontWeight: FontWeight.w400
+          ),
+        ),
+      isDismissible: false,
+     backgroundColor: Colors.teal,
+     borderRadius: 20.0,
+    //  borderWidth: 15.0,
+     icon: const Icon(
+       Icons.wifi_sharp,
+       color: Colors.white,
+       size: 25.0,
+     ),
+     duration: const Duration(seconds: 4),
+      );
+    } else {
+      Get.rawSnackbar(
+         messageText: const Text(
+          'You are currently offline',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18.0,
+            fontWeight: FontWeight.w400
+          ),
+        ),
+       isDismissible: false,
+     borderRadius: 25.0,
+           margin: EdgeInsets.all(15.0),
+     backgroundColor: Colors.teal,
+     icon: const Icon(
+       Icons.wifi_off_sharp,
+       color: Colors.white,
+       size: 25.0,
+     ),
+     duration: const Duration(seconds: 4),
+      );
+      // return false;
+      
+    //   showDialog(context: context, builder: (context){
+    //    return WillPopScope(child: customAlert(), onWillPop: () async => false);
+    //  });
+    }
+  }
+
 
   Future teacherprofiledata() async {
     await FirebaseFirestore.instance.collection('teachers').doc(currentuserid).get().then((DocumentSnapshot teacher){
@@ -66,34 +131,6 @@ class _SubjectsPageState extends State<SubjectsPage> {
   //         'attendancedate': formatted,
   //       }, SetOptions(merge: true));
   // }
-
-  List SubjectsList = [
-    {
-      'subject_name': 'Cloud Computing',
-      'session': 'BSCS 2018-2022',
-      'time': '08:00 AM to 09:30 AM',
-    },
-    {
-      'subject_name': 'Operating System',
-      'session': 'BSCS 2018-2022',
-      'time': '09:30 AM to 11:00 AM',
-    },
-    {
-      'subject_name': 'Professional Practices',
-      'session': 'BSCS 2018-2022',
-      'time': '11:00 AM to 12:30 PM',
-    },
-    {
-      'subject_name': 'Object Oriented Programming',
-      'session': 'BSCS 2018-2022',
-      'time': '01:00 PM to 02:30 PM',
-    },
-    {
-      'subject_name': 'Database Systems',
-      'session': 'BSCS 2018-2022',
-      'time': '02:30 PM to 04:00 PM',
-    },
-  ];
 
   Future<void> logoutfunc() async {
     return await showDialog(
@@ -280,7 +317,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
                                     //     fweight: FontWeight.w400),
                                     customText(
                                         txt:
-                                            '${ds['program']} ${ds['session']}',
+                                            '${ds['program']}',
                                         fsize: 18.0,
                                         clr: Colors.white,
                                         fweight: FontWeight.w400),
@@ -292,7 +329,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
                                     // ),
                                     customText(
                                       txt:
-                                          '${ds['start_duration']} to ${ds['end_duration']}',
+                                          'Semester: ${ds['semester']}',
                                       fsize: 16.0,
                                       clr: Colors.white,
                                       fweight: FontWeight.w400,
@@ -349,23 +386,6 @@ class _SubjectsPageState extends State<SubjectsPage> {
                   fweight: FontWeight.w500,
                 ),
               ),
-              // customTile(
-              //   ontap: () {
-              //     Get.to(
-              //       () => const AdminMainPage(),
-              //     );
-              //   },
-              //   leading: const Icon(
-              //     FontAwesomeIcons.userShield,
-              //     color: Colors.white,
-              //     size: 30.0,
-              //   ),
-              //   title: customText(
-              //     txt: 'Admin',
-              //     clr: Colors.white,
-              //     fweight: FontWeight.w500,
-              //   ),
-              // ),
               customTile(
                 ontap: () {
                   logoutfunc();

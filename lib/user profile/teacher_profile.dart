@@ -23,7 +23,6 @@ var currentuserid;
     User? currentuser = FirebaseAuth.instance.currentUser;
     if (currentuser != null) {
       currentuserid = FirebaseAuth.instance.currentUser?.uid;
-      teacherprofiledata();
     } 
   }
 
@@ -39,6 +38,7 @@ Future teacherprofiledata() async {
 
   @override
   Widget build(BuildContext context) {
+      teacherprofiledata();
     return Scaffold(
       appBar: AppBar(
         leading: const BackButton(),
