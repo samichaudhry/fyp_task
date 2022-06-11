@@ -1,21 +1,17 @@
 import 'dart:async';
 import 'dart:math';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_task/attendance_sheet.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/login_page.dart';
 import 'package:fyp_task/user%20profile/teacher_profile.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-
 class SubjectsPage extends StatefulWidget {
   const SubjectsPage({Key? key}) : super(key: key);
 
@@ -72,7 +68,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
        color: Colors.white,
        size: 25.0,
      ),
-     duration: const Duration(seconds: 4),
+     duration: const Duration(seconds: 3),
       );
     } else {
       Get.rawSnackbar(
@@ -86,20 +82,15 @@ class _SubjectsPageState extends State<SubjectsPage> {
         ),
        isDismissible: false,
      borderRadius: 25.0,
-           margin: EdgeInsets.all(15.0),
+           margin: const EdgeInsets.all(15.0),
      backgroundColor: Colors.teal,
      icon: const Icon(
        Icons.wifi_off_sharp,
        color: Colors.white,
        size: 25.0,
      ),
-     duration: const Duration(seconds: 4),
+     duration: const Duration(seconds: 3),
       );
-      // return false;
-      
-    //   showDialog(context: context, builder: (context){
-    //    return WillPopScope(child: customAlert(), onWillPop: () async => false);
-    //  });
     }
   }
 
@@ -288,6 +279,15 @@ class _SubjectsPageState extends State<SubjectsPage> {
                             onTap: () {
                               Get.to(
                                 () => const AttendanceSheet(),
+                                arguments: {
+                                  'subject_name': '${ds!['subject_name']}',
+                                  'subject_code': '${ds['subject_code']}',
+                                  'program': '${ds['program']}',
+                                  'imgUrl': '${ds['imgUrl']}',
+                                  'semester': '${ds['semester']}',
+                                  'semester_type': '${ds['semester_type']}',
+                                  'subject_id': ds.id.toString(),
+                                }
                               );
                             },
                             child: Container(

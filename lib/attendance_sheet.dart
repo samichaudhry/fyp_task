@@ -14,6 +14,7 @@ class AttendanceSheet extends StatefulWidget {
 }
 
 class _AttendanceSheetState extends State<AttendanceSheet> {
+  var args = Get.arguments;
   String date = intl.DateFormat("dd-MMM-yyyy").format(DateTime.now());
   static int totalStudents = 15;
   List<int> selectedStatus = List.generate(
@@ -72,10 +73,14 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
               //   txt: 'BS Computer Science',
               //   clr: Colors.black,
               // ),
-              background: Image.asset(
+              background: 
+              args['imgUrl'] == 'null' || args['imgUrl'] == '' ?
+              Image.asset(
                 "assets/images/bscs.png",
                 fit: BoxFit.fill,
-              ),
+              )
+              :
+              Image.network(args['imgUrl']),
             ),
           ),
           // Second App Bar
@@ -99,11 +104,11 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                   style: const TextStyle(
                       fontWeight: FontWeight.w600, fontSize: 10),
                   children: [
-                    const TextSpan(
+                     TextSpan(
                       text:
-                          "\nMobile Application Development (BSCS-8th, 2018-2022)",
+                          "\n${args['subject_name']} (${args['program']}, ${args['semester']} Semester)",
                       style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+                        const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
                     ),
                     TextSpan(
                       text: "\n\nTotal Students: $totalStudents",
