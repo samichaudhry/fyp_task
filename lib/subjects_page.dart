@@ -287,6 +287,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
                                   'semester': '${ds['semester']}',
                                   'semester_type': '${ds['semester_type']}',
                                   'subject_id': ds.id.toString(),
+                                  'session_id':'${ds['session_id']}',
                                 }
                               );
                             },

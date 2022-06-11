@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_task/reportpage.dart';
 import 'package:fyp_task/utils.dart';
@@ -21,6 +22,21 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
       totalStudents,
       (index) =>
           1); // here we have to mention the strength of students by database in place of 15
+  List studentslist = [];
+  @override
+  void initState() {
+    super.initState();
+    studentsdata();
+  }
+
+  Future studentsdata() async {
+   await FirebaseFirestore.instance.collection('students').doc(args['session_id']).collection('sessionstudents').get().then((QuerySnapshot students){
+      for(var student in students.docs){
+        print(student.data());
+        studentslist.add(student.data());
+      }
+    });
+  }
 
   _pickedDate() async {
     DateTime? date = await showDatePicker(
