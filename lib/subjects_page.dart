@@ -7,7 +7,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fyp_task/attendance_sheet.dart';
+import 'package:fyp_task/custom%20widgets/custom_toast.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
+import 'package:fyp_task/custom_formfield.dart';
 import 'package:fyp_task/login_page.dart';
 import 'package:fyp_task/user%20profile/teacher_profile.dart';
 import 'package:fyp_task/utils.dart';
@@ -21,10 +23,16 @@ class SubjectsPage extends StatefulWidget {
 
 class _SubjectsPageState extends State<SubjectsPage> {
   bool isloggedin = false;
+  bool isworking = false;
   String photourl = '';
-  String? useremail = 'abc@gmail.com';
+  String? useremail = '';
   String? username = '';
   var currentuserid;
+    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _oldemail = TextEditingController();
+  final TextEditingController _oldpassword = TextEditingController();
+  final TextEditingController _newpassword = TextEditingController();
       ConnectivityResult _connectionStatus = ConnectivityResult.none;
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
@@ -44,9 +52,6 @@ class _SubjectsPageState extends State<SubjectsPage> {
   }
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-    // setState(() {
-    //   _connectionStatus = result;
-    // });
      if (result == ConnectivityResult.mobile ||
         result == ConnectivityResult.wifi) {
          Get.rawSnackbar(
@@ -122,6 +127,123 @@ class _SubjectsPageState extends State<SubjectsPage> {
   //         'attendancedate': formatted,
   //       }, SetOptions(merge: true));
   // }
+
+Future changepassword() async {
+    // isworking = false;
+    _email.clear();
+    _oldpassword.clear();
+    _newpassword.clear();
+
+    return showDialog(
+      context: context,
+      builder: (context) => StatefulBuilder(builder: (context, innerstate) {
+        return AlertDialog(
+          title: const Center(child: Text('Change Password')),
+          content: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                customTextField(
+                  "old Password",
+                  true,
+                  null,
+                  _oldpassword,
+                  (value) {
+                    if (value!.isEmpty) {
+                      return "Please Enter Your Password";
+                    }
+                  },
+                  (value) {
+                    _oldpassword.text = value!;
+                  },
+                  responsiveHW(context, wd: 100),
+                  responsiveHW(context, ht: 100),
+                  InputBorder.none,
+                  pIcon: Icons.lock,
+                ),
+                customTextField(
+                  "New Password",
+                  true,
+                  null,
+                  _newpassword,
+                  (value) {
+                    if (value!.isEmpty) {
+                      return "Please Enter Your Password";
+                    }
+                  },
+                  (value) {
+                    _newpassword.text = value!;
+                  },
+                  responsiveHW(context, wd: 100),
+                  responsiveHW(context, ht: 100),
+                  InputBorder.none,
+                  pIcon: Icons.lock,
+                ),
+                SizedBox(
+                  height: responsiveHW(context, ht: 3),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            MaterialButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Cancel'),
+            ),
+            isworking
+                ?  const Padding(
+                  padding:  EdgeInsets.symmetric(horizontal: 26.0),
+                  child: CircularProgressIndicator(),
+                )
+                : MaterialButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        innerstate(() {
+                          isworking = true;
+                        });
+                        try {
+                          await FirebaseAuth.instance.currentUser!
+                              .reauthenticateWithCredential(
+                                  EmailAuthProvider.credential(
+                                      email: useremail.toString(),
+                                      password: _oldpassword.text.trim()));
+                          try {
+                            await FirebaseAuth.instance.currentUser!
+                                .updatePassword(_newpassword.text);
+                            innerstate(() {
+                              isworking = false;
+                            });
+                            customtoast('Password changed successfully');
+                            Navigator.pop(context);
+                          } on FirebaseAuthException catch (e) {
+                            innerstate(() {
+                              isworking = false;
+                            });
+                            if (e.code == 'weak-password') {
+                              rawsnackbar('Weak New Password Provided');
+                            }
+                          }
+                        } on FirebaseAuthException catch (e) {
+                          innerstate(() {
+                            isworking = false;
+                          });
+                          if (e.code == 'wrong-password') {
+                            rawsnackbar('Wrong Old Password');
+                            // print('Wrong password provided for that user.');
+                          }
+                        }
+                      }
+                    },
+                    child: const Text('Submit'),
+                  ),
+          ],
+        );
+      }),
+    );
+  }
+
+
 
   Future<void> logoutfunc() async {
     return await showDialog(
@@ -383,6 +505,19 @@ class _SubjectsPageState extends State<SubjectsPage> {
                 ),
                 title: customText(
                   txt: 'Profile',
+                  clr: Colors.white,
+                  fweight: FontWeight.w500,
+                ),
+              ),
+              customTile(
+                ontap: changepassword,
+                leading: const Icon(
+                  Icons.key,
+                  color: Colors.white,
+                  size: 30.0,
+                ),
+                title: customText(
+                  txt: 'Change Password',
                   clr: Colors.white,
                   fweight: FontWeight.w500,
                 ),

@@ -28,10 +28,12 @@ class _edit_profileState extends State<edit_profile> {
   final TextEditingController _department = TextEditingController();
   String path = '';
   bool IsSelected = false;
+  bool isworking = false;
   final maxlength = 5;
   var imagePath = '';
   var currentuserid;
   var args = Get.arguments;
+
   @override
   void initState() {
     super.initState();
@@ -64,6 +66,9 @@ class _edit_profileState extends State<edit_profile> {
       imagePath = imgurl;
     });
   }
+
+
+
 
   Widget customtextformfield(lbltext, _controller, icon, isreadonly,
       {maxlength}) {
