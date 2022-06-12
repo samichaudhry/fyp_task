@@ -43,6 +43,13 @@ class _SubjectsPageState extends State<SubjectsPage> {
      _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     User? currentuser = FirebaseAuth.instance.currentUser;
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if(user == null){
+        Get.to(
+          () => const LoginPage(),
+        );
+      }
+    });
     if (currentuser != null) {
       currentuserid = FirebaseAuth.instance.currentUser?.uid;
       // photourl = currentuser.photoURL;
@@ -259,12 +266,12 @@ Future changepassword() async {
           MaterialButton(
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
-              setState(() {
-                isloggedin = false;
-              });
-              Get.to(
-                () => const LoginPage(),
-              );
+              // setState(() {
+              //   isloggedin = false;
+              // });
+              // Get.to(
+              //   () => const LoginPage(),
+              // );
             },
             child: const Text('Yes'),
           ),
