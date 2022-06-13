@@ -14,6 +14,8 @@ import 'package:fyp_task/login_page.dart';
 import 'package:fyp_task/user%20profile/teacher_profile.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+
 class SubjectsPage extends StatefulWidget {
   const SubjectsPage({Key? key}) : super(key: key);
 
@@ -28,23 +30,23 @@ class _SubjectsPageState extends State<SubjectsPage> {
   String? useremail = '';
   String? username = '';
   var currentuserid;
-    final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _oldemail = TextEditingController();
   final TextEditingController _oldpassword = TextEditingController();
   final TextEditingController _newpassword = TextEditingController();
-      ConnectivityResult _connectionStatus = ConnectivityResult.none;
+  ConnectivityResult _connectionStatus = ConnectivityResult.none;
   final Connectivity _connectivity = Connectivity();
   late StreamSubscription<ConnectivityResult> _connectivitySubscription;
 
   @override
   void initState() {
     super.initState();
-     _connectivitySubscription =
+    _connectivitySubscription =
         _connectivity.onConnectivityChanged.listen(_updateConnectionStatus);
     User? currentuser = FirebaseAuth.instance.currentUser;
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if(user == null){
+      if (user == null) {
         Get.to(
           () => const LoginPage(),
         );
@@ -54,88 +56,83 @@ class _SubjectsPageState extends State<SubjectsPage> {
       currentuserid = FirebaseAuth.instance.currentUser?.uid;
       // photourl = currentuser.photoURL;
       useremail = currentuser.email;
-    teacherprofiledata();
-    } 
+      teacherprofiledata();
+    }
   }
 
   Future<void> _updateConnectionStatus(ConnectivityResult result) async {
-     if (result == ConnectivityResult.mobile ||
+    if (result == ConnectivityResult.mobile ||
         result == ConnectivityResult.wifi) {
-         Get.rawSnackbar(
-           margin: const EdgeInsets.all(15.0),
+      Get.rawSnackbar(
+        margin: const EdgeInsets.all(15.0),
         messageText: const Text(
           "You are online now",
           style: TextStyle(
-            color: Colors.white,
-            fontSize: 18.0,
-            fontWeight: FontWeight.w400
-          ),
+              color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w400),
         ),
-      isDismissible: false,
-     backgroundColor: Colors.teal,
-     borderRadius: 20.0,
-    //  borderWidth: 15.0,
-     icon: const Icon(
-       Icons.wifi_sharp,
-       color: Colors.white,
-       size: 25.0,
-     ),
-     duration: const Duration(seconds: 3),
+        isDismissible: false,
+        backgroundColor: Colors.teal,
+        borderRadius: 20.0,
+        //  borderWidth: 15.0,
+        icon: const Icon(
+          Icons.wifi_sharp,
+          color: Colors.white,
+          size: 25.0,
+        ),
+        duration: const Duration(seconds: 3),
       );
     } else {
       Get.rawSnackbar(
-         messageText: const Text(
+        messageText: const Text(
           'You are currently offline',
           style: TextStyle(
-            color: Colors.white,
-            fontSize: 18.0,
-            fontWeight: FontWeight.w400
-          ),
+              color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.w400),
         ),
-       isDismissible: false,
-     borderRadius: 25.0,
-           margin: const EdgeInsets.all(15.0),
-     backgroundColor: Colors.teal,
-     icon: const Icon(
-       Icons.wifi_off_sharp,
-       color: Colors.white,
-       size: 25.0,
-     ),
-     duration: const Duration(seconds: 3),
+        isDismissible: false,
+        borderRadius: 25.0,
+        margin: const EdgeInsets.all(15.0),
+        backgroundColor: Colors.teal,
+        icon: const Icon(
+          Icons.wifi_off_sharp,
+          color: Colors.white,
+          size: 25.0,
+        ),
+        duration: const Duration(seconds: 3),
       );
     }
   }
 
-
   Future teacherprofiledata() async {
-    await FirebaseFirestore.instance.collection('teachers').doc(currentuserid).get().then((DocumentSnapshot teacher){
+    await FirebaseFirestore.instance
+        .collection('teachers')
+        .doc(currentuserid)
+        .get()
+        .then((DocumentSnapshot teacher) {
       username = teacher['teacher_name'];
       photourl = '${teacher["imgUrl"]}';
     });
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   // Future dummydata() async {
   //   final DateTime now = DateTime.now();
-  // final DateFormat formatter = DateFormat('dd-MM-yyyy');
-  // final String formatted = formatter.format(now);
-  // print(formatted); // something like 2013-04-20
+  //   final DateFormat formatter = DateFormat('dd-MMM-yyyy');
+  //   final String formatted = formatter.format(now);
+  //   print(formatted); // something like 2013-04-20
   //   FirebaseFirestore.instance
   //       .collection('attendance')
   //       .doc('Q0QUhhsjYir1pK7fzTfQ')
   //       .collection('attendancedata')
   //       .doc()
   //       .set({
-  //         'studentid' : 'YjFngBXuMn6s2aVIMIsZ',
-  //         'attendance_status': 'P',
-  //         'sessionid' : 'TrODKYmoeolUPgtjjk4Q',
-  //         'attendancedate': formatted,
-  //       }, SetOptions(merge: true));
+  //     'studentid': 'YjFngBXuMn6s2aVIMIsZ',
+  //     'attendance_status': 'P',
+  //     'sessionid': 'TrODKYmoeolUPgtjjk4Q',
+  //     'attendancedate': formatted,
+  //   }, SetOptions(merge: true));
   // }
 
-Future changepassword() async {
+  Future changepassword() async {
     // isworking = false;
     _email.clear();
     _oldpassword.clear();
@@ -199,10 +196,10 @@ Future changepassword() async {
               child: const Text('Cancel'),
             ),
             isworking
-                ?  const Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 26.0),
-                  child: CircularProgressIndicator(),
-                )
+                ? const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 26.0),
+                    child: CircularProgressIndicator(),
+                  )
                 : MaterialButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
@@ -249,8 +246,6 @@ Future changepassword() async {
       }),
     );
   }
-
-
 
   Future<void> logoutfunc() async {
     return await showDialog(
@@ -362,7 +357,8 @@ Future changepassword() async {
                             child: customText(
                                 txt: 'No Subject Found',
                                 fsize: 25.0,
-                                fweight: FontWeight.w500, padding: 10.0),
+                                fweight: FontWeight.w500,
+                                padding: 10.0),
                           ),
                         ],
                       ),
@@ -406,19 +402,16 @@ Future changepassword() async {
                           var ds = snapshot.data?.docs[index];
                           return GestureDetector(
                             onTap: () {
-                              Get.to(
-                                () => const AttendanceSheet(),
-                                arguments: {
-                                  'subject_name': '${ds!['subject_name']}',
-                                  'subject_code': '${ds['subject_code']}',
-                                  'program': '${ds['program']}',
-                                  'imgUrl': '${ds['imgUrl']}',
-                                  'semester': '${ds['semester']}',
-                                  'semester_type': '${ds['semester_type']}',
-                                  'subject_id': ds.id.toString(),
-                                  'session_id':'${ds['session_id']}',
-                                }
-                              );
+                              Get.to(() => const AttendanceSheet(), arguments: {
+                                'subject_name': '${ds!['subject_name']}',
+                                'subject_code': '${ds['subject_code']}',
+                                'program': '${ds['program']}',
+                                'imgUrl': '${ds['imgUrl']}',
+                                'semester': '${ds['semester']}',
+                                'semester_type': '${ds['semester_type']}',
+                                'subject_id': ds.id.toString(),
+                                'session_id': '${ds['session_id']}',
+                              });
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -446,8 +439,7 @@ Future changepassword() async {
                                     //     clr: Colors.white,
                                     //     fweight: FontWeight.w400),
                                     customText(
-                                        txt:
-                                            '${ds['program']}',
+                                        txt: '${ds['program']}',
                                         fsize: 18.0,
                                         clr: Colors.white,
                                         fweight: FontWeight.w400),
@@ -458,8 +450,7 @@ Future changepassword() async {
                                     //   fweight: FontWeight.w400,
                                     // ),
                                     customText(
-                                      txt:
-                                          'Semester: ${ds['semester']}',
+                                      txt: 'Semester: ${ds['semester']}',
                                       fsize: 16.0,
                                       clr: Colors.white,
                                       fweight: FontWeight.w400,

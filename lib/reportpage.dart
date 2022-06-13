@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_task/percentage_page.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ class ReportPage extends StatefulWidget {
 class _ReportPageState extends State<ReportPage> {
   DateTime pickedDate = DateTime.now();
   var args = Get.arguments;
+  List studentslist = [];
   List studentdata = [
     {'name': 'Rustum shakeel', 'roll_no': 'BCSF18BM001', 'status': 'A'},
     {'name': 'Aamna Malik', 'roll_no': 'BCSF18BM002', 'status': 'A'},
@@ -59,6 +61,7 @@ class _ReportPageState extends State<ReportPage> {
     // pickedDate =DateTime.now();
     // _pickedDate();
     _scrollController = ScrollController()..addListener(_scrollListener);
+    studentsdata();
   }
 
   @override
@@ -66,6 +69,22 @@ class _ReportPageState extends State<ReportPage> {
     _scrollController?.removeListener(_scrollListener);
     _scrollController?.dispose();
     super.dispose();
+  }
+
+  Future studentsdata() async {
+    await FirebaseFirestore.instance
+        .collection('students')
+        .doc(args['session_id'])
+        .collection('sessionstudents')
+        .orderBy('studentrollno', descending: false)
+        .get()
+        .then((QuerySnapshot students) {
+      for (var student in students.docs) {
+        print(student.data());
+        studentslist.add(student.data());
+      }
+    });
+    setState(() {});
   }
 
   Widget customText(
@@ -129,141 +148,155 @@ class _ReportPageState extends State<ReportPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NestedScrollView(
-        controller: _scrollController,
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              elevation: 0,
-              // backgroundColor: Colors.teal,
-              pinned: true,
-              expandedHeight: MediaQuery.of(context).size.height * 0.2,
-              collapsedHeight: MediaQuery.of(context).size.height * 0.1,
-              centerTitle: false,
-              leading: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                    size: 25.0,
-                  )),
-              title: _isShrink
-                  ? null
-                  : Text(
-                      "Date: ${args['date']}",
-                      // textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
+      body: studentslist.isEmpty
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: Colors.teal,
+              ),
+            )
+          : NestedScrollView(
+              controller: _scrollController,
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  SliverAppBar(
+                    elevation: 0,
+                    // backgroundColor: Colors.teal,
+                    pinned: true,
+                    expandedHeight: MediaQuery.of(context).size.height * 0.2,
+                    collapsedHeight: MediaQuery.of(context).size.height * 0.1,
+                    centerTitle: false,
+                    leading: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: 25.0,
+                        )),
+                    title: _isShrink
+                        ? null
+                        : Text(
+                            "Date: ${args['date']}",
+                            // textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20.0,
+                            ),
+                          ),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                      bottomLeft: _isShrink
+                          ? const Radius.circular(20.0)
+                          : const Radius.circular(0.0),
+                      bottomRight: _isShrink
+                          ? const Radius.circular(20.0)
+                          : const Radius.circular(0.0),
+                      // bottomRight: Radius.circular(40.0)
+                    )),
+                    flexibleSpace: FlexibleSpaceBar(
+                      collapseMode: CollapseMode.parallax,
+                      title: _isShrink
+                          ? SafeArea(
+                              child: RichText(
+                                textAlign: TextAlign.left,
+                                overflow: TextOverflow.visible,
+                                softWrap: true,
+                                text: TextSpan(children: [
+                                  const TextSpan(
+                                    text: "Subject: ",
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.teal,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: "${args['subject_name']} \n",
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      // color: Colors.white,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: "Program: ",
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.teal,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: "${args['program']}",
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      //  color: Colors.white
+                                    ),
+                                  ),
+                                ]),
+                              ),
+                            )
+                          : null,
+                      background: SafeArea(
+                        child: Stack(
+                          children: <Widget>[
+                            Center(
+                              child: RichText(
+                                textAlign: TextAlign.left,
+                                overflow: TextOverflow.visible,
+                                softWrap: true,
+                                text: TextSpan(children: [
+                                  const TextSpan(
+                                    text: "Subject: ",
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.teal,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: "${args['subject_name']} \n",
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      // color: Colors.white,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: "Program: ",
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      color: Colors.teal,
+                                    ),
+                                  ),
+                                  TextSpan(
+                                    text: "${args['program']}",
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      //  color: Colors.white
+                                    ),
+                                  ),
+                                ]),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                bottomLeft: _isShrink
-                    ? const Radius.circular(20.0)
-                    : const Radius.circular(0.0),
-                bottomRight: _isShrink
-                    ? const Radius.circular(20.0)
-                    : const Radius.circular(0.0),
-                // bottomRight: Radius.circular(40.0)
-              )),
-              flexibleSpace: FlexibleSpaceBar(
-                collapseMode: CollapseMode.parallax,
-                title: _isShrink
-                    ? SafeArea(
-                        child: RichText(
-                          textAlign: TextAlign.left,
-                          text: const TextSpan(children: [
-                            TextSpan(
-                              text: "Subject: ",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.teal,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "Cloud Computing \n",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.white,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "Program: ",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.teal,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "BSCS 8th-R",
-                              style: TextStyle(
-                                  fontSize: 18.0, color: Colors.white),
-                            ),
-                          ]),
-                        ),
-                      )
-                    : null,
-                background: SafeArea(
-                  child: Stack(
-                    children: <Widget>[
-                      Center(
-                        child: RichText(
-                          textAlign: TextAlign.left,
-                          text: const TextSpan(children: [
-                            TextSpan(
-                              text: "Subject: ",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.teal,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "Cloud Computing \n",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.white,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "Program:",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.teal,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "BSCS 8th-R\n",
-                              style: TextStyle(
-                                  fontSize: 18.0, color: Colors.white),
-                            ),
-                          ]),
-                        ),
-                      ),
-                    ],
                   ),
-                ),
+                ];
+              },
+              body: CustomScrollView(
+                slivers: [
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return customlisttile(
+                            studentslist[index]['studentname'],
+                            studentslist[index]['studentrollno'],
+                            studentdata[index]['status']);
+                      },
+                      childCount: studentslist.length,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ];
-        },
-        body: CustomScrollView(
-          slivers: [
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  return customlisttile(
-                      studentdata[index]['name'],
-                      studentdata[index]['roll_no'],
-                      studentdata[index]['status']);
-                },
-                childCount: studentdata.length,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }

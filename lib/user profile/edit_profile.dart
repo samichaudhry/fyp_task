@@ -67,9 +67,6 @@ class _edit_profileState extends State<edit_profile> {
     });
   }
 
-
-
-
   Widget customtextformfield(lbltext, _controller, icon, isreadonly,
       {maxlength}) {
     return Padding(
@@ -112,8 +109,7 @@ class _edit_profileState extends State<edit_profile> {
     return Scaffold(
         appBar: AppBar(
           leading: BackButton(onPressed: () {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => const teacherprofile()));
+            Navigator.pop(context);
           }),
           title: Center(
               child: customText(
@@ -139,7 +135,7 @@ class _edit_profileState extends State<edit_profile> {
                         'department': _department.text.trim(),
                         'imgUrl': imagePath.toString(),
                       }, SetOptions(merge: true)).then((value) {
-                    Navigator.pop(context);
+                        Navigator.pop(context);
                         customtoast('Data Submitted');
                         Navigator.pop(context);
                       });
