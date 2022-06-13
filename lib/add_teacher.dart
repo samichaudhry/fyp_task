@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/custom_formfield.dart';
+import 'package:fyp_task/login_page.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:get/get.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -24,7 +25,7 @@ class AddTeacher extends StatefulWidget {
 class _AddTeacherState extends State<AddTeacher> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   var imgPath = '';
-  String? downloadImgUrl;
+  String? downloadImgUrl = '';
   final TextEditingController _name = TextEditingController();
   final TextEditingController _designation = TextEditingController();
   final TextEditingController _department = TextEditingController();
@@ -93,6 +94,7 @@ class _AddTeacherState extends State<AddTeacher> {
   }
 
   Future _addTeacherQuery() async {
+    FirebaseAuth.instance.currentUser?.updatePhotoURL(downloadImgUrl);
     return editProfileArgument[0]["pageTitle"].toString() == "Add Teacher"
         ? teachers.doc(teacherId).set({
             'isTeacher': true,
@@ -134,6 +136,12 @@ class _AddTeacherState extends State<AddTeacher> {
     setState(() {
         isauthenticating = false;
       });
+      editProfileArgument[0]['pageTitle'] == "Edit Teacher's Profile" ?
+      null
+      :
+      Get.to(
+        () => const LoginPage(),
+      );
     }).catchError((error) {
       editProfileArgument[0]['pageTitle'] == "Edit Teacher's Profile"
           ? customtoast("Failed to update Teacher's data: $error")

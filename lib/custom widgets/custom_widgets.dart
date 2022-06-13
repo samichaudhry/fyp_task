@@ -95,6 +95,7 @@ Future filepicker({required filetype, allowedextensions}) async {
 
 void rawsnackbar(txt, {duration = 3}) {
   Get.rawSnackbar(
+    backgroundColor: Colors.teal,
     // message: e.message.toString(),
     messageText: Text(
       txt,
@@ -105,5 +106,41 @@ void rawsnackbar(txt, {duration = 3}) {
       ),
     ),
     duration: Duration(seconds: duration),
+  );
+}
+
+Future<void> customdialogcircularprogressindicator(txt) async {
+  Get.dialog(
+    WillPopScope(
+      onWillPop: () async => false,
+      child: AlertDialog(
+        // title: _title,
+        title: Row(
+          // mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const Center(
+              child: CircularProgressIndicator(
+                color: Colors.teal,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: Text(
+                  txt,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18.0,
+                    // color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+    barrierDismissible: false,
   );
 }

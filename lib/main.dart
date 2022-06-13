@@ -21,7 +21,12 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Attendance Sheet',
-      theme: ThemeData.dark(),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.teal,
+        primaryColor: Colors.teal,
+      ),
+      themeMode: ThemeMode.dark,
       home: const SplashScreen(),
     );
   }

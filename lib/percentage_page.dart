@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'custom widgets/custom_widgets.dart';
 
@@ -10,6 +11,7 @@ class subject_percentage extends StatefulWidget {
 }
 
 class _subject_percentageState extends State<subject_percentage> {
+  var args = Get.arguments;
   List studentsubject = [
     {'title': 'Cloud computing', 'cvalue': 0.70, 'cpercentage': '70.6'},
     {'title': 'Professional practice', 'cvalue': 0.32, 'cpercentage': '32.4'},
