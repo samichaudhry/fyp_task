@@ -21,6 +21,7 @@ class _teacherprofileState extends State<teacherprofile> {
   var teacherdata;
   var currentuserid;
   bool isworking = false;
+  bool isloading = true;
   var useremail;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
@@ -44,7 +45,9 @@ class _teacherprofileState extends State<teacherprofile> {
         .then((DocumentSnapshot teacher) {
       teacherdata = teacher.data();
     });
-    setState(() {});
+    setState(() {
+      isloading = false;
+    });
     print(teacherdata);
   }
 
@@ -194,7 +197,13 @@ class _teacherprofileState extends State<teacherprofile> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: ListView(
+      body: 
+      isloading ?
+      const Center(
+        child: CircularProgressIndicator(color: Colors.teal,),
+      )
+      :
+      ListView(
         children: [
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.07,

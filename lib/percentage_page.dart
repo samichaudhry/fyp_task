@@ -99,7 +99,7 @@ class _subject_percentageState extends State<subject_percentage> {
                   textAlign: TextAlign.left,
                   text: TextSpan(children: [
                     const TextSpan(
-                      text: "Student Name: ",
+                      text: "Name: ",
                       style: TextStyle(
                         fontSize: 17.0,
                         color: Colors.teal,

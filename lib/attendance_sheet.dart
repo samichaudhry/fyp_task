@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp_task/custom%20widgets/custom_toast.dart';
 import 'package:fyp_task/reportpage.dart';
 import 'package:fyp_task/utils.dart';
 import 'package:get/get.dart';
@@ -36,15 +37,69 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
         .orderBy('studentrollno', descending: false)
         .get()
         .then((QuerySnapshot students) {
-      totalStudents = students.docs.length;
-      selectedStatus = List.generate(
-          totalStudents, (index) => 1); // uncomment this for total students
+      totalStudents = students.docs.length; // uncomment this for total students
       for (var student in students.docs) {
         print(student.data());
-        studentslist.add(student.data());
+        studentslist.add(
+          {
+            'status' : 1,
+            'data' : student.data(),
+            'id' : student.id.toString(),
+          }
+          );
       }
     });
     setState(() {});
+  }
+
+Future saveattendance() async {
+  customdialogcircularprogressindicator('Saving... ');
+    final DateTime now = DateTime.now();
+    final DateFormat formatter = DateFormat('dd-MMM-yyyy');
+    final String formatted = formatter.format(now);
+    print(formatted); // something like 2013-04-20
+    List studentsattendance = [];
+  for(var studentdata in studentslist){
+    studentsattendance.add({
+      'name' : studentdata['data']['studentname'],
+      'rollno' : studentdata['data']['studentrollno'],
+      'status' : studentdata['status'] == 1 ? 'P' : 'A',
+      'studentid' : studentdata['id'],
+    });
+    }
+     await FirebaseFirestore.instance
+        .collection('attendance')
+        .doc(args['session_id'])
+        .collection('subjects')
+        .doc(args['subject_id'])
+        .collection('attendancedata')
+        .where('attendancedate', isEqualTo: formatted)
+        .get()
+        .then((QuerySnapshot record)async {
+          if(record.docs.isEmpty){
+             await FirebaseFirestore.instance
+        .collection('attendance')
+        .doc(args['session_id'])
+        .collection('subjects')
+        .doc(args['subject_id'])
+        .collection('attendancedata')
+        .doc()
+        .set({
+          'attendancerecord' : studentsattendance,
+      'sessionid': '${args['session_id']}',
+      'attendancedate': formatted,
+    }, SetOptions(merge: true)).then((value){
+      Navigator.pop(context);
+      rawsnackbar('Attendance Submitted successfully');
+    });
+          }
+          else
+          {
+            Navigator.pop(context);
+            rawsnackbar('Attendance already submitted');
+          }
+        });
+   
   }
 
   _pickedDate() async {
@@ -208,9 +263,9 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                     delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     return ListTile(
-                        title: Text("${studentslist[index]['studentname']}"),
+                        title: Text("${studentslist[index]['data']['studentname']}"),
                         subtitle:
-                            Text("${studentslist[index]['studentrollno']}"),
+                            Text("${studentslist[index]['data']['studentrollno']}"),
                         trailing: SizedBox(
                           width: 150,
                           child: Row(
@@ -221,10 +276,13 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                                     contentPadding: const EdgeInsets.all(0),
                                     title: const Text("P"),
                                     value: 1,
-                                    groupValue: selectedStatus?[index],
-                                    onChanged: (int? val) {
+                                    groupValue: studentslist[index]['status'],
+                                    onChanged: ( val) {
                                       setState(() {
-                                        selectedStatus?[index] = val!;
+                                        studentslist[index]['status'] = val;
+                                        print(val);
+                                        print(studentslist[index]['status']);
+                                        print(studentslist[index]['data']['studentname']);
                                       });
                                     }),
                               ),
@@ -237,10 +295,13 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                                     contentPadding: const EdgeInsets.all(0),
                                     title: const Text("A"),
                                     value: 2,
-                                    groupValue: selectedStatus?[index],
-                                    onChanged: (int? val) {
+                                    groupValue: studentslist[index]['status'],
+                                    onChanged: ( val) {
                                       setState(() {
-                                        selectedStatus?[index] = val!;
+                                        studentslist[index]['status'] = val;
+                                        print(val);
+                                        print(studentslist[index]['status']);
+                                        print(studentslist[index]['data']['studentname']);
                                       });
                                     }),
                               ),
@@ -257,7 +318,7 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                         bottom: 15, right: 15, left: 15, top: 10),
                     child: Align(
                       alignment: Alignment.center,
-                      child: customButton("Submit", () {}, context, 120),
+                      child: customButton("Submit", saveattendance, context, 120),
                     ),
                   ),
                 )

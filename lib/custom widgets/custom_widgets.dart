@@ -95,14 +95,14 @@ Future filepicker({required filetype, allowedextensions}) async {
 
 void rawsnackbar(txt, {duration = 3}) {
   Get.rawSnackbar(
-    backgroundColor: Colors.teal,
+    // backgroundColor: Colors.teal,
     // message: e.message.toString(),
     messageText: Text(
       txt,
       style: const TextStyle(
         fontSize: 17.0,
         fontWeight: FontWeight.w400,
-        color: Colors.white,
+        // color: Colors.white,
       ),
     ),
     duration: Duration(seconds: duration),
