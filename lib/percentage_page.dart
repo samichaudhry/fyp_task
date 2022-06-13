@@ -96,7 +96,7 @@ class _subject_percentageState extends State<subject_percentage> {
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Center(
                 child: RichText(
-                  textAlign: TextAlign.center,
+                  textAlign: TextAlign.left,
                   text: TextSpan(children: [
                     const TextSpan(
                       text: "Student Name: ",
@@ -109,7 +109,7 @@ class _subject_percentageState extends State<subject_percentage> {
                       text: "${args['studentname']} \n",
                       style: const TextStyle(
                         fontSize: 17.0,
-                        color: Colors.white,
+                        // color: Colors.white,
                       ),
                     ),
                     const TextSpan(
@@ -121,8 +121,9 @@ class _subject_percentageState extends State<subject_percentage> {
                     ),
                     TextSpan(
                       text: "${args['studentrollno']}\n",
-                      style:
-                          const TextStyle(fontSize: 17.0, color: Colors.white),
+                      style: const TextStyle(
+                        fontSize: 17.0,
+                      ),
                     ),
                   ]),
                 ),
