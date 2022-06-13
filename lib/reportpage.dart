@@ -81,7 +81,10 @@ class _ReportPageState extends State<ReportPage> {
         .then((QuerySnapshot students) {
       for (var student in students.docs) {
         print(student.data());
-        studentslist.add(student.data());
+        studentslist.add({
+          'data': student.data(),
+          'id': student.id.toString(),
+        });
       }
     });
     setState(() {});
@@ -122,12 +125,14 @@ class _ReportPageState extends State<ReportPage> {
         ));
   }
 
-  Widget customlisttile(stdname, stdrollno, status) {
+  Widget customlisttile(stdname, stdrollno, status, studentid) {
     return ListTile(
       onTap: () {
-        Get.to(
-          () => const subject_percentage(),
-        );
+        Get.to(() => const subject_percentage(), arguments: {
+          'studentname': stdname,
+          'studentrollno': stdrollno,
+          'studentid': studentid,
+        });
       },
       dense: true,
       // tileColor: Colors.white70,
@@ -287,9 +292,11 @@ class _ReportPageState extends State<ReportPage> {
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         return customlisttile(
-                            studentslist[index]['studentname'],
-                            studentslist[index]['studentrollno'],
-                            studentdata[index]['status']);
+                          studentslist[index]['data']['studentname'],
+                          studentslist[index]['data']['studentrollno'],
+                          studentdata[index]['status'],
+                          studentslist[index]['id'],
+                        );
                       },
                       childCount: studentslist.length,
                     ),
