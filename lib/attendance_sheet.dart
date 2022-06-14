@@ -50,14 +50,31 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
     setState(() {});
   }
 
+  double percentagefinder({totaclasses = 0, attendedclasses = 0}) {
+    if(totaclasses == 0){
+      return 0.0;
+    }else{
+    return (attendedclasses / totaclasses * 100);
+    }
+  }
+
   Future saveattendance() async {
+// print(percentagefinder(totaclasses: 5, attendedclasses: 3).toPrecision(1));
     customdialogcircularprogressindicator('Saving... ');
     final DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('dd-MMM-yyyy');
     final String formatted = formatter.format(now);
-    print(formatted); // something like 2013-04-20
+    print(formatted); // 2013-04-20
     List studentsattendance = [];
+    var studentsstatsdata = {};
     for (var studentdata in studentslist) {
+      studentsstatsdata[studentdata['data']['studentrollno']] = {
+        'attendedclasses': 0,
+        'percentage': 0.0,
+        'name': studentdata['data']['studentname'],
+        'rollno': studentdata['data']['studentrollno'],
+        'studentid': studentdata['id'],
+      };
       studentsattendance.add({
         'name': studentdata['data']['studentname'],
         'rollno': studentdata['data']['studentrollno'],
@@ -67,8 +84,6 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
     }
     await FirebaseFirestore.instance
         .collection('attendance')
-        // .doc(args['session_id'])
-        // .collection('subjects')
         .doc(args['subject_id'])
         .collection('attendancedata')
         .where('attendancedate', isEqualTo: formatted)
@@ -77,8 +92,6 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
       if (record.docs.isEmpty) {
         await FirebaseFirestore.instance
             .collection('attendance')
-            // .doc(args['session_id'])
-            // .collection('subjects')
             .doc(args['subject_id'])
             .collection('attendancedata')
             .doc()
@@ -87,18 +100,84 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
           'session_id': '${args['session_id']}',
           'semester_type': '${args["semester_type"]}',
           'attendancedate': formatted,
-          'subject_name' : '${args['subject_name']}',
-          'subject_code' : '${args['subject_code']}',
-        }, SetOptions(merge: true)).then((value) {
-          Navigator.pop(context);
-          rawsnackbar('Attendance Submitted successfully', icon: const Icon(Icons.check_box, color: Colors.green, size: 25.0,));
+          'subject_name': '${args['subject_name']}',
+          'subject_code': '${args['subject_code']}',
+        }, SetOptions(merge: true)).then((value) async {
+          var totalclasses = 1;
+          await FirebaseFirestore.instance
+              .collection('attendancestats')
+              .doc(args['subject_id'])
+              .collection('subjectstats')
+              .doc(args['subject_name'])
+              .get()
+              .then((ds) {
+            if (ds.exists) {
+              if (ds['statsdata'] != null) {
+                studentsstatsdata = ds['statsdata'];
+              }
+              if(ds['total_classes'] != null){
+                totalclasses = ds['total_classes']+1;
+              }
+            }
+          });
+          for (var studentdata in studentslist) {
+            var attcls = studentsstatsdata[studentdata['data']['studentrollno']]
+                ['attendedclasses'];
+            studentsstatsdata[studentdata['data']['studentrollno']]
+                    ['attendedclasses'] =
+                studentdata['status'] == 1 ? attcls + 1 : attcls;
+            attcls = studentsstatsdata[studentdata['data']['studentrollno']]
+                ['attendedclasses'];
+            studentsstatsdata[studentdata['data']['studentrollno']]
+                ['percentage'] = percentagefinder(
+                    totaclasses: totalclasses, attendedclasses: attcls)
+                .toPrecision(1);
+            //  {
+            //   'attendedclasses': 0,
+            //   'percentage': 0.0,
+            //   'name': studentdata['data']['studentname'],
+            //   'rollno': studentdata['data']['studentrollno'],
+            //   'status': studentdata['status'] == 1 ? 'P' : 'A',
+            //   'studentid': studentdata['id'],
+            // };
+          }
+          await FirebaseFirestore.instance
+              .collection('attendancestats')
+              .doc(args['subject_id'])
+              .collection('subjectstats')
+              .doc(args['subject_name'])
+              .set({
+            'session_id': '${args['session_id']}',
+            'semester_type': '${args["semester_type"]}',
+            'subject_name': '${args['subject_name']}',
+            'subject_code': '${args['subject_code']}',
+            'total_classes': FieldValue.increment(1),
+            'statsdata': studentsstatsdata,
+          }, SetOptions(merge: true)).then((value) {
+            Navigator.pop(context);
+            rawsnackbar('Attendance Submitted successfully',
+                icon: const Icon(
+                  Icons.check_box,
+                  color: Colors.green,
+                  size: 25.0,
+                ));
+          });
         });
       } else {
         Navigator.pop(context);
-        rawsnackbar('Attendance already found..!!!', icon: const Icon(Icons.warning, color: Colors.red, size: 25.0,));
+        rawsnackbar('Attendance already found..!!!',
+            icon: const Icon(
+              Icons.warning,
+              color: Colors.red,
+              size: 25.0,
+            ));
       }
     });
   }
+
+  // Future attendancestats() async {
+
+  // }
 
   _pickedDate() async {
     DateTime? date = await showDatePicker(
