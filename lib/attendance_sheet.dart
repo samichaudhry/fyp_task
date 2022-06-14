@@ -85,7 +85,7 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
             .set({
           'attendancerecord': studentsattendance,
           'session_id': '${args['session_id']}',
-          'subject_id': '${args["semester_type"]}',
+          'semester_type': '${args["semester_type"]}',
           'attendancedate': formatted,
         }, SetOptions(merge: true)).then((value) {
           Navigator.pop(context);
