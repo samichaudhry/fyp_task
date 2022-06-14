@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-Widget customTextField(hintTitle, pIcon, isPassword, sIcon, controllerName,
-    validationFunc, onSavedFunc, wSize, hSize) {
+Widget customTextField(hintTitle, isPassword, sIcon, controllerName,
+    validationFunc, onSavedFunc, wSize, hSize,border ,{ pIcon,filled ,fillColor,labeltext}) {
   return Padding(
     padding: EdgeInsets.symmetric(horizontal: wSize * 6 / 100),
     child: Stack(children: [
@@ -27,12 +27,15 @@ Widget customTextField(hintTitle, pIcon, isPassword, sIcon, controllerName,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         obscureText: isPassword,
         decoration: InputDecoration(
+           filled: filled,
+           fillColor:fillColor,
+           labelText: labeltext,
             hintText: hintTitle,
             suffixIcon: sIcon,
             prefixIcon: Icon(
               pIcon,
             ),
-            border: InputBorder.none,
+            border: border,
             contentPadding: EdgeInsets.symmetric(
                 horizontal: wSize * 2.5 / 100, vertical: hSize * 2 / 100)),
         controller: controllerName,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'custom widgets/custom_widgets.dart';
 
@@ -10,6 +11,7 @@ class subject_percentage extends StatefulWidget {
 }
 
 class _subject_percentageState extends State<subject_percentage> {
+  var args = Get.arguments;
   List studentsubject = [
     {'title': 'Cloud computing', 'cvalue': 0.70, 'cpercentage': '70.6'},
     {'title': 'Professional practice', 'cvalue': 0.32, 'cpercentage': '32.4'},
@@ -72,7 +74,7 @@ class _subject_percentageState extends State<subject_percentage> {
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.white,
           ),
@@ -94,32 +96,34 @@ class _subject_percentageState extends State<subject_percentage> {
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Center(
                 child: RichText(
-                  textAlign: TextAlign.center,
-                  text: const TextSpan(children: [
-                    TextSpan(
-                      text: "Student Name: ",
+                  textAlign: TextAlign.left,
+                  text: TextSpan(children: [
+                    const TextSpan(
+                      text: "Name: ",
                       style: TextStyle(
                         fontSize: 17.0,
                         color: Colors.teal,
                       ),
                     ),
                     TextSpan(
-                      text: "Fizza Chauhdary \n",
-                      style: TextStyle(
+                      text: "${args['studentname']} \n",
+                      style: const TextStyle(
                         fontSize: 17.0,
-                        color: Colors.white,
+                        // color: Colors.white,
                       ),
                     ),
-                    TextSpan(
-                      text: "Department:",
+                    const TextSpan(
+                      text: "RollNo: ",
                       style: TextStyle(
                         fontSize: 17.0,
                         color: Colors.teal,
                       ),
                     ),
                     TextSpan(
-                      text: "  Computer science\n",
-                      style: TextStyle(fontSize: 17.0, color: Colors.white),
+                      text: "${args['studentrollno']}\n",
+                      style: const TextStyle(
+                        fontSize: 17.0,
+                      ),
                     ),
                   ]),
                 ),

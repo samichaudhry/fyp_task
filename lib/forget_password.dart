@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fyp_task/custom%20widgets/custom_toast.dart';
 import 'package:fyp_task/custom_formfield.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/utils.dart';
@@ -75,7 +77,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 padding: EdgeInsets.symmetric(
                   horizontal: responsiveHW(context, wd: 6)!.toDouble(),
                 ),
-                child: customButton("Verify Email", () {}, context, 200),
+                child: customButton("Verify Email", () {
+                  FirebaseAuth.instance
+                      .sendPasswordResetEmail(email: _email.text.trim());
+                  customtoast('Reset Link Sent.');
+                  Navigator.pop(context);
+                }, context, 200),
               ),
               SizedBox(
                 height: responsiveHW(context, ht: 3),

@@ -33,7 +33,7 @@ class _subject_percentageState extends State<subject_percentage> {
     return LinearProgressIndicator(
       value: bvalue,
       color: barcolor,
-      backgroundColor: Color.fromARGB(255, 20, 69, 106),
+      backgroundColor: const Color.fromARGB(255, 20, 69, 106),
     );
   }
 
@@ -58,7 +58,7 @@ class _subject_percentageState extends State<subject_percentage> {
     return Padding(
         padding: const EdgeInsets.only(left: 15, right: 15, top: 7, bottom: 5),
         child: Card(
-            color: Color.fromARGB(255, 50, 54, 79),
+            color: const Color.fromARGB(255, 50, 54, 79),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0)),
             elevation: 3.0,
@@ -81,13 +81,13 @@ class _subject_percentageState extends State<subject_percentage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 20, 69, 106),
+        backgroundColor: const Color.fromARGB(255, 20, 69, 106),
         elevation: 0.0,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back,
             color: Colors.white,
           ),
@@ -100,7 +100,7 @@ class _subject_percentageState extends State<subject_percentage> {
         mainAxisSize: MainAxisSize.max,
         children: [
           Container(
-            color: Color.fromARGB(255, 20, 69, 106),
+            color: const Color.fromARGB(255, 20, 69, 106),
             alignment: Alignment.topCenter,
             // height: MediaQuery.of(context).size.height,
             height: MediaQuery.of(context).size.width / 5,
@@ -143,7 +143,7 @@ class _subject_percentageState extends State<subject_percentage> {
           ),
           Expanded(
             child: Container(
-              color: Color.fromARGB(255, 20, 69, 106),
+              color: const Color.fromARGB(255, 20, 69, 106),
               child: CustomScrollView(
                 slivers: [
                   SliverList(
