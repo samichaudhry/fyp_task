@@ -1,5 +1,4 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:fyp_task/login_page.dart';
 import 'package:fyp_task/splash_screen.dart';
 import 'package:get/get.dart';
 import 'firebase_options.dart';
@@ -22,7 +21,12 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Attendance Sheet',
-      theme: ThemeData.dark(),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primarySwatch: Colors.teal,
+        primaryColor: Colors.teal,
+      ),
+      themeMode: ThemeMode.dark,
       home: const SplashScreen(),
     );
   }

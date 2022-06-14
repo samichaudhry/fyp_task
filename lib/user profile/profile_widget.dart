@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-import '../custom widgets/custom_widgets.dart';
 
 class ProfileWidget extends StatelessWidget {
   final String imagePath;
@@ -29,14 +29,19 @@ class ProfileWidget extends StatelessWidget {
   }
 
   Widget buildImage() {
-    final image = NetworkImage(imagePath);
+    var image;
+    if(imagePath.contains('https')){
+    image = CachedNetworkImageProvider(imagePath);
+    }else{
+      image = FileImage(File(imagePath));
+    }
 
     return ClipOval(
       child: Material(
         color: Colors.transparent,
         child:  CircleAvatar(
                           radius: 50.0,
-                          foregroundImage: FileImage(File(imagePath)),
+                          foregroundImage: image,
                           child: const Icon(
                             Icons.person,
                             size: 80.0,

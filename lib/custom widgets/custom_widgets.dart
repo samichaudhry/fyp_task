@@ -50,18 +50,18 @@ Widget customTile({ontap, leading, title, subtitle, trailing, tilecolor}) {
   );
 }
 
-Future<void> dialog_func(_title, _content, no_ontap, yes_ontap) async {
+Future<void> dialog_func(_title, _content, noOntap, yesOntap) async {
   return Get.dialog(
     AlertDialog(
       title: _title,
       content: _content,
       actions: <Widget>[
         MaterialButton(
-          onPressed: no_ontap,
+          onPressed: noOntap,
           child: const Text('No'),
         ),
         MaterialButton(
-          onPressed: yes_ontap,
+          onPressed: yesOntap,
           child: const Text('Yes'),
         ),
       ],
@@ -90,4 +90,58 @@ Future filepicker({required filetype, allowedextensions}) async {
   } else {
     return '';
   }
+}
+
+
+void rawsnackbar(txt, {duration = 3, icon}) {
+  Get.rawSnackbar(
+    // backgroundColor: Colors.teal,
+    // message: e.message.toString(),
+    icon: icon,
+    messageText: Text(
+      txt,
+      style: const TextStyle(
+        fontSize: 17.0,
+        fontWeight: FontWeight.w400,
+        // color: Colors.white,
+      ),
+    ),
+    duration: Duration(seconds: duration),
+  );
+}
+
+Future<void> customdialogcircularprogressindicator(txt) async {
+  Get.dialog(
+    WillPopScope(
+      onWillPop: () async => false,
+      child: AlertDialog(
+        // title: _title,
+        title: Row(
+          // mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const Center(
+              child: CircularProgressIndicator(
+                color: Colors.teal,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: Text(
+                  txt,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 18.0,
+                    // color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    ),
+    barrierDismissible: false,
+  );
 }
