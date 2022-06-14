@@ -40,66 +40,62 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
       totalStudents = students.docs.length; // uncomment this for total students
       for (var student in students.docs) {
         print(student.data());
-        studentslist.add(
-          {
-            'status' : 1,
-            'data' : student.data(),
-            'id' : student.id.toString(),
-          }
-          );
+        studentslist.add({
+          'status': 1,
+          'data': student.data(),
+          'id': student.id.toString(),
+        });
       }
     });
     setState(() {});
   }
 
-Future saveattendance() async {
-  customdialogcircularprogressindicator('Saving... ');
+  Future saveattendance() async {
+    customdialogcircularprogressindicator('Saving... ');
     final DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('dd-MMM-yyyy');
     final String formatted = formatter.format(now);
     print(formatted); // something like 2013-04-20
     List studentsattendance = [];
-  for(var studentdata in studentslist){
-    studentsattendance.add({
-      'name' : studentdata['data']['studentname'],
-      'rollno' : studentdata['data']['studentrollno'],
-      'status' : studentdata['status'] == 1 ? 'P' : 'A',
-      'studentid' : studentdata['id'],
-    });
+    for (var studentdata in studentslist) {
+      studentsattendance.add({
+        'name': studentdata['data']['studentname'],
+        'rollno': studentdata['data']['studentrollno'],
+        'status': studentdata['status'] == 1 ? 'P' : 'A',
+        'studentid': studentdata['id'],
+      });
     }
-     await FirebaseFirestore.instance
+    await FirebaseFirestore.instance
         .collection('attendance')
-        .doc(args['session_id'])
-        .collection('subjects')
+        // .doc(args['session_id'])
+        // .collection('subjects')
         .doc(args['subject_id'])
         .collection('attendancedata')
         .where('attendancedate', isEqualTo: formatted)
         .get()
-        .then((QuerySnapshot record)async {
-          if(record.docs.isEmpty){
-             await FirebaseFirestore.instance
-        .collection('attendance')
-        .doc(args['session_id'])
-        .collection('subjects')
-        .doc(args['subject_id'])
-        .collection('attendancedata')
-        .doc()
-        .set({
-          'attendancerecord' : studentsattendance,
-      'sessionid': '${args['session_id']}',
-      'attendancedate': formatted,
-    }, SetOptions(merge: true)).then((value){
-      Navigator.pop(context);
-      rawsnackbar('Attendance Submitted successfully');
-    });
-          }
-          else
-          {
-            Navigator.pop(context);
-            rawsnackbar('Attendance already submitted');
-          }
+        .then((QuerySnapshot record) async {
+      if (record.docs.isEmpty) {
+        await FirebaseFirestore.instance
+            .collection('attendance')
+            // .doc(args['session_id'])
+            // .collection('subjects')
+            .doc(args['subject_id'])
+            .collection('attendancedata')
+            .doc()
+            .set({
+          'attendancerecord': studentsattendance,
+          'session_id': '${args['session_id']}',
+          'subject_id': '${args["semester_type"]}',
+          'attendancedate': formatted,
+        }, SetOptions(merge: true)).then((value) {
+          Navigator.pop(context);
+          rawsnackbar('Attendance Submitted successfully');
         });
-   
+      } else {
+        Navigator.pop(context);
+        rawsnackbar('Attendance already found..!!!');
+      }
+    });
   }
 
   _pickedDate() async {
@@ -263,9 +259,10 @@ Future saveattendance() async {
                     delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     return ListTile(
-                        title: Text("${studentslist[index]['data']['studentname']}"),
-                        subtitle:
-                            Text("${studentslist[index]['data']['studentrollno']}"),
+                        title: Text(
+                            "${studentslist[index]['data']['studentname']}"),
+                        subtitle: Text(
+                            "${studentslist[index]['data']['studentrollno']}"),
                         trailing: SizedBox(
                           width: 150,
                           child: Row(
@@ -277,12 +274,13 @@ Future saveattendance() async {
                                     title: const Text("P"),
                                     value: 1,
                                     groupValue: studentslist[index]['status'],
-                                    onChanged: ( val) {
+                                    onChanged: (val) {
                                       setState(() {
                                         studentslist[index]['status'] = val;
                                         print(val);
                                         print(studentslist[index]['status']);
-                                        print(studentslist[index]['data']['studentname']);
+                                        print(studentslist[index]['data']
+                                            ['studentname']);
                                       });
                                     }),
                               ),
@@ -296,12 +294,13 @@ Future saveattendance() async {
                                     title: const Text("A"),
                                     value: 2,
                                     groupValue: studentslist[index]['status'],
-                                    onChanged: ( val) {
+                                    onChanged: (val) {
                                       setState(() {
                                         studentslist[index]['status'] = val;
                                         print(val);
                                         print(studentslist[index]['status']);
-                                        print(studentslist[index]['data']['studentname']);
+                                        print(studentslist[index]['data']
+                                            ['studentname']);
                                       });
                                     }),
                               ),
@@ -318,7 +317,8 @@ Future saveattendance() async {
                         bottom: 15, right: 15, left: 15, top: 10),
                     child: Align(
                       alignment: Alignment.center,
-                      child: customButton("Submit", saveattendance, context, 120),
+                      child:
+                          customButton("Submit", saveattendance, context, 120),
                     ),
                   ),
                 )
