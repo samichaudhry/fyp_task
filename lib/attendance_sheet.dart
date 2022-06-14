@@ -87,13 +87,15 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
           'session_id': '${args['session_id']}',
           'semester_type': '${args["semester_type"]}',
           'attendancedate': formatted,
+          'subject_name' : '${args['subject_name']}',
+          'subject_code' : '${args['subject_code']}',
         }, SetOptions(merge: true)).then((value) {
           Navigator.pop(context);
-          rawsnackbar('Attendance Submitted successfully');
+          rawsnackbar('Attendance Submitted successfully', icon: const Icon(Icons.check_box, color: Colors.green, size: 25.0,));
         });
       } else {
         Navigator.pop(context);
-        rawsnackbar('Attendance already found..!!!');
+        rawsnackbar('Attendance already found..!!!', icon: const Icon(Icons.warning, color: Colors.red, size: 25.0,));
       }
     });
   }
