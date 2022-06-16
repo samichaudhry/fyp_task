@@ -16,31 +16,31 @@ class _ReportPageState extends State<ReportPage> {
   DateTime pickedDate = DateTime.now();
   var args = Get.arguments;
   List studentslist = [];
-  List studentdata = [
-    {'name': 'Rustum shakeel', 'roll_no': 'BCSF18BM001', 'status': 'A'},
-    {'name': 'Aamna Malik', 'roll_no': 'BCSF18BM002', 'status': 'A'},
-    {'name': 'Sami Ullah', 'roll_no': 'BCSF18BM003', 'status': 'P'},
-    {'name': 'Usman feyaz', 'roll_no': 'BCSF18BM004', 'status': 'A'},
-    {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'P'},
-    {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
-    {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
-    {'name': 'Babar Alii', 'roll_no': 'BCSF18BM006', 'status': 'P'},
-    {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
-    {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'P'},
-    {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
-    {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'P'},
-    {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'P'},
-    {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
-    {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
-    {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
-    {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'P'},
-    {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
-    {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
-  ];
+  // List studentdata = [
+  //   {'name': 'Rustum shakeel', 'roll_no': 'BCSF18BM001', 'status': 'A'},
+  //   {'name': 'Aamna Malik', 'roll_no': 'BCSF18BM002', 'status': 'A'},
+  //   {'name': 'Sami Ullah', 'roll_no': 'BCSF18BM003', 'status': 'P'},
+  //   {'name': 'Usman feyaz', 'roll_no': 'BCSF18BM004', 'status': 'A'},
+  //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'P'},
+  //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
+  //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
+  //   {'name': 'Babar Alii', 'roll_no': 'BCSF18BM006', 'status': 'P'},
+  //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
+  //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'P'},
+  //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
+  //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'P'},
+  //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'P'},
+  //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
+  //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
+  //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
+  //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'P'},
+  //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
+  //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
+  // ];
   ScrollController? _scrollController;
   bool lastStatus = true;
   double height = 200;
-
+  bool isloading = true;
   void _scrollListener() {
     if (_isShrink != lastStatus) {
       setState(() {
@@ -72,22 +72,37 @@ class _ReportPageState extends State<ReportPage> {
   }
 
   Future studentsdata() async {
+    print(args['date']);
+    print(args['session_id']);
+    print(args['subject_id']);
     await FirebaseFirestore.instance
-        .collection('students')
-        .doc(args['session_id'])
-        .collection('sessionstudents')
-        .orderBy('studentrollno', descending: false)
+        .collection('attendance')
+        .doc(args['subject_id'])
+        .collection('attendancedata')
+        .where('attendancedate', isEqualTo: args['date'].toString())
+        .where('session_id', isEqualTo: args['session_id'])
+        // .orderBy('rollno', descending: false)
         .get()
         .then((QuerySnapshot students) {
+          print('yeyjsb');
+        print(students.docs.length);
       for (var student in students.docs) {
         print(student.data());
-        studentslist.add({
-          'data': student.data(),
-          'id': student.id.toString(),
+        List data = student['attendancerecord'];
+        for(var std in data){
+          studentslist.add({
+          'name': std['name'],
+          'rollno': std['rollno'],
+          'status': std['status'],
+          'studentid': std['studentid'],
         });
+        }
+        
       }
     });
-    setState(() {});
+    setState(() {
+      isloading = false;
+    });
   }
 
   Widget customText(
@@ -153,13 +168,24 @@ class _ReportPageState extends State<ReportPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: studentslist.isEmpty
+      body: isloading
           ? const Center(
               child: CircularProgressIndicator(
                 color: Colors.teal,
               ),
             )
-          : NestedScrollView(
+          : 
+          studentslist.isEmpty
+          ?
+          Center(
+            child: customText(
+              txt: 'No data available',
+              fsize: 22.0,
+              clr: Colors.white
+            ),
+          )
+          :
+          NestedScrollView(
               controller: _scrollController,
               headerSliverBuilder: (context, innerBoxIsScrolled) {
                 return [
@@ -292,10 +318,10 @@ class _ReportPageState extends State<ReportPage> {
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
                         return customlisttile(
-                          studentslist[index]['data']['studentname'],
-                          studentslist[index]['data']['studentrollno'],
-                          studentdata[index]['status'],
-                          studentslist[index]['id'],
+                          studentslist[index]['name'],
+                          studentslist[index]['rollno'],
+                          studentslist[index]['status'],
+                          studentslist[index]['studentid'],
                         );
                       },
                       childCount: studentslist.length,

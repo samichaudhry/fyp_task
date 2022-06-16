@@ -40,38 +40,6 @@ class _subject_percentageState extends State<subject_percentage> {
       // backgroundColor: Color.fromARGB(255, 20, 69, 106),
     );
   }
-   ScrollController? _scrollController;
-  bool lastStatus = true;
-  double height = 200;
-
-  void _scrollListener() {
-    if (_isShrink != lastStatus) {
-      setState(() {
-        lastStatus = _isShrink;
-      });
-    }
-  }
-
-  bool get _isShrink {
-    return _scrollController != null &&
-        _scrollController!.hasClients &&
-        _scrollController!.offset > (height - kToolbarHeight);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // pickedDate =DateTime.now();
-    // _pickedDate();
-    _scrollController = ScrollController()..addListener(_scrollListener);
-  }
-
-  @override
-  void dispose() {
-    _scrollController?.removeListener(_scrollListener);
-    _scrollController?.dispose();
-    super.dispose();
-  }
 
   Widget customcard(title, cvalue, cpercentage) {
     return Padding(
@@ -99,200 +67,69 @@ class _subject_percentageState extends State<subject_percentage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0.0,
-      //   leading: IconButton(
-      //     onPressed: () {
-      //       Navigator.pop(context);
-      //     },
-      //     icon: const Icon(
-      //       Icons.arrow_back,
-      //       color: Colors.white,
-      //     ),
-      //   ),
-      //   title: customText(
-      //       txt: "Attandence", fsize: 24.0, fweight: FontWeight.w500),
-      // ),
-      // body: Column(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   mainAxisSize: MainAxisSize.max,
-      //   children: [
-      //     Container(
-      //       color: Colors.transparent,
-      //       alignment: Alignment.topCenter,
-      //       // height: MediaQuery.of(context).size.height,
-      //       height: MediaQuery.of(context).size.width / 5,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
+        ),
+        title: customText(
+            txt: "Attandence", fsize: 24.0, fweight: FontWeight.w500),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Container(
+            color: Colors.transparent,
+            alignment: Alignment.topCenter,
+            // height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.width / 5,
 
-      //       child: Padding(
-      //         padding: const EdgeInsets.only(bottom: 10.0),
-      //         child: Center(
-      //           child: RichText(
-      //             textAlign: TextAlign.center,
-      //             text: const TextSpan(children: [
-      //               TextSpan(
-      //                 text: "Student Name: ",
-      //                 style: TextStyle(
-      //                   fontSize: 17.0,
-      //                   color: Colors.teal,
-      //                 ),
-      //               ),
-      //               TextSpan(
-      //                 text: "Fizza Chauhdary \n",
-      //                 style: TextStyle(
-      //                   fontSize: 17.0,
-      //                   color: Colors.white,
-      //                 ),
-      //               ),
-      //               TextSpan(
-      //                 text: "Department:",
-      //                 style: TextStyle(
-      //                   fontSize: 17.0,
-      //                   color: Colors.teal,
-      //                 ),
-      //               ),
-      //               TextSpan(
-      //                 text: "  Computer science\n",
-      //                 style: TextStyle(fontSize: 17.0, color: Colors.white),
-      //               ),
-      //             ]),
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //     Expanded(
-      //       child: CustomScrollView(
-      //         slivers: [
-      //           SliverList(
-      //               delegate: SliverChildBuilderDelegate((context, index) {
-      //             return customcard(
-      //                 studentsubject[index]['title'],
-      //                 studentsubject[index]['cvalue'],
-      //                 studentsubject[index]['cpercentage'] + '%');
-      //           }, childCount: studentsubject.length))
-      //         ],
-      //       ),
-      //     )
-      //   ],
-      // ),
-      body: NestedScrollView(
-        controller: _scrollController,
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              elevation: 0,
-              backgroundColor: Colors.grey[850],
-              pinned: true,
-              expandedHeight: MediaQuery.of(context).size.height * 0.13,
-              collapsedHeight: MediaQuery.of(context).size.height * 0.1,
-              centerTitle: false,
-              leading: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.white,
-                    size: 25.0,
-                  )),
-              title: _isShrink
-                  ? null
-                  : Text('Attendence',
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10.0),
+              child: Center(
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: const TextSpan(children: [
+                    TextSpan(
+                      text: "Student Name: ",
                       style: TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 17.0,
+                        color: Colors.teal,
                       ),
                     ),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                bottomLeft: _isShrink
-                    ? const Radius.circular(33.0)
-                    : const Radius.circular(0.0),
-                bottomRight: _isShrink
-                    ? const Radius.circular(33.0)
-                    : const Radius.circular(0.0),
-                // bottomRight: Radius.circular(40.0)
-              )),
-              flexibleSpace: FlexibleSpaceBar(
-                collapseMode: CollapseMode.parallax,
-                title: _isShrink
-                    ? SafeArea(
-                        child: RichText(
-                          textAlign: TextAlign.left,
-                          text: const TextSpan(children: [
-                            TextSpan(
-                              text: "Subject: ",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.teal,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "Cloud Computing \n",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.white,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "Program: ",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.teal,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "BSCS 8th-R",
-                              style: TextStyle(
-                                  fontSize: 18.0, color: Colors.white),
-                            ),
-                          ]),
-                        ),
-                      )
-                    : null,
-                background: SafeArea(
-                  child: Stack(
-                    children: <Widget>[
-                      Center(
-                        child: RichText(
-                          textAlign: TextAlign.left,
-                          text: const TextSpan(children: [
-                            TextSpan(
-                              text: "\n\n\nSubject: ",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.teal,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "Cloud Computing \n",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.white,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "Program:",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                color: Colors.teal,
-                              ),
-                            ),
-                            TextSpan(
-                              text: "BSCS 8th-R\n",
-                              style: TextStyle(
-                                  fontSize: 18.0, color: Colors.white),
-                            ),
-                          ]),
-                        ),
+                    TextSpan(
+                      text: "Fizza Chauhdary \n",
+                      style: TextStyle(
+                        fontSize: 17.0,
+                        color: Colors.white,
                       ),
-                    ],
-                  ),
+                    ),
+                    TextSpan(
+                      text: "Department:",
+                      style: TextStyle(
+                        fontSize: 17.0,
+                        color: Colors.teal,
+                      ),
+                    ),
+                    TextSpan(
+                      text: "  Computer science\n",
+                      style: TextStyle(fontSize: 17.0, color: Colors.white),
+                    ),
+                  ]),
                 ),
               ),
             ),
-          ];
-        },
-        body: CustomScrollView(
+          ),
+          Expanded(
+            child: CustomScrollView(
               slivers: [
                 SliverList(
                     delegate: SliverChildBuilderDelegate((context, index) {
@@ -302,7 +139,10 @@ class _subject_percentageState extends State<subject_percentage> {
                       studentsubject[index]['cpercentage'] + '%');
                 }, childCount: studentsubject.length))
               ],
-            ), 
-    ));
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

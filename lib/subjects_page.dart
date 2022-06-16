@@ -114,23 +114,6 @@ class _SubjectsPageState extends State<SubjectsPage> {
     setState(() {});
   }
 
-  // Future dummydata() async {
-  //   final DateTime now = DateTime.now();
-  //   final DateFormat formatter = DateFormat('dd-MMM-yyyy');
-  //   final String formatted = formatter.format(now);
-  //   print(formatted); // something like 2013-04-20
-  //   FirebaseFirestore.instance
-  //       .collection('attendance')
-  //       .doc('Q0QUhhsjYir1pK7fzTfQ')
-  //       .collection('attendancedata')
-  //       .doc()
-  //       .set({
-  //     'studentid': 'YjFngBXuMn6s2aVIMIsZ',
-  //     'attendance_status': 'P',
-  //     'sessionid': 'TrODKYmoeolUPgtjjk4Q',
-  //     'attendancedate': formatted,
-  //   }, SetOptions(merge: true));
-  // }
 
   Future changepassword() async {
     // isworking = false;
