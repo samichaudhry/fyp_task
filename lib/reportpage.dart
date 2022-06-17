@@ -1,3 +1,4 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_task/subject_percentage%20.dart';
@@ -14,7 +15,7 @@ class ReportPage extends StatefulWidget {
 
 class _ReportPageState extends State<ReportPage> {
   DateTime pickedDate = DateTime.now();
-
+  
   bool isloading = true;
   var args = Get.arguments;
   List studentslist = [];
@@ -39,6 +40,35 @@ class _ReportPageState extends State<ReportPage> {
   //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
   //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
   // ];
+   ScrollController? _scrollController;
+  bool lastStatus = true;
+  double height = 200;
+   void _scrollListener() {
+    if (_isShrink != lastStatus) {
+      setState(() {
+        lastStatus = _isShrink;
+      });
+    }
+  }
+  bool get _isShrink {
+    return _scrollController != null &&
+        _scrollController!.hasClients &&
+        _scrollController!.offset > (height - kToolbarHeight);
+  }
+  @override
+  void initState() {
+    super.initState();
+    // pickedDate =DateTime.now();
+    // _pickedDate();
+    _scrollController = ScrollController()..addListener(_scrollListener);
+    studentsdata();
+  }
+  @override
+  void dispose() {
+    _scrollController?.removeListener(_scrollListener);
+    _scrollController?.dispose();
+    super.dispose();
+  }
 
   Future studentsdata() async {
     print(args['date']);
@@ -90,39 +120,39 @@ class _ReportPageState extends State<ReportPage> {
           clr: Colors.white,
         ));
   }
-
   Widget customlisttile(stdname, stdrollno, status, studentid) {
     return Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
         child: Card(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0)),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              ListTile(
-                onTap: () {
-                  Get.to(() => const SubjectPercentage(), arguments: {
-                    'studentname': stdname,
-                    'studentrollno': stdrollno,
-                    'studentid': studentid,
-                    'session_id': args['session_id'],
-                    'semester_type': args['semester_type']
-                  });
-                },
-                dense: true,
-                title: customText(
-                  txt: stdname,
-                  clr: Colors.white,
-                ),
-                subtitle: customText(
-                  txt: stdrollno,
-                  fsize: 14.0,
-                  fweight: FontWeight.w400,
-                  clr: Colors.grey[200],
-                ),
-                trailing: customcircleavater(status),
-              )
-            ])));
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ListTile(
+                    onTap: () {
+                      Get.to(() => const SubjectPercentage(), arguments: {
+                        'studentname': stdname,
+                        'studentrollno': stdrollno,
+                        'studentid': studentid,
+                        'session_id': args['session_id'],
+                        'semester_type': args['semester_type']
+                      });
+                    },
+                    dense: true,
+                    title: customText(
+                      txt: stdname,
+                      clr: Colors.white,
+                    ),
+                    subtitle: customText(
+                      txt: stdrollno,
+                      fsize: 14.0,
+                      fweight: FontWeight.w400,
+                      clr: Colors.grey[200],
+                    ),
+                    trailing: customcircleavater(status),
+                  )
+                ])));
   }
 
   @override
@@ -164,6 +194,7 @@ class _ReportPageState extends State<ReportPage> {
                         color: Colors.transparent,
                         alignment: Alignment.topCenter,
                         height: MediaQuery.of(context).size.width / 5,
+
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: Center(
