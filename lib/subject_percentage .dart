@@ -73,7 +73,7 @@ class _SubjectPercentageState extends State<SubjectPercentage> {
 
   Widget customcard(title, value, cpercentage) {
     return Padding(
-        padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 4),
+        padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 2),
         child: Card(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0)),
@@ -89,7 +89,10 @@ class _SubjectPercentageState extends State<SubjectPercentage> {
                   child: customText(
                       txt:
                           "${subjectdata[0]['student_data']['attendedclasses']} out of ${subjectdata[0]['total_classes']} classes Attended ",
-                      fsize: 13.0))
+                      fsize: 13.0)),
+                      SizedBox(
+            height: MediaQuery.of(context).size.height * 0.003,
+          ),
             ])));
   }
 
@@ -111,7 +114,18 @@ class _SubjectPercentageState extends State<SubjectPercentage> {
         title: customText(
             txt: "Attandence", fsize: 24.0, fweight: FontWeight.w500),
       ),
-      body: Column(
+      body: isloading
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: Colors.teal,
+              ),
+            )
+          : subjectdata.isEmpty
+              ? Center(
+                  child: customText(
+                      txt: 'No data available', fsize: 22.0, clr: Colors.white),
+                )
+              : Column(
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
