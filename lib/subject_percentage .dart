@@ -12,10 +12,9 @@ class SubjectPercentage extends StatefulWidget {
 }
 
 class _SubjectPercentageState extends State<SubjectPercentage> {
-
   bool isloading = true;
   var args = Get.arguments;
-  List subjectdata =[];
+  List subjectdata = [];
   // List studentsubject = [
   //   {'title': 'Cloud computing', 'cvalue': 0.70, 'cpercentage': '70.6'},
   //   {'title': 'Professional practice', 'cvalue': 0.32, 'cpercentage': '32.4'},
@@ -28,7 +27,6 @@ class _SubjectPercentageState extends State<SubjectPercentage> {
   //   {'title': 'Communication skills', 'cvalue': 0.66, 'cpercentage': '66.3'},
   //   {'title': 'Accounting', 'cvalue': 1.00, 'cpercentage': '100'},
   // ];
-
 
   Widget customlinearprogres(double barvalue) {
     Color? barcolor;
@@ -44,31 +42,34 @@ class _SubjectPercentageState extends State<SubjectPercentage> {
       color: barcolor,
     );
   }
+
   @override
   void initState() {
     super.initState();
     getattendencepercentage();
   }
-  Future<void>getattendencepercentage() async{
-    await FirebaseFirestore.instance.collectionGroup('subjectstats')
-    .where('semester_type', isEqualTo: args['semester_type'])
-    .where('session_id', isEqualTo: args['session_id'])
-    .get().then((subjects){
-      
-      for(var subject in subjects.docs){ 
+
+  Future<void> getattendencepercentage() async {
+    await FirebaseFirestore.instance
+        .collectionGroup('subjectstats')
+        .where('semester_type', isEqualTo: args['semester_type'])
+        .where('session_id', isEqualTo: args['session_id'])
+        .get()
+        .then((subjects) {
+      for (var subject in subjects.docs) {
         subjectdata.add({
           'subject_name': subject['subject_name'],
           'total_classes': subject['total_classes'],
           'student_data': subject['statsdata'][args['studentrollno']],
-       } );
+        });
         print(subject.data());
       }
-       }).then((value) {
-         setState(() {
-           isloading= false;
-         });
-       });
-       }
+    }).then((value) {
+      setState(() {
+        isloading = false;
+      });
+    });
+  }
 
   Widget customcard(title, value, cpercentage) {
     return Padding(
@@ -77,19 +78,19 @@ class _SubjectPercentageState extends State<SubjectPercentage> {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0)),
             elevation: 3.0,
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListTile(
-                      dense: true,
-                      title: customText(txt: title, fsize: 17.0),
-                      subtitle:  customlinearprogres(value),
-                      trailing: customText(txt: cpercentage, fsize: 14.0)),
-                  Center(
-                      child: customText(
-                          txt: "${subjectdata[0]['student_data']['attendedclasses']} out of ${subjectdata[0]['total_classes']} classes Attended ", fsize: 13.0)
-                      )
-                ])));
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              ListTile(
+                  dense: true,
+                  title: customText(txt: title, fsize: 17.0),
+                  subtitle: customlinearprogres(value),
+                  trailing: customText(txt: cpercentage, fsize: 14.0)),
+              Center(
+                  child: customText(
+                      txt:
+                          "${subjectdata[0]['student_data']['attendedclasses']} out of ${subjectdata[0]['total_classes']} classes Attended ",
+                      fsize: 13.0))
+            ])));
   }
 
   @override
@@ -118,14 +119,13 @@ class _SubjectPercentageState extends State<SubjectPercentage> {
             color: Colors.transparent,
             alignment: Alignment.topCenter,
             height: MediaQuery.of(context).size.width / 5,
-
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10.0),
               child: Center(
                 child: RichText(
-                  textAlign:TextAlign.left,
-                  text:  TextSpan(children: [
-                   const TextSpan(
+                  textAlign: TextAlign.left,
+                  text: TextSpan(children: [
+                    const TextSpan(
                       text: "Name: ",
                       style: TextStyle(
                         fontSize: 17.0,
@@ -134,12 +134,12 @@ class _SubjectPercentageState extends State<SubjectPercentage> {
                     ),
                     TextSpan(
                       text: "${args['studentname']} \n",
-                      style:const TextStyle(
+                      style: const TextStyle(
                         fontSize: 17.0,
                         color: Colors.white,
                       ),
                     ),
-                   const TextSpan(
+                    const TextSpan(
                       text: "RollNo: ",
                       style: TextStyle(
                         fontSize: 17.0,
@@ -147,8 +147,9 @@ class _SubjectPercentageState extends State<SubjectPercentage> {
                       ),
                     ),
                     TextSpan(
-                      text:"${args['studentrollno']} \n",
-                      style: TextStyle(fontSize: 17.0, color: Colors.white),
+                      text: "${args['studentrollno']} \n",
+                      style:
+                          const TextStyle(fontSize: 17.0, color: Colors.white),
                     ),
                   ]),
                 ),
@@ -162,8 +163,10 @@ class _SubjectPercentageState extends State<SubjectPercentage> {
                     delegate: SliverChildBuilderDelegate((context, index) {
                   return customcard(
                       subjectdata[index]['subject_name'],
-                     subjectdata[index]['student_data']['percentage']/100,
-                       subjectdata[index]['student_data']['percentage'].toString()+ '%');
+                      subjectdata[index]['student_data']['percentage'] / 100,
+                      subjectdata[index]['student_data']['percentage']
+                              .toString() +
+                          '%');
                 }, childCount: subjectdata.length))
               ],
             ),
