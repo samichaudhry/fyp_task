@@ -36,7 +36,7 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: useremail.toString(), password: userpassword.toString());
-           await FirebaseFirestore.instance
+      await FirebaseFirestore.instance
           .collection('teachers')
           .doc(FirebaseAuth.instance.currentUser?.uid)
           .get()
@@ -46,34 +46,32 @@ class _LoginPageState extends State<LoginPage> {
             customtoast('Invalid teacher credentials');
             FirebaseAuth.instance.signOut();
           } else {
-            if(user['status'] == 'Approved'){
-               Get.to(
-              () => const SubjectsPage(),
-            );
+            if (user['status'] == 'Approved') {
+              Get.to(
+                () => const SubjectsPage(),
+              );
 
-            customtoast('Login Successful');
-            }
-            else if(user['status'] == 'Pending'){
-            customtoast('Request pending\nlogin not allowed.');
-            FirebaseAuth.instance.signOut();
-            }else{
+              customtoast('Login Successful');
+            } else if (user['status'] == 'Pending') {
+              customtoast('Request pending\nlogin not allowed.');
+              FirebaseAuth.instance.signOut();
+            } else {
               customtoast('Request declined. login not allowed.');
-            FirebaseAuth.instance.signOut();
+              FirebaseAuth.instance.signOut();
             }
-           
           }
-           setState(() {
-        isauthenticating = false;
-      });
+          setState(() {
+            isauthenticating = false;
+          });
         } else {
           customtoast('Teacher not found');
           FirebaseAuth.instance.signOut();
-           setState(() {
-        isauthenticating = false;
-      });
+          setState(() {
+            isauthenticating = false;
+          });
         }
       });
-     
+
       // setState(() {
       //   isauthenticating = false;
       // });
@@ -158,14 +156,27 @@ class _LoginPageState extends State<LoginPage> {
                   ClipPath(
                     clipper: WavyDesign1(),
                     child: Container(
-                      child: Center(
-                        child: Text(
-                          "Login",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                              fontSize: responsiveHW(context, ht: 3)),
-                        ),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.center,
+                            child: Image.asset(
+                              'assets/tuLogo.png',
+                              width: responsiveHW(context, wd: 30),
+                              height: responsiveHW(context, ht: 15),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Login",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700,
+                                fontSize: responsiveHW(context, ht: 3)),
+                          ),
+                        ],
                       ),
                       width: double.infinity,
                       height: responsiveHW(context, ht: 37),
@@ -179,60 +190,60 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(height: responsiveHW(context, ht: 4)),
               Expanded(
                 child: ListView(children: [
-                   customTextField(
-                      "Email",
-                      false,
-                      null,
-                      _email,
-                      (value) {
-                        if (value!.isEmpty) {
-                          return "Please Enter Your Email";
-                        }
-                        if (!RegExp(
-                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                            .hasMatch(value)) {
-                          return "Please Enter Valid Email Address";
-                        }
-                      },
-                      (value) {
-                        _email.text = value!;
-                      },
-                      responsiveHW(context, wd: 100),
-                      responsiveHW(context, ht: 100),
-                      InputBorder.none,
-                      pIcon: Icons.email,
-                    ),
-                    SizedBox(
-                      height: responsiveHW(context, ht: 2),
-                    ),
-                    customTextField(
-                      "Password",
-                      passwordVisible,
-                      IconButton(
-                        splashColor: Colors.transparent,
-                        icon: Icon(
-                          //choose the icon on based of passwordVisibility
-                          passwordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off,
-                          color: Colors.grey,
-                        ),
-                        onPressed: _passwordVisibility,
+                  customTextField(
+                    "Email",
+                    false,
+                    null,
+                    _email,
+                    (value) {
+                      if (value!.isEmpty) {
+                        return "Please Enter Your Email";
+                      }
+                      if (!RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value)) {
+                        return "Please Enter Valid Email Address";
+                      }
+                    },
+                    (value) {
+                      _email.text = value!;
+                    },
+                    responsiveHW(context, wd: 100),
+                    responsiveHW(context, ht: 100),
+                    InputBorder.none,
+                    pIcon: Icons.email,
+                  ),
+                  SizedBox(
+                    height: responsiveHW(context, ht: 2),
+                  ),
+                  customTextField(
+                    "Password",
+                    passwordVisible,
+                    IconButton(
+                      splashColor: Colors.transparent,
+                      icon: Icon(
+                        //choose the icon on based of passwordVisibility
+                        passwordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        color: Colors.grey,
                       ),
-                      _password,
-                      (value) {
-                        if (value!.isEmpty) {
-                          return "Please Enter Your Password";
-                        }
-                      },
-                      (value) {
-                        _password.text = value!;
-                      },
-                      responsiveHW(context, wd: 100),
-                      responsiveHW(context, ht: 100),
-                      InputBorder.none,
-                      pIcon: Icons.lock,
+                      onPressed: _passwordVisibility,
                     ),
+                    _password,
+                    (value) {
+                      if (value!.isEmpty) {
+                        return "Please Enter Your Password";
+                      }
+                    },
+                    (value) {
+                      _password.text = value!;
+                    },
+                    responsiveHW(context, wd: 100),
+                    responsiveHW(context, ht: 100),
+                    InputBorder.none,
+                    pIcon: Icons.lock,
+                  ),
                   SizedBox(
                     height: responsiveHW(context, ht: 3),
                   ),
@@ -241,7 +252,8 @@ class _LoginPageState extends State<LoginPage> {
                           horizontal: responsiveHW(context, wd: 6)!.toDouble()),
                       child: Container(
                         decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(100)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(100)),
                             color: Color(0xff009688)),
                         height: responsiveHW(context, ht: 6),
                         child: TextButton(
@@ -335,16 +347,16 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         onPressed: () {
                           Get.to(() => const AddTeacher(), arguments: [
-                {
-                  "pageTitle": "Add Teacher",
-                  "buttonText": "Submit",
-                  'teacher_name': '',
-                  'designation': '',
-                  'department': '',
-                  'imgUrl': '',
-                  'teacherId': '',
-                }
-              ]);
+                            {
+                              "pageTitle": "Add Teacher",
+                              "buttonText": "Submit",
+                              'teacher_name': '',
+                              'designation': '',
+                              'department': '',
+                              'imgUrl': '',
+                              'teacherId': '',
+                            }
+                          ]);
                         },
                       ),
                     ],
