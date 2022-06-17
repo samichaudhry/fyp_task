@@ -51,10 +51,10 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
   }
 
   double percentagefinder({totaclasses = 0, attendedclasses = 0}) {
-    if(totaclasses == 0){
+    if (totaclasses == 0) {
       return 0.0;
-    }else{
-    return (attendedclasses / totaclasses * 100);
+    } else {
+      return (attendedclasses / totaclasses * 100);
     }
   }
 
@@ -115,8 +115,8 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
               if (ds['statsdata'] != null) {
                 studentsstatsdata = ds['statsdata'];
               }
-              if(ds['total_classes'] != null){
-                totalclasses = ds['total_classes']+1;
+              if (ds['total_classes'] != null) {
+                totalclasses = ds['total_classes'] + 1;
               }
             }
           });
@@ -153,14 +153,89 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
             'subject_code': '${args['subject_code']}',
             'total_classes': FieldValue.increment(1),
             'statsdata': studentsstatsdata,
-          }, SetOptions(merge: true)).then((value) {
+          }, SetOptions(merge: true)).then((value) async {
+            var presentStu = [];
+            var absentStu = [];
+            await FirebaseFirestore.instance
+                .collection('attendance')
+                .doc(args['subject_id'])
+                .collection('attendancedata')
+                .where('attendancedate', isEqualTo: formatted.toString())
+                .where('session_id', isEqualTo: args['session_id'])
+                .get()
+                .then((QuerySnapshot students) {
+              for (var student in students.docs) {
+                List data = student['attendancerecord'];
+                for (var std in data) {
+                  if (std['status'] == 'P') {
+                    presentStu.add({
+                      'status': std['status'],
+                    });
+                  } else {
+                    absentStu.add({
+                      'status': std['status'],
+                    });
+                  }
+                }
+              }
+            });
             Navigator.pop(context);
-            rawsnackbar('Attendance Submitted successfully',
-                icon: const Icon(
-                  Icons.check_box,
-                  color: Colors.green,
-                  size: 25.0,
-                ));
+            showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return Dialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Container(
+                          height: 200,
+                          padding: const EdgeInsets.all(10),
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Center(
+                                  child: Text(
+                                    "Today's Attendance Stats",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w900,
+                                        color: Colors.teal,
+                                        fontSize: responsiveHW(context, ht: 3)),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: responsiveHW(context, ht: 3),
+                                ),
+                                Text(
+                                    "Percentage of Present Students: ${((presentStu.length / totalStudents) * 100).toStringAsFixed(2)}",
+                                    style: TextStyle(
+                                        fontSize:
+                                            responsiveHW(context, ht: 2))),
+                                SizedBox(
+                                  height: responsiveHW(context, ht: 1),
+                                ),
+                                Text(
+                                    "Percentage of Absent Students: ${((absentStu.length / totalStudents) * 100).toStringAsFixed(2)}",
+                                    style: TextStyle(
+                                        fontSize:
+                                            responsiveHW(context, ht: 2))),
+                                SizedBox(
+                                  height: responsiveHW(context, ht: 2),
+                                ),
+                                Center(
+                                  child: customButton("Close", () {
+                                    Navigator.pop(context);
+                                  }, context, responsiveHW(context, wd: 10)),
+                                )
+                              ])));
+                });
+
+            // rawsnackbar('Attendance Submitted successfully',
+            //     icon: const Icon(
+            //       Icons.check_box,
+            //       color: Colors.green,
+            //       size: 25.0,
+            //     ));
           });
         });
       } else {
