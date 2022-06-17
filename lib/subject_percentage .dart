@@ -4,16 +4,15 @@ import 'package:get/get.dart';
 
 import 'custom widgets/custom_widgets.dart';
 
-class subject_percentage extends StatefulWidget {
-  const subject_percentage({Key? key}) : super(key: key);
+class SubjectPercentage extends StatefulWidget {
+  const SubjectPercentage({Key? key}) : super(key: key);
 
   @override
-  State<subject_percentage> createState() => _subject_percentageState();
+  State<SubjectPercentage> createState() => _SubjectPercentageState();
 }
 
-class _subject_percentageState extends State<subject_percentage> {
-  var percentage;
-  var barvalue;
+class _SubjectPercentageState extends State<SubjectPercentage> {
+
   bool isloading = true;
   var args = Get.arguments;
   List subjectdata =[];
@@ -54,7 +53,6 @@ class _subject_percentageState extends State<subject_percentage> {
     await FirebaseFirestore.instance.collectionGroup('subjectstats')
     .where('semester_type', isEqualTo: args['semester_type'])
     .where('session_id', isEqualTo: args['session_id'])
-    // .where('statsdata.${args["studentrollno"]}', isEqualTo: args['studentrollno'])
     .get().then((subjects){
       
       for(var subject in subjects.docs){ 
@@ -76,12 +74,10 @@ class _subject_percentageState extends State<subject_percentage> {
     return Padding(
         padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 4),
         child: Card(
-            // color: Color.fromARGB(255, 50, 54, 79),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0)),
             elevation: 3.0,
             child: Column(
-                // mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ListTile(
@@ -121,7 +117,6 @@ class _subject_percentageState extends State<subject_percentage> {
           Container(
             color: Colors.transparent,
             alignment: Alignment.topCenter,
-            // height: MediaQuery.of(context).size.height,
             height: MediaQuery.of(context).size.width / 5,
 
             child: Padding(
