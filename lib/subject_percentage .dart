@@ -38,6 +38,7 @@ class _SubjectPercentageState extends State<SubjectPercentage> {
       barcolor = Colors.green;
     }
     return LinearProgressIndicator(
+      backgroundColor: Colors.grey[850],
       value: barvalue,
       color: barcolor,
     );
@@ -71,7 +72,7 @@ class _SubjectPercentageState extends State<SubjectPercentage> {
     });
   }
 
-  Widget customcard(title, value, cpercentage) {
+  Widget customcard(title, value, cpercentage,attendclasses) {
     return Padding(
         padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 2),
         child: Card(
@@ -87,8 +88,7 @@ class _SubjectPercentageState extends State<SubjectPercentage> {
                   trailing: customText(txt: cpercentage, fsize: 14.0)),
               Center(
                   child: customText(
-                      txt:
-                          "${subjectdata[0]['student_data']['attendedclasses']} out of ${subjectdata[0]['total_classes']} classes Attended ",
+                      txt:attendclasses,
                       fsize: 13.0)),
                       SizedBox(
             height: MediaQuery.of(context).size.height * 0.003,
@@ -178,9 +178,8 @@ class _SubjectPercentageState extends State<SubjectPercentage> {
                   return customcard(
                       subjectdata[index]['subject_name'],
                       subjectdata[index]['student_data']['percentage'] / 100,
-                      subjectdata[index]['student_data']['percentage']
-                              .toString() +
-                          '%');
+                      subjectdata[index]['student_data']['percentage'].toString() +'%',
+                     "${subjectdata[index]['student_data']['attendedclasses']} out of ${subjectdata[index]['total_classes']} classes Attended ",);
                 }, childCount: subjectdata.length))
               ],
             ),
