@@ -65,24 +65,45 @@ class _ReportPageState extends State<ReportPage> {
         // .orderBy('rollno', descending: false)
         .get()
         .then((QuerySnapshot students) {
-      print('yeyjsb');
-      print(students.docs.length);
+          print('yeyjsb');
+        print(students.docs.length);
       for (var student in students.docs) {
         print(student.data());
         List data = student['attendancerecord'];
-        for (var std in data) {
+        for(var std in data){
           studentslist.add({
-            'name': std['name'],
-            'rollno': std['rollno'],
-            'status': std['status'],
-            'studentid': std['studentid'],
-          });
+          'name': std['name'],
+          'rollno': std['rollno'],
+          'status': std['status'],
+          'studentid': std['studentid'],
+        });
         }
+        
       }
     });
     setState(() {
       isloading = false;
     });
+<<<<<<< HEAD
+=======
+  }
+
+  Widget customText(
+      {txt,
+      textAlign,
+      fsize = 18.0,
+      clr = Colors.black,
+      fweight = FontWeight.normal}) {
+    return Text(
+      txt,
+      textAlign: textAlign,
+      style: TextStyle(
+        fontSize: fsize,
+        color: clr,
+        fontWeight: fweight,
+      ),
+    );
+>>>>>>> 7c6763ba67134e45dad280d699256fbd243988eb
   }
 
   Widget customcircleavater(value) {
@@ -140,6 +161,7 @@ class _ReportPageState extends State<ReportPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+<<<<<<< HEAD
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
@@ -157,12 +179,15 @@ class _ReportPageState extends State<ReportPage> {
             fsize: 24.0,
             fweight: FontWeight.w500),
       ),
+=======
+>>>>>>> 7c6763ba67134e45dad280d699256fbd243988eb
       body: isloading
           ? const Center(
               child: CircularProgressIndicator(
                 color: Colors.teal,
               ),
             )
+<<<<<<< HEAD
           : studentslist.isEmpty
               ? Center(
                   child: customText(
@@ -209,6 +234,46 @@ class _ReportPageState extends State<ReportPage> {
                                       fontSize: 17.0, color: Colors.white),
                                 ),
                               ]),
+=======
+          : 
+          studentslist.isEmpty
+          ?
+          Center(
+            child: customText(
+              txt: 'No data available',
+              fsize: 22.0,
+              clr: Colors.white
+            ),
+          )
+          :
+          NestedScrollView(
+              controller: _scrollController,
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  SliverAppBar(
+                    elevation: 0,
+                    // backgroundColor: Colors.teal,
+                    pinned: true,
+                    expandedHeight: MediaQuery.of(context).size.height * 0.2,
+                    collapsedHeight: MediaQuery.of(context).size.height * 0.1,
+                    centerTitle: false,
+                    leading: IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          color: Colors.white,
+                          size: 25.0,
+                        )),
+                    title: _isShrink
+                        ? null
+                        : Text(
+                            "Date: ${args['date']}",
+                            // textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20.0,
+>>>>>>> 7c6763ba67134e45dad280d699256fbd243988eb
                             ),
                           ),
                         ),
@@ -232,7 +297,32 @@ class _ReportPageState extends State<ReportPage> {
                           ],
                         ),
                       ),
+<<<<<<< HEAD
                     ]),
+=======
+                    ),
+                  ),
+                ];
+              },
+              body: CustomScrollView(
+                slivers: [
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return customlisttile(
+                          studentslist[index]['name'],
+                          studentslist[index]['rollno'],
+                          studentslist[index]['status'],
+                          studentslist[index]['studentid'],
+                        );
+                      },
+                      childCount: studentslist.length,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+>>>>>>> 7c6763ba67134e45dad280d699256fbd243988eb
     );
   }
 }
