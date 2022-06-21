@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:fyp_task/custom%20widgets/custom_toast.dart';
-import 'package:fyp_task/custom_formfield.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
+import 'package:fyp_task/custom_formfield.dart';
 import 'package:fyp_task/utils.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -56,20 +57,29 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               SizedBox(
                 height: responsiveHW(context, ht: 2),
               ),
-              customTextField("Email", Icons.email, false, null, _email,
-                  (value) {
-                if (value!.isEmpty) {
-                  return "Please Enter Your Email";
-                }
-                if (!RegExp(
-                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                    .hasMatch(value)) {
-                  return "Please Enter Valid Email Address";
-                }
-              }, (value) {
-                _email.text = value!;
-              }, responsiveHW(context, wd: 100),
-                  responsiveHW(context, ht: 100)),
+              customTextField(
+                "Email",
+                false,
+                null,
+                _email,
+                (value) {
+                  if (value!.isEmpty) {
+                    return "Please Enter Your Email";
+                  }
+                  if (!RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                      .hasMatch(value)) {
+                    return "Please Enter Valid Email Address";
+                  }
+                },
+                (value) {
+                  _email.text = value!;
+                },
+                responsiveHW(context, wd: 100),
+                responsiveHW(context, ht: 100),
+                InputBorder.none,
+                pIcon: Icons.email,
+              ),
               SizedBox(
                 height: responsiveHW(context, ht: 3),
               ),
@@ -80,7 +90,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 child: customButton("Verify Email", () {
                   FirebaseAuth.instance
                       .sendPasswordResetEmail(email: _email.text.trim());
-                  customtoast('Reset Link Sent.');
+                  customtoast('Reset link sent successfully');
                   Navigator.pop(context);
                 }, context, 200),
               ),
