@@ -93,7 +93,7 @@ Future filepicker({required filetype, allowedextensions}) async {
 }
 
 
-void rawsnackbar(txt, {duration = 3}) {
+void rawsnackbar(txt,{duration = 3,icon }) {
   Get.rawSnackbar(
     // backgroundColor: Colors.teal,
     // message: e.message.toString(),
@@ -106,6 +106,7 @@ void rawsnackbar(txt, {duration = 3}) {
       ),
     ),
     duration: Duration(seconds: duration),
+    icon: icon,
   );
 }
 

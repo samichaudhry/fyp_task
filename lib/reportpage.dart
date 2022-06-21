@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
-import 'package:fyp_task/subject_percentage.dart';
-=======
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_task/subject_percentage%20.dart';
->>>>>>> 0d34a662bce8e2b41eb8d5236a3806e08483c692
 import 'package:get/get.dart';
 
 import 'custom widgets/custom_widgets.dart';
@@ -21,17 +15,6 @@ class ReportPage extends StatefulWidget {
 
 class _ReportPageState extends State<ReportPage> {
   DateTime pickedDate = DateTime.now();
-<<<<<<< HEAD
-
-  bool isloading = true;
-  var args = Get.arguments;
-  List studentslist = [];
-
-  ScrollController? _scrollController;
-  bool lastStatus = true;
-  double height = 200;
-  void _scrollListener() {
-=======
   
   bool isloading = true;
   var args = Get.arguments;
@@ -61,7 +44,6 @@ class _ReportPageState extends State<ReportPage> {
   bool lastStatus = true;
   double height = 200;
    void _scrollListener() {
->>>>>>> 0d34a662bce8e2b41eb8d5236a3806e08483c692
     if (_isShrink != lastStatus) {
       setState(() {
         lastStatus = _isShrink;
@@ -119,31 +101,8 @@ class _ReportPageState extends State<ReportPage> {
     setState(() {
       isloading = false;
     });
-<<<<<<< HEAD
-=======
   }
 
-<<<<<<< HEAD
-  Widget customText(
-      {txt,
-      textAlign,
-      fsize = 18.0,
-      clr = Colors.black,
-      fweight = FontWeight.normal}) {
-    return Text(
-      txt,
-      textAlign: textAlign,
-      style: TextStyle(
-        fontSize: fsize,
-        color: clr,
-        fontWeight: fweight,
-      ),
-    );
->>>>>>> 7c6763ba67134e45dad280d699256fbd243988eb
-  }
-
-=======
->>>>>>> 0d34a662bce8e2b41eb8d5236a3806e08483c692
   Widget customcircleavater(value) {
     Color? circlecolor;
     if (value == 'P' || value == 'p') {
@@ -167,7 +126,6 @@ class _ReportPageState extends State<ReportPage> {
         child: Card(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0)),
-<<<<<<< HEAD
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               ListTile(
@@ -193,45 +151,12 @@ class _ReportPageState extends State<ReportPage> {
                 ),
                 trailing: customcircleavater(status),
               )
-            ])));
-=======
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListTile(
-                    onTap: () {
-                      Get.to(() => const SubjectPercentage(), arguments: {
-                        'studentname': stdname,
-                        'studentrollno': stdrollno,
-                        'studentid': studentid,
-                        'session_id': args['session_id'],
-                        'semester_type': args['semester_type']
-                      });
-                    },
-                    dense: true,
-                    title: customText(
-                      txt: stdname,
-                      clr: Colors.white,
-                    ),
-                    subtitle: customText(
-                      txt: stdrollno,
-                      fsize: 14.0,
-                      fweight: FontWeight.w400,
-                      clr: Colors.grey[200],
-                    ),
-                    trailing: customcircleavater(status),
-                  )
-                ])));
->>>>>>> 0d34a662bce8e2b41eb8d5236a3806e08483c692
-  }
+            ])));}
+            
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0d34a662bce8e2b41eb8d5236a3806e08483c692
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0.0,
@@ -249,21 +174,12 @@ class _ReportPageState extends State<ReportPage> {
             fsize: 24.0,
             fweight: FontWeight.w500),
       ),
-<<<<<<< HEAD
-=======
->>>>>>> 7c6763ba67134e45dad280d699256fbd243988eb
-=======
->>>>>>> 0d34a662bce8e2b41eb8d5236a3806e08483c692
       body: isloading
           ? const Center(
               child: CircularProgressIndicator(
                 color: Colors.teal,
               ),
             )
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 0d34a662bce8e2b41eb8d5236a3806e08483c692
           : studentslist.isEmpty
               ? Center(
                   child: customText(
@@ -277,10 +193,6 @@ class _ReportPageState extends State<ReportPage> {
                         color: Colors.transparent,
                         alignment: Alignment.topCenter,
                         height: MediaQuery.of(context).size.width / 5,
-<<<<<<< HEAD
-=======
-
->>>>>>> 0d34a662bce8e2b41eb8d5236a3806e08483c692
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: Center(
@@ -314,54 +226,11 @@ class _ReportPageState extends State<ReportPage> {
                                       fontSize: 17.0, color: Colors.white),
                                 ),
                               ]),
-<<<<<<< HEAD
-=======
-          : 
-          studentslist.isEmpty
-          ?
-          Center(
-            child: customText(
-              txt: 'No data available',
-              fsize: 22.0,
-              clr: Colors.white
-            ),
-          )
-          :
-          NestedScrollView(
-              controller: _scrollController,
-              headerSliverBuilder: (context, innerBoxIsScrolled) {
-                return [
-                  SliverAppBar(
-                    elevation: 0,
-                    // backgroundColor: Colors.teal,
-                    pinned: true,
-                    expandedHeight: MediaQuery.of(context).size.height * 0.2,
-                    collapsedHeight: MediaQuery.of(context).size.height * 0.1,
-                    centerTitle: false,
-                    leading: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: const Icon(
-                          Icons.arrow_back,
-                          color: Colors.white,
-                          size: 25.0,
-                        )),
-                    title: _isShrink
-                        ? null
-                        : Text(
-                            "Date: ${args['date']}",
-                            // textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20.0,
->>>>>>> 7c6763ba67134e45dad280d699256fbd243988eb
-=======
->>>>>>> 0d34a662bce8e2b41eb8d5236a3806e08483c692
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
+       
+                     
+                    ),
+                    ),
+                  ),), Expanded(
                         child: CustomScrollView(
                           slivers: [
                             SliverList(
@@ -380,36 +249,8 @@ class _ReportPageState extends State<ReportPage> {
                           ],
                         ),
                       ),
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    ]),
-=======
-                    ),
-                  ),
-                ];
-              },
-              body: CustomScrollView(
-                slivers: [
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return customlisttile(
-                          studentslist[index]['name'],
-                          studentslist[index]['rollno'],
-                          studentslist[index]['status'],
-                          studentslist[index]['studentid'],
-                        );
-                      },
-                      childCount: studentslist.length,
-                    ),
-                  ),
-                ],
-              ),
-            ),
->>>>>>> 7c6763ba67134e45dad280d699256fbd243988eb
-=======
-                    ]),
->>>>>>> 0d34a662bce8e2b41eb8d5236a3806e08483c692
+                ])
+              
     );
   }
 }
