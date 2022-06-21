@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fyp_task/subject_percentage%20.dart';
@@ -15,7 +14,7 @@ class ReportPage extends StatefulWidget {
 
 class _ReportPageState extends State<ReportPage> {
   DateTime pickedDate = DateTime.now();
-  
+
   bool isloading = true;
   var args = Get.arguments;
   List studentslist = [];
@@ -40,21 +39,23 @@ class _ReportPageState extends State<ReportPage> {
   //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
   //   {'name': 'Babar Ali', 'roll_no': 'BCSF18BM005', 'status': 'A'},
   // ];
-   ScrollController? _scrollController;
+  ScrollController? _scrollController;
   bool lastStatus = true;
   double height = 200;
-   void _scrollListener() {
+  void _scrollListener() {
     if (_isShrink != lastStatus) {
       setState(() {
         lastStatus = _isShrink;
       });
     }
   }
+
   bool get _isShrink {
     return _scrollController != null &&
         _scrollController!.hasClients &&
         _scrollController!.offset > (height - kToolbarHeight);
   }
+
   @override
   void initState() {
     super.initState();
@@ -63,6 +64,7 @@ class _ReportPageState extends State<ReportPage> {
     _scrollController = ScrollController()..addListener(_scrollListener);
     studentsdata();
   }
+
   @override
   void dispose() {
     _scrollController?.removeListener(_scrollListener);
@@ -120,6 +122,7 @@ class _ReportPageState extends State<ReportPage> {
           clr: Colors.white,
         ));
   }
+
   Widget customlisttile(stdname, stdrollno, status, studentid) {
     return Padding(
         padding: const EdgeInsets.only(left: 10, right: 10),
@@ -151,106 +154,108 @@ class _ReportPageState extends State<ReportPage> {
                 ),
                 trailing: customcircleavater(status),
               )
-            ])));}
-            
+            ])));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.white,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            ),
           ),
+          title: customText(
+              txt: "Date: ${args['date']}",
+              fsize: 24.0,
+              fweight: FontWeight.w500),
         ),
-        title: customText(
-            txt: "Date: ${args['date']}",
-            fsize: 24.0,
-            fweight: FontWeight.w500),
-      ),
-      body: isloading
-          ? const Center(
-              child: CircularProgressIndicator(
-                color: Colors.teal,
-              ),
-            )
-          : studentslist.isEmpty
-              ? Center(
-                  child: customText(
-                      txt: 'No data available', fsize: 22.0, clr: Colors.white),
-                )
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                      Container(
-                        color: Colors.transparent,
-                        alignment: Alignment.topCenter,
-                        height: MediaQuery.of(context).size.width / 5,
-                        child: Padding(
-                          padding: const EdgeInsets.only(bottom: 10.0),
-                          child: Center(
-                            child: RichText(
-                              textAlign: TextAlign.left,
-                              text: TextSpan(children: [
-                                const TextSpan(
-                                  text: "Subject: ",
-                                  style: TextStyle(
-                                    fontSize: 17.0,
-                                    color: Colors.teal,
+        body: isloading
+            ? const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.teal,
+                ),
+              )
+            : studentslist.isEmpty
+                ? Center(
+                    child: customText(
+                        txt: 'No data available',
+                        fsize: 22.0,
+                        clr: Colors.white),
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                        Container(
+                          color: Colors.transparent,
+                          alignment: Alignment.topCenter,
+                          height: MediaQuery.of(context).size.width / 5,
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 10.0),
+                            child: Center(
+                              child: RichText(
+                                textAlign: TextAlign.left,
+                                text: TextSpan(children: [
+                                  const TextSpan(
+                                    text: "Subject: ",
+                                    style: TextStyle(
+                                      fontSize: 17.0,
+                                      color: Colors.teal,
+                                    ),
                                   ),
-                                ),
-                                TextSpan(
-                                  text: "${args['subject_name']} \n",
-                                  style: const TextStyle(
-                                    fontSize: 17.0,
-                                    color: Colors.white,
+                                  TextSpan(
+                                    text: "${args['subject_name']} \n",
+                                    style: const TextStyle(
+                                      fontSize: 17.0,
+                                      // color: Colors.white,
+                                    ),
                                   ),
-                                ),
-                                const TextSpan(
-                                  text: "Program: ",
-                                  style: TextStyle(
-                                    fontSize: 17.0,
-                                    color: Colors.teal,
+                                  const TextSpan(
+                                    text: "Program: ",
+                                    style: TextStyle(
+                                      fontSize: 17.0,
+                                      color: Colors.teal,
+                                    ),
                                   ),
-                                ),
-                                TextSpan(
-                                  text: "${args['program']} \n",
-                                  style: const TextStyle(
-                                      fontSize: 17.0, color: Colors.white),
-                                ),
-                              ]),
-       
-                     
-                    ),
-                    ),
-                  ),), Expanded(
-                        child: CustomScrollView(
-                          slivers: [
-                            SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                (context, index) {
-                                  return customlisttile(
-                                    studentslist[index]['name'],
-                                    studentslist[index]['rollno'],
-                                    studentslist[index]['status'],
-                                    studentslist[index]['studentid'],
-                                  );
-                                },
-                                childCount: studentslist.length,
+                                  TextSpan(
+                                    text: "${args['program']} \n",
+                                    style: const TextStyle(
+                                      fontSize: 17.0,
+                                      //  color: Colors.white
+                                    ),
+                                  ),
+                                ]),
                               ),
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                ])
-              
-    );
+                        Expanded(
+                          child: CustomScrollView(
+                            slivers: [
+                              SliverList(
+                                delegate: SliverChildBuilderDelegate(
+                                  (context, index) {
+                                    return customlisttile(
+                                      studentslist[index]['name'],
+                                      studentslist[index]['rollno'],
+                                      studentslist[index]['status'],
+                                      studentslist[index]['studentid'],
+                                    );
+                                  },
+                                  childCount: studentslist.length,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ]));
   }
 }

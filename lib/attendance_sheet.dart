@@ -188,7 +188,7 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Container(
-                          height: 230,
+                          height: MediaQuery.of(context).size.height * 0.3,
                           padding: const EdgeInsets.all(10),
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -204,21 +204,27 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height: responsiveHW(context, ht: 3),
+                                  height: responsiveHW(context, ht: 4),
                                 ),
-                                Text(
-                                    "Present Students: ${((presentStu.length / totalStudents) * 100).toStringAsFixed(1)} %",
-                                    style: TextStyle(
-                                        fontSize:responsiveHW(context, ht: 2))),
+                                Center(
+                                  child: Text(
+                                      "Present Students: ${((presentStu.length / totalStudents) * 100).toStringAsFixed(1)} %",
+                                      style: TextStyle(
+                                          fontSize:
+                                              responsiveHW(context, ht: 2.5))),
+                                ),
                                 SizedBox(
                                   height: responsiveHW(context, ht: 1),
                                 ),
-                                Text(
-                                    "Absent Students: ${((absentStu.length / totalStudents) * 100).toStringAsFixed(1)}%",
-                                    style: TextStyle(
-                                        fontSize: responsiveHW(context, ht: 2))),
+                                Center(
+                                  child: Text(
+                                      "Absent Students: ${((absentStu.length / totalStudents) * 100).toStringAsFixed(1)}%",
+                                      style: TextStyle(
+                                          fontSize:
+                                              responsiveHW(context, ht: 2.5))),
+                                ),
                                 SizedBox(
-                                  height: responsiveHW(context, ht: 2),
+                                  height: responsiveHW(context, ht: 4),
                                 ),
                                 Center(
                                   child: customButton("Close", () {
@@ -239,7 +245,7 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
       } else {
         Navigator.pop(context);
         rawsnackbar('Attendance already found..!!!',
-           icon: const Icon(
+            icon: const Icon(
               Icons.warning,
               color: Colors.red,
               size: 25.0,
@@ -321,7 +327,7 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                             "assets/images/bscs.png",
                             fit: BoxFit.fill,
                           )
-                        : Image.network(args['imgUrl']),
+                        : Image.network(args['imgUrl'], fit: BoxFit.fill),
                   ),
                 ),
                 // Second App Bar
