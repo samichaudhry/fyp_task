@@ -70,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
             );
           } else {
             Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const verifyemail()));
+                MaterialPageRoute(builder: (context) => const SubjectsPage()));
           }
         } else {
           Get.to(

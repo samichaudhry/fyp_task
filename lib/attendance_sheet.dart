@@ -114,6 +114,7 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
             if (ds.exists) {
               if (ds['statsdata'] != null) {
                 studentsstatsdata = ds['statsdata'];
+                // print(ds['statsdata']);
               }
               if (ds['total_classes'] != null) {
                 totalclasses = ds['total_classes'] + 1;
@@ -123,6 +124,7 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
           for (var studentdata in studentslist) {
             var attcls = studentsstatsdata[studentdata['data']['studentrollno']]
                 ['attendedclasses'];
+            print(attcls);
             studentsstatsdata[studentdata['data']['studentrollno']]
                     ['attendedclasses'] =
                 studentdata['status'] == 1 ? attcls + 1 : attcls;
@@ -154,31 +156,38 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
             'total_classes': FieldValue.increment(1),
             'statsdata': studentsstatsdata,
           }, SetOptions(merge: true)).then((value) async {
-            var presentStu = [];
-            var absentStu = [];
-            await FirebaseFirestore.instance
-                .collection('attendance')
-                .doc(args['subject_id'])
-                .collection('attendancedata')
-                .where('attendancedate', isEqualTo: formatted.toString())
-                .where('session_id', isEqualTo: args['session_id'])
-                .get()
-                .then((QuerySnapshot students) {
-              for (var student in students.docs) {
-                List data = student['attendancerecord'];
-                for (var std in data) {
-                  if (std['status'] == 'P') {
-                    presentStu.add({
-                      'status': std['status'],
-                    });
-                  } else {
-                    absentStu.add({
-                      'status': std['status'],
-                    });
-                  }
-                }
+            var presentStu = 0;
+            var absentStu = 0;
+            // await FirebaseFirestore.instance
+            //     .collection('attendance')
+            //     .doc(args['subject_id'])
+            //     .collection('attendancedata')
+            //     .where('attendancedate', isEqualTo: formatted.toString())
+            //     .where('session_id', isEqualTo: args['session_id'])
+            //     .get()
+            //     .then((QuerySnapshot students) {
+            //   for (var student in students.docs) {
+            //     List data = student['attendancerecord'];
+            //     for (var std in data) {
+            //       if (std['status'] == 'P') {
+            //         presentStu.add({
+            //           'status': std['status'],
+            //         });
+            //       } else {
+            //         absentStu.add({
+            //           'status': std['status'],
+            //         });
+            //       }
+            //     }
+            //   }
+            // });
+            for (var std in studentslist) {
+              if (std['status'] == 1) {
+                presentStu += 1;
+              } else {
+                absentStu += 1;
               }
-            });
+            }
             Navigator.pop(context);
             showDialog(
                 context: context,
@@ -187,8 +196,11 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
+                      insetPadding:
+                          const EdgeInsets.symmetric(horizontal: 20.0),
                       child: Container(
                           height: MediaQuery.of(context).size.height * 0.3,
+                          // width: MediaQuery.of(context).size.width,
                           padding: const EdgeInsets.all(10),
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -208,7 +220,7 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                                 ),
                                 Center(
                                   child: Text(
-                                      "Present Students: ${((presentStu.length / totalStudents) * 100).toStringAsFixed(1)} %",
+                                      "Present Students: ${((presentStu / totalStudents) * 100).toStringAsFixed(1)} %",
                                       style: TextStyle(
                                           fontSize:
                                               responsiveHW(context, ht: 2.5))),
@@ -218,7 +230,7 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                                 ),
                                 Center(
                                   child: Text(
-                                      "Absent Students: ${((absentStu.length / totalStudents) * 100).toStringAsFixed(1)}%",
+                                      "Absent Students: ${((absentStu / totalStudents) * 100).toStringAsFixed(1)}%",
                                       style: TextStyle(
                                           fontSize:
                                               responsiveHW(context, ht: 2.5))),
