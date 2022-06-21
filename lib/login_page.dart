@@ -60,10 +60,10 @@ class _LoginPageState extends State<LoginPage> {
 
               customtoast('Login Successful');
             } else if (user['status'] == 'Pending') {
-              customtoast('Request pending\nlogin not allowed.');
+              customtoast('Request pending \nlogin not allowed.');
               FirebaseAuth.instance.signOut();
             } else if (user['status'] == 'Blocked') {
-              customtoast('Blocked by admin\nlogin not allowed.');
+              customtoast('Blocked by admin \nlogin not allowed.');
               FirebaseAuth.instance.signOut();
             } else {
               customtoast('Request declined. login not allowed.');

@@ -2,6 +2,9 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fyp_task/custom%20widgets/custom_toast.dart';
+import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
+// import 'package:fyp_task/custom%20widgets/customdialog.dart';
 import 'package:fyp_task/login_page.dart';
 import 'package:fyp_task/subjects_page.dart';
 import 'package:get/get.dart';
@@ -109,7 +112,13 @@ class _verifyemailState extends State<verifyemail> {
             ),
             MaterialButton(
               onPressed: () {
-                FirebaseAuth.instance.currentUser?.sendEmailVerification();
+                customdialogcircularprogressindicator('Sending... ');
+                FirebaseAuth.instance.currentUser
+                    ?.sendEmailVerification()
+                    .then((value) {
+                  Navigator.pop(context);
+                  customtoast('verification link sent.');
+                });
               },
               color: Colors.teal,
               minWidth: MediaQuery.of(context).size.width * 0.9,
@@ -129,7 +138,9 @@ class _verifyemailState extends State<verifyemail> {
             ),
             TextButton(
               onPressed: () {
+                customdialogcircularprogressindicator('Loggingout... ');
                 FirebaseAuth.instance.signOut().then((value) {
+                  Navigator.pop(context);
                   Get.to(
                     () => const LoginPage(),
                   );
