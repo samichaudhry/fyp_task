@@ -196,15 +196,16 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      insetPadding:
-                          const EdgeInsets.symmetric(horizontal: 20.0),
+                      insetPadding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 20.0),
                       child: Container(
-                          height: MediaQuery.of(context).size.height * 0.3,
+                          height: MediaQuery.of(context).size.height * 0.5,
                           // width: MediaQuery.of(context).size.width,
                           padding: const EdgeInsets.all(10),
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                              // crossAxisAlignment: CrossAxisAlignment.center,
+                              // textBaseline: TextBaseline.ideographic,
                               children: [
                                 Center(
                                   child: Text(
@@ -218,22 +219,48 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                                 SizedBox(
                                   height: responsiveHW(context, ht: 4),
                                 ),
-                                Center(
-                                  child: Text(
-                                      "Present Students: ${((presentStu / totalStudents) * 100).toStringAsFixed(1)} %",
-                                      style: TextStyle(
-                                          fontSize:
-                                              responsiveHW(context, ht: 2.5))),
+                                customText(
+                                  txt: "Total Students: $totalStudents",
+                                  fsize: 19.0,
+                                  txtalign: TextAlign.justify,
                                 ),
                                 SizedBox(
                                   height: responsiveHW(context, ht: 1),
                                 ),
                                 Center(
-                                  child: Text(
+                                  child: customText(
+                                    txt: "No. of Present Students: $presentStu",
+                                    fsize: 19.0,
+                                    txtalign: TextAlign.justify,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: responsiveHW(context, ht: 1),
+                                ),
+                                Center(
+                                  child: customText(
+                                    txt: "No. of Absent Students: $absentStu",
+                                    fsize: 19.0,
+                                    txtalign: TextAlign.justify,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: responsiveHW(context, ht: 1),
+                                ),
+                                customText(
+                                  txt:
+                                      "Present Students: ${((presentStu / totalStudents) * 100).toStringAsFixed(1)}%",
+                                  fsize: 19.0,
+                                  txtalign: TextAlign.justify,
+                                ),
+                                SizedBox(
+                                  height: responsiveHW(context, ht: 1),
+                                ),
+                                customText(
+                                  txt:
                                       "Absent Students: ${((absentStu / totalStudents) * 100).toStringAsFixed(1)}%",
-                                      style: TextStyle(
-                                          fontSize:
-                                              responsiveHW(context, ht: 2.5))),
+                                  fsize: 19.0,
+                                  txtalign: TextAlign.justify,
                                 ),
                                 SizedBox(
                                   height: responsiveHW(context, ht: 4),

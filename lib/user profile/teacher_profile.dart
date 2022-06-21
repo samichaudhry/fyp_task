@@ -208,7 +208,7 @@ class _teacherprofileState extends State<teacherprofile> {
                 Center(
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.6,
-                    width: MediaQuery.of(context).size.width * 0.8,
+                    width: MediaQuery.of(context).size.width * 0.85,
                     decoration: BoxDecoration(
                       color: Colors.grey[800],
                       borderRadius: const BorderRadius.all(
