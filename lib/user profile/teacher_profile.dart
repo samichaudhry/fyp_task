@@ -202,7 +202,7 @@ class _teacherprofileState extends State<teacherprofile> {
           : Stack(
               children: [
                 const Padding(
-                  padding: EdgeInsets.only(top: 44),
+                  padding: const EdgeInsets.only(top: 44),
                   child: BackButton(),
                 ),
                 Center(
@@ -308,9 +308,9 @@ class _teacherprofileState extends State<teacherprofile> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).size.height * 0.55),
+                Positioned(
+                  top: MediaQuery.of(context).size.height * 0.14,
+                  left: MediaQuery.of(context).size.height * 0.16,
                   child: ProfileWidget(
                     imagePath: '${teacherdata["imgUrl"]}',
                     onClicked: () async {
