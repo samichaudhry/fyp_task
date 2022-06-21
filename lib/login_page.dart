@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:fyp_task/custom%20widgets/custom_widgets.dart';
 import 'package:fyp_task/forget_password.dart';
 import 'package:fyp_task/utils.dart';
+import 'package:fyp_task/verify_email.dart';
 import 'package:fyp_task/wavy_design.dart';
 import 'package:get/get.dart';
 import 'package:fyp_task/subjects_page.dart';
@@ -47,13 +48,22 @@ class _LoginPageState extends State<LoginPage> {
             FirebaseAuth.instance.signOut();
           } else {
             if (user['status'] == 'Approved') {
-              Get.to(
-                () => const SubjectsPage(),
-              );
+              if (FirebaseAuth.instance.currentUser!.emailVerified) {
+                Get.to(
+                  () => const SubjectsPage(),
+                );
+              } else {
+                Get.to(
+                  () => const verifyemail(),
+                );
+              }
 
               customtoast('Login Successful');
             } else if (user['status'] == 'Pending') {
               customtoast('Request pending\nlogin not allowed.');
+              FirebaseAuth.instance.signOut();
+            } else if (user['status'] == 'Blocked') {
+              customtoast('Blocked by admin\nlogin not allowed.');
               FirebaseAuth.instance.signOut();
             } else {
               customtoast('Request declined. login not allowed.');
