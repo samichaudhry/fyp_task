@@ -40,7 +40,7 @@ class ProfileWidget extends StatelessWidget {
       child: Material(
         color: Colors.transparent,
         child:  CircleAvatar(
-                          radius: 50.0,
+                          radius: 57.0,
                           foregroundImage: image,
                           child: const Icon(
                             Icons.person,

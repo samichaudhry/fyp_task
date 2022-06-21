@@ -188,7 +188,7 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Container(
-                          height: 200,
+                          height: 230,
                           padding: const EdgeInsets.all(10),
                           child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -207,18 +207,16 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                                   height: responsiveHW(context, ht: 3),
                                 ),
                                 Text(
-                                    "Percentage of Present Students: ${((presentStu.length / totalStudents) * 100).toStringAsFixed(2)}",
+                                    "Present Students: ${((presentStu.length / totalStudents) * 100).toStringAsFixed(1)} %",
                                     style: TextStyle(
-                                        fontSize:
-                                            responsiveHW(context, ht: 2))),
+                                        fontSize:responsiveHW(context, ht: 2))),
                                 SizedBox(
                                   height: responsiveHW(context, ht: 1),
                                 ),
                                 Text(
-                                    "Percentage of Absent Students: ${((absentStu.length / totalStudents) * 100).toStringAsFixed(2)}",
+                                    "Absent Students: ${((absentStu.length / totalStudents) * 100).toStringAsFixed(1)}%",
                                     style: TextStyle(
-                                        fontSize:
-                                            responsiveHW(context, ht: 2))),
+                                        fontSize: responsiveHW(context, ht: 2))),
                                 SizedBox(
                                   height: responsiveHW(context, ht: 2),
                                 ),
