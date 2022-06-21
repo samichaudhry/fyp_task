@@ -132,9 +132,9 @@ class _teacherprofileState extends State<teacherprofile> {
             ),
             isworking
                 ? const Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 26.0),
-                  child:  CircularProgressIndicator(),
-                )
+                    padding: EdgeInsets.symmetric(horizontal: 26.0),
+                    child: CircularProgressIndicator(),
+                  )
                 : MaterialButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
@@ -192,140 +192,141 @@ class _teacherprofileState extends State<teacherprofile> {
   Widget build(BuildContext context) {
     teacherprofiledata();
     return Scaffold(
-       resizeToAvoidBottomInset: false,
-      body: 
-      isloading ?
-      const Center(
-        child: CircularProgressIndicator(color: Colors.teal,),
-      )
-      :
-      Stack(
-        children: [const
-          Padding(
-            padding: const EdgeInsets.only(top: 44),
-            child: BackButton(),
-          ),
-          Center(
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.6,
-              width: MediaQuery.of(context).size.width * 0.8,
-              decoration: BoxDecoration(
-                color: Colors.grey[800],
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
-                ),
+      resizeToAvoidBottomInset: false,
+      body: isloading
+          ? const Center(
+              child: CircularProgressIndicator(
+                color: Colors.teal,
               ),
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-            //      SizedBox(
-            // height: MediaQuery.of(context).size.height * 0.07,
-            // ),
-            //  ProfileWidget(
-            //  imagePath: '${teacherdata["imgUrl"]}',
-            //  onClicked: () async {
-            //    Get.to(() => const edit_profile(), arguments: {
-            //  'teacher_name': '${teacherdata["teacher_name"]}',
-            //  'imgUrl': '${teacherdata["imgUrl"]}',
-            //  'designation': '${teacherdata["designation"]}',
-            //  'department': '${teacherdata["department"]}',
-            //  // 'email': '${teacherdata["email"]}',
-            //    });
-            //  },
-            //  icon: Icons.edit,
-            //  ),
-           
-            SizedBox(
-            height: MediaQuery.of(context).size.height * 0.12,
-            ),
-            customText(
-            txt: '${teacherdata["teacher_name"]}',
-            fweight: FontWeight.bold,
-            fsize: 24.0),
-            Center(
-                  child: Directionality(
-                textDirection: TextDirection.rtl,
-                child: TextButton.icon(
-                  onPressed: changeemail,
-                  label: customText(
-                      txt: '${FirebaseAuth.instance.currentUser?.email}',
-                      fsize: 19.0,
-                      clr: Colors.white),
-                  icon: const Icon(
-                    Icons.edit,
-                    color: Colors.teal,
+            )
+          : Stack(
+              children: [
+                const Padding(
+                  padding: const EdgeInsets.only(top: 44),
+                  child: BackButton(),
+                ),
+                Center(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[800],
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    child: Column(
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        //      SizedBox(
+                        // height: MediaQuery.of(context).size.height * 0.07,
+                        // ),
+                        //  ProfileWidget(
+                        //  imagePath: '${teacherdata["imgUrl"]}',
+                        //  onClicked: () async {
+                        //    Get.to(() => const edit_profile(), arguments: {
+                        //  'teacher_name': '${teacherdata["teacher_name"]}',
+                        //  'imgUrl': '${teacherdata["imgUrl"]}',
+                        //  'designation': '${teacherdata["designation"]}',
+                        //  'department': '${teacherdata["department"]}',
+                        //  // 'email': '${teacherdata["email"]}',
+                        //    });
+                        //  },
+                        //  icon: Icons.edit,
+                        //  ),
+
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.12,
+                        ),
+                        customText(
+                            txt: '${teacherdata["teacher_name"]}',
+                            fweight: FontWeight.bold,
+                            fsize: 24.0),
+                        Center(
+                            child: Directionality(
+                          textDirection: TextDirection.rtl,
+                          child: TextButton.icon(
+                            onPressed: changeemail,
+                            label: customText(
+                                txt:
+                                    '${FirebaseAuth.instance.currentUser?.email}',
+                                fsize: 19.0,
+                                clr: Colors.white),
+                            icon: const Icon(
+                              Icons.edit,
+                              color: Colors.teal,
+                            ),
+                          ),
+                        )),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.03,
+                        ),
+                        Center(
+                          child: RichText(
+                              textAlign: TextAlign.left,
+                              text: TextSpan(children: [
+                                const TextSpan(
+                                  text: "Designation: ",
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.teal,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: "${teacherdata['designation']} \n",
+                                  style: const TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                const TextSpan(
+                                  text: "Department: ",
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.teal,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: "${teacherdata['department']}\n",
+                                  style: const TextStyle(
+                                    fontSize: 18.0,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ])),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.06,
+                        ),
+                        customText(
+                          txtalign: TextAlign.center,
+                          txt: 'THAL UNIVERSITY\n BHAKKAR',
+                          fsize: 23.0,
+                          fweight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              )),
-            SizedBox(
-            height: MediaQuery.of(context).size.height * 0.03,
-            ),
-            Center(
-            child: RichText(
-            textAlign: TextAlign.left,
-            text: TextSpan(children: [
-              const TextSpan(
-                text: "Designation: ",
-                style: TextStyle(
-                  fontSize: 18.0,
-                  color: Colors.teal,
+                Positioned(
+                  top: MediaQuery.of(context).size.height * 0.14,
+                  left: MediaQuery.of(context).size.height * 0.16,
+                  child: ProfileWidget(
+                    imagePath: '${teacherdata["imgUrl"]}',
+                    onClicked: () async {
+                      Get.to(() => const edit_profile(), arguments: {
+                        'teacher_name': '${teacherdata["teacher_name"]}',
+                        'imgUrl': '${teacherdata["imgUrl"]}',
+                        'designation': '${teacherdata["designation"]}',
+                        'department': '${teacherdata["department"]}',
+                        // 'email': '${teacherdata["email"]}',
+                      });
+                    },
+                    icon: Icons.edit,
+                  ),
                 ),
-              ),
-              TextSpan(
-                text: "${teacherdata['designation']} \n",
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  color: Colors.white,
-                ),
-              ),
-              const TextSpan(
-                text: "Department: ",
-                style: TextStyle(
-                  fontSize: 18.0,
-                  color: Colors.teal,
-                ),
-              ),
-              TextSpan(
-                text: "${teacherdata['department']}\n",
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  color: Colors.white,
-                ),
-              ),
-            ])),
+              ],
             ),
-            SizedBox(
-            height: MediaQuery.of(context).size.height * 0.06,
-            ),
-            customText(
-              txtalign: TextAlign.center,
-              txt: 'THAL UNIVERSITY\n BHAKKAR',
-              fsize: 23.0,
-              fweight: FontWeight.bold,
-            ),
-                ],
-              ),
-            ),
-          ),
-           
-            Padding(
-              padding: const EdgeInsets.only(bottom: 560),
-              child: ProfileWidget(
-               imagePath: '${teacherdata["imgUrl"]}',
-               onClicked: () async {
-                 Get.to(() => const edit_profile(), arguments: {
-               'teacher_name': '${teacherdata["teacher_name"]}',
-               'imgUrl': '${teacherdata["imgUrl"]}',
-               'designation': '${teacherdata["designation"]}',
-               'department': '${teacherdata["department"]}',
-               // 'email': '${teacherdata["email"]}',
-                 });
-               },
-               icon: Icons.edit,
-               ),
-            ),
-        ],
-      ),
     );
   }
 }
