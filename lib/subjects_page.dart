@@ -29,6 +29,8 @@ class _SubjectsPageState extends State<SubjectsPage> {
   String photourl = '';
   String? useremail = '';
   String? username = '';
+  ValueNotifier<String> _username = ValueNotifier<String>('');
+  ValueNotifier<String> _photourl = ValueNotifier<String>('');
   var currentuserid;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
@@ -53,6 +55,10 @@ class _SubjectsPageState extends State<SubjectsPage> {
       }
     });
     if (currentuser != null) {
+      _photourl.addListener(() {
+        // photourl = _photourl.value;
+      });
+      _username.addListener(() {});
       currentuserid = FirebaseAuth.instance.currentUser?.uid;
       // photourl = currentuser.photoURL;
       useremail = currentuser.email;
@@ -108,12 +114,11 @@ class _SubjectsPageState extends State<SubjectsPage> {
         .doc(currentuserid)
         .get()
         .then((DocumentSnapshot teacher) {
-      username = teacher['teacher_name'];
-      photourl = '${teacher["imgUrl"]}';
+      _username.value = teacher['teacher_name'];
+      _photourl.value = '${teacher["imgUrl"]}';
     });
-    setState(() {});
+    // setState(() {});
   }
-
 
   Future changepassword() async {
     // isworking = false;
@@ -452,74 +457,81 @@ class _SubjectsPageState extends State<SubjectsPage> {
               );
             }),
         drawer: Drawer(
-          child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.start,
-            // mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              UserAccountsDrawerHeader(
-                accountEmail: customText(txt: '$useremail', clr: Colors.white),
-                accountName: customText(txt: '$username', clr: Colors.white),
-                currentAccountPicture: GestureDetector(
-                  onTap: () {},
-                  child: CircleAvatar(
-                    backgroundColor: Colors.teal,
-                    foregroundImage: CachedNetworkImageProvider(photourl),
-                    child: const Icon(
-                      Icons.person,
-                      color: Colors.white,
-                      size: 50.0,
+          child: ValueListenableBuilder(
+              valueListenable: _photourl,
+              builder: (context, ind, _) {
+                return Column(
+                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  // mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    UserAccountsDrawerHeader(
+                      accountEmail:
+                          customText(txt: '$useremail', clr: Colors.white),
+                      accountName:
+                          customText(txt: _username.value, clr: Colors.white),
+                      currentAccountPicture: GestureDetector(
+                        onTap: () {},
+                        child: CircleAvatar(
+                          backgroundColor: Colors.teal,
+                          foregroundImage:
+                              CachedNetworkImageProvider(_photourl.value),
+                          child: const Icon(
+                            Icons.person,
+                            color: Colors.white,
+                            size: 50.0,
+                          ),
+                          radius: 40.0,
+                        ),
+                      ),
                     ),
-                    radius: 40.0,
-                  ),
-                ),
-              ),
-              customTile(
-                ontap: () {
-                  Get.to(
-                    () => const teacherprofile(),
-                  );
-                },
-                leading: const Icon(
-                  Icons.account_circle_rounded,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
-                title: customText(
-                  txt: 'Profile',
-                  clr: Colors.white,
-                  fweight: FontWeight.w500,
-                ),
-              ),
-              customTile(
-                ontap: changepassword,
-                leading: const Icon(
-                  Icons.key,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
-                title: customText(
-                  txt: 'Change Password',
-                  clr: Colors.white,
-                  fweight: FontWeight.w500,
-                ),
-              ),
-              customTile(
-                ontap: () {
-                  logoutfunc();
-                },
-                leading: const Icon(
-                  Icons.power_settings_new,
-                  color: Colors.white,
-                  size: 30.0,
-                ),
-                title: customText(
-                  txt: 'Logout',
-                  clr: Colors.white,
-                  fweight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
+                    customTile(
+                      ontap: () {
+                        Get.to(
+                          () => const teacherprofile(),
+                        );
+                      },
+                      leading: const Icon(
+                        Icons.account_circle_rounded,
+                        color: Colors.white,
+                        size: 30.0,
+                      ),
+                      title: customText(
+                        txt: 'Profile',
+                        clr: Colors.white,
+                        fweight: FontWeight.w500,
+                      ),
+                    ),
+                    customTile(
+                      ontap: changepassword,
+                      leading: const Icon(
+                        Icons.key,
+                        color: Colors.white,
+                        size: 30.0,
+                      ),
+                      title: customText(
+                        txt: 'Change Password',
+                        clr: Colors.white,
+                        fweight: FontWeight.w500,
+                      ),
+                    ),
+                    customTile(
+                      ontap: () {
+                        logoutfunc();
+                      },
+                      leading: const Icon(
+                        Icons.power_settings_new,
+                        color: Colors.white,
+                        size: 30.0,
+                      ),
+                      title: customText(
+                        txt: 'Logout',
+                        clr: Colors.white,
+                        fweight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                );
+              }),
         ),
       ),
     );
