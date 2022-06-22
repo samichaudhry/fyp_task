@@ -207,69 +207,87 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                               // crossAxisAlignment: CrossAxisAlignment.center,
                               // textBaseline: TextBaseline.ideographic,
                               children: [
-                                Center(
-                                  child: Text(
-                                    "Today's Attendance Stats",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w900,
-                                        color: Colors.teal,
-                                        fontSize: responsiveHW(context, ht: 3)),
-                                  ),
+                                Text(
+                                  "Today's Attendance Stats",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w900,
+                                      color: Colors.teal,
+                                      fontSize: responsiveHW(context, ht: 3)),
                                 ),
+                                 SizedBox(
+                                  height: responsiveHW(context, ht: 4),
+                                ),
+                                 RichText(
+                                   textAlign: TextAlign.left,
+                                   text: TextSpan(
+                                      style: TextStyle(
+                                         fontSize: 18.0),
+                                          children: [
+                                    TextSpan(
+                                       text:"Total Students: $totalStudents \n\n",
+                                     ),
+                                     TextSpan(
+                                       text: "No. of Present Students: $presentStu\n\n",
+                                     ),
+                                      TextSpan(
+                                       text: "No. of Absent Students: $absentStu\n\n",
+                                     ),
+                                     TextSpan(
+                                       text: "Present Students: ${((presentStu / totalStudents) * 100).toStringAsFixed(1)}% \n\n",
+                                     ),
+                                      TextSpan(
+                                       text: "Absent Students: ${((absentStu / totalStudents) * 100).toStringAsFixed(1)}%\n",
+                                     ),
+                                   ]),
+                                 ),
+                                // SizedBox(
+                                //   height: responsiveHW(context, ht: 4),
+                                // ),
+                                // customText(
+                                //   txt: "Total Students: $totalStudents",
+                                //   fsize: 19.0,
+                                //   txtalign: TextAlign.left,
+                                // ),
+                                // SizedBox(
+                                //   height: responsiveHW(context, ht: 1),
+                                // ),
+                                // customText(
+                                //   txt: "No. of Present Students: $presentStu",
+                                //   fsize: 19.0,
+                                //   txtalign: TextAlign.left,
+                                // ),
+                                // SizedBox(
+                                //   height: responsiveHW(context, ht: 1),
+                                // ),
+                                // customText(
+                                //   txt: "No. of Absent Students: $absentStu",
+                                //   fsize: 19.0,
+                                //   txtalign: TextAlign.left,
+                                // ),
+                                // SizedBox(
+                                //   height: responsiveHW(context, ht: 1),
+                                // ),
+                                // customText(
+                                //   txt:
+                                //       "Present Students: ${((presentStu / totalStudents) * 100).toStringAsFixed(1)}%",
+                                //   fsize: 19.0,
+                                //   txtalign: TextAlign.left,
+                                // ),
+                                // SizedBox(
+                                //   height: responsiveHW(context, ht: 1),
+                                // ),
+                                // customText(
+                                //   txt:
+                                //       "Absent Students: ${((absentStu / totalStudents) * 100).toStringAsFixed(1)}%",
+                                //   fsize: 19.0,
+                                //   txtalign: TextAlign.left,
+                                // ),
                                 SizedBox(
                                   height: responsiveHW(context, ht: 4),
                                 ),
-                                customText(
-                                  txt: "Total Students: $totalStudents",
-                                  fsize: 19.0,
-                                  txtalign: TextAlign.justify,
-                                ),
-                                SizedBox(
-                                  height: responsiveHW(context, ht: 1),
-                                ),
-                                Center(
-                                  child: customText(
-                                    txt: "No. of Present Students: $presentStu",
-                                    fsize: 19.0,
-                                    txtalign: TextAlign.justify,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: responsiveHW(context, ht: 1),
-                                ),
-                                Center(
-                                  child: customText(
-                                    txt: "No. of Absent Students: $absentStu",
-                                    fsize: 19.0,
-                                    txtalign: TextAlign.justify,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: responsiveHW(context, ht: 1),
-                                ),
-                                customText(
-                                  txt:
-                                      "Present Students: ${((presentStu / totalStudents) * 100).toStringAsFixed(1)}%",
-                                  fsize: 19.0,
-                                  txtalign: TextAlign.justify,
-                                ),
-                                SizedBox(
-                                  height: responsiveHW(context, ht: 1),
-                                ),
-                                customText(
-                                  txt:
-                                      "Absent Students: ${((absentStu / totalStudents) * 100).toStringAsFixed(1)}%",
-                                  fsize: 19.0,
-                                  txtalign: TextAlign.justify,
-                                ),
-                                SizedBox(
-                                  height: responsiveHW(context, ht: 4),
-                                ),
-                                Center(
-                                  child: customButton("Close", () {
-                                    Navigator.pop(context);
-                                  }, context, responsiveHW(context, wd: 10)),
-                                )
+                                customButton("Close", () {
+                                  Navigator.pop(context);
+                                }, context, responsiveHW(context, wd: 10))
                               ])));
                 });
 
