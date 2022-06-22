@@ -19,14 +19,18 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
   var args = Get.arguments;
   String date = intl.DateFormat("dd-MMM-yyyy").format(DateTime.now());
   var totalStudents = 0;
+  bool isloading = true;
   List<int>?
       selectedStatus; // here we have to mention the strength of students by database in place of 15
   List studentslist = [];
   @override
   void initState() {
     super.initState();
-
-    studentsdata();
+    studentsdata().then((value) {
+      setState(() {
+        isloading = false;
+      });
+    });
   }
 
   Future studentsdata() async {
@@ -37,6 +41,7 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
         .orderBy('studentrollno', descending: false)
         .get()
         .then((QuerySnapshot students) {
+      // print(students.docs.length);
       totalStudents = students.docs.length; // uncomment this for total students
       for (var student in students.docs) {
         print(student.data());
@@ -47,7 +52,6 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
         });
       }
     });
-    setState(() {});
   }
 
   double percentagefinder({totaclasses = 0, attendedclasses = 0}) {
@@ -158,29 +162,7 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
           }, SetOptions(merge: true)).then((value) async {
             var presentStu = 0;
             var absentStu = 0;
-            // await FirebaseFirestore.instance
-            //     .collection('attendance')
-            //     .doc(args['subject_id'])
-            //     .collection('attendancedata')
-            //     .where('attendancedate', isEqualTo: formatted.toString())
-            //     .where('session_id', isEqualTo: args['session_id'])
-            //     .get()
-            //     .then((QuerySnapshot students) {
-            //   for (var student in students.docs) {
-            //     List data = student['attendancerecord'];
-            //     for (var std in data) {
-            //       if (std['status'] == 'P') {
-            //         presentStu.add({
-            //           'status': std['status'],
-            //         });
-            //       } else {
-            //         absentStu.add({
-            //           'status': std['status'],
-            //         });
-            //       }
-            //     }
-            //   }
-            // });
+
             for (var std in studentslist) {
               if (std['status'] == 1) {
                 presentStu += 1;
@@ -214,74 +196,36 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
                                       color: Colors.teal,
                                       fontSize: responsiveHW(context, ht: 3)),
                                 ),
-                                 SizedBox(
+                                SizedBox(
                                   height: responsiveHW(context, ht: 4),
                                 ),
-                                 RichText(
-                                   textAlign: TextAlign.left,
-                                   text: TextSpan(
-                                      style: TextStyle(
-                                         fontSize: 18.0),
-                                          children: [
-                                    TextSpan(
-                                       text:"Total Students: $totalStudents \n\n",
-                                     ),
-                                     TextSpan(
-                                       text: "No. of Present Students: $presentStu\n\n",
-                                     ),
-                                      TextSpan(
-                                       text: "No. of Absent Students: $absentStu\n\n",
-                                     ),
-                                     TextSpan(
-                                       text: "Present Students: ${((presentStu / totalStudents) * 100).toStringAsFixed(1)}% \n\n",
-                                     ),
-                                      TextSpan(
-                                       text: "Absent Students: ${((absentStu / totalStudents) * 100).toStringAsFixed(1)}%\n",
-                                     ),
-                                   ]),
-                                 ),
-                                // SizedBox(
-                                //   height: responsiveHW(context, ht: 4),
-                                // ),
-                                // customText(
-                                //   txt: "Total Students: $totalStudents",
-                                //   fsize: 19.0,
-                                //   txtalign: TextAlign.left,
-                                // ),
-                                // SizedBox(
-                                //   height: responsiveHW(context, ht: 1),
-                                // ),
-                                // customText(
-                                //   txt: "No. of Present Students: $presentStu",
-                                //   fsize: 19.0,
-                                //   txtalign: TextAlign.left,
-                                // ),
-                                // SizedBox(
-                                //   height: responsiveHW(context, ht: 1),
-                                // ),
-                                // customText(
-                                //   txt: "No. of Absent Students: $absentStu",
-                                //   fsize: 19.0,
-                                //   txtalign: TextAlign.left,
-                                // ),
-                                // SizedBox(
-                                //   height: responsiveHW(context, ht: 1),
-                                // ),
-                                // customText(
-                                //   txt:
-                                //       "Present Students: ${((presentStu / totalStudents) * 100).toStringAsFixed(1)}%",
-                                //   fsize: 19.0,
-                                //   txtalign: TextAlign.left,
-                                // ),
-                                // SizedBox(
-                                //   height: responsiveHW(context, ht: 1),
-                                // ),
-                                // customText(
-                                //   txt:
-                                //       "Absent Students: ${((absentStu / totalStudents) * 100).toStringAsFixed(1)}%",
-                                //   fsize: 19.0,
-                                //   txtalign: TextAlign.left,
-                                // ),
+                                RichText(
+                                  textAlign: TextAlign.left,
+                                  text: TextSpan(
+                                      style: TextStyle(fontSize: 18.0),
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              "Total Students: $totalStudents \n\n",
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              "No. of Present Students: $presentStu\n\n",
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              "No. of Absent Students: $absentStu\n\n",
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              "Present Students: ${((presentStu / totalStudents) * 100).toStringAsFixed(1)}% \n\n",
+                                        ),
+                                        TextSpan(
+                                          text:
+                                              "Absent Students: ${((absentStu / totalStudents) * 100).toStringAsFixed(1)}%\n",
+                                        ),
+                                      ]),
+                                ),
                                 SizedBox(
                                   height: responsiveHW(context, ht: 4),
                                 ),
@@ -310,10 +254,6 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
       }
     });
   }
-
-  // Future attendancestats() async {
-
-  // }
 
   _pickedDate() async {
     DateTime? date = await showDatePicker(
@@ -362,185 +302,203 @@ class _AttendanceSheetState extends State<AttendanceSheet> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: totalStudents == 0
+      body: isloading
           ? const Center(
               child: CircularProgressIndicator(
                 color: Colors.teal,
               ),
             )
-          : CustomScrollView(
-              slivers: [
-                // First App Bar
-                SliverAppBar(
-                  automaticallyImplyLeading: false,
-                  expandedHeight: responsiveHW(context, ht: 25),
-                  flexibleSpace: FlexibleSpaceBar(
-                    // title: customText(
-                    //   txt: 'BS Computer Science',
-                    //   clr: Colors.black,
-                    // ),
-                    background: args['imgUrl'] == 'null' || args['imgUrl'] == ''
-                        ? Image.asset(
-                            "assets/images/bscs.png",
-                            fit: BoxFit.fill,
-                          )
-                        : Image.network(args['imgUrl'], fit: BoxFit.fill),
+          : totalStudents == 0
+              ? Center(
+                  child: customText(
+                    txt: 'No student available.\nRequest admin to add students',
+                    txtalign: TextAlign.center,
+                    fsize: 22.0,
+                    fweight: FontWeight.w700,
                   ),
-                ),
-                // Second App Bar
-                SliverAppBar(
-                  automaticallyImplyLeading: false,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
+                )
+              : CustomScrollView(
+                  slivers: [
+                    // First App Bar
+                    SliverAppBar(
+                      automaticallyImplyLeading: false,
+                      expandedHeight: responsiveHW(context, ht: 25),
+                      flexibleSpace: FlexibleSpaceBar(
+                        // title: customText(
+                        //   txt: 'BS Computer Science',
+                        //   clr: Colors.black,
+                        // ),
+                        background: args['imgUrl'] == 'null' ||
+                                args['imgUrl'] == ''
+                            ? Image.asset(
+                                "assets/images/bscs.png",
+                                fit: BoxFit.fill,
+                              )
+                            : Image.network(args['imgUrl'], fit: BoxFit.fill),
+                      ),
                     ),
-                  ),
-                  pinned: true,
-                  floating: true,
-                  snap: true,
-                  expandedHeight: responsiveHW(context, ht: 22),
-                  collapsedHeight: responsiveHW(context, ht: 14),
-                  flexibleSpace: FlexibleSpaceBar(
-                    title: RichText(
-                      text: TextSpan(
-                        text: "Dated: $date",
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w600, fontSize: 10),
-                        children: [
-                          TextSpan(
-                            text:
-                                "\n${args['subject_name']} (${args['program']}, ${args['semester']} Semester)",
+                    // Second App Bar
+                    SliverAppBar(
+                      automaticallyImplyLeading: false,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
+                      ),
+                      pinned: true,
+                      floating: true,
+                      snap: true,
+                      expandedHeight: responsiveHW(context, ht: 22),
+                      collapsedHeight: responsiveHW(context, ht: 14),
+                      flexibleSpace: FlexibleSpaceBar(
+                        title: RichText(
+                          text: TextSpan(
+                            text: "Dated: $date",
                             style: const TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 15),
+                                fontWeight: FontWeight.w600, fontSize: 10),
+                            children: [
+                              TextSpan(
+                                text:
+                                    "\n${args['subject_name']} (${args['program']}, ${args['semester']} Semester)",
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w600, fontSize: 15),
+                              ),
+                              TextSpan(
+                                text: "\n\nTotal Students: $totalStudents",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                    color: Colors.grey[400]),
+                              )
+                            ],
                           ),
-                          TextSpan(
-                            text: "\n\nTotal Students: $totalStudents",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 12,
-                                color: Colors.grey[400]),
-                          )
+                        ),
+                      ),
+                    ),
+                    // Button's tile
+                    SliverList(
+                      delegate: SliverChildListDelegate(
+                        [
+                          Padding(
+                            padding: const EdgeInsets.only(
+                                top: 15.0, right: 15, left: 15),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                // customButton("Show Percentage", () {
+                                //   // Navigator.pushReplacement(
+                                //   //     context,
+                                //   //     MaterialPageRoute(
+                                //   //         builder: (context) => const LoginPage()));
+                                // }, context, 120),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                customButton("View Report", () {
+                                  _pickedDate();
+                                }, context, 120)
+                              ],
+                            ),
+                          ),
+                          const ListTile(
+                              title: Padding(
+                                padding: EdgeInsets.only(left: 20.0),
+                                child: Text(
+                                  "Students",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22),
+                                ),
+                              ),
+                              trailing: Padding(
+                                padding: EdgeInsets.only(right: 40.0),
+                                child: Text(
+                                  "Status",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 22),
+                                ),
+                              )),
                         ],
                       ),
                     ),
-                  ),
-                ),
-                // Button's tile
-                SliverList(
-                  delegate: SliverChildListDelegate(
-                    [
-                      Padding(
+                    // Student's Tile
+                    SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return ListTile(
+                            title: Text(
+                                "${studentslist[index]['data']['studentname']}"),
+                            subtitle: Text(
+                                "${studentslist[index]['data']['studentrollno']}"),
+                            trailing: SizedBox(
+                              width: 150,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: RadioListTile(
+                                        visualDensity:
+                                            VisualDensity.comfortable,
+                                        contentPadding: const EdgeInsets.all(0),
+                                        title: const Text("P"),
+                                        value: 1,
+                                        groupValue: studentslist[index]
+                                            ['status'],
+                                        onChanged: (val) {
+                                          setState(() {
+                                            studentslist[index]['status'] = val;
+                                            print(val);
+                                            print(
+                                                studentslist[index]['status']);
+                                            print(studentslist[index]['data']
+                                                ['studentname']);
+                                          });
+                                        }),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Expanded(
+                                    child: RadioListTile(
+                                        visualDensity:
+                                            VisualDensity.comfortable,
+                                        contentPadding: const EdgeInsets.all(0),
+                                        title: const Text("A"),
+                                        value: 2,
+                                        groupValue: studentslist[index]
+                                            ['status'],
+                                        onChanged: (val) {
+                                          setState(() {
+                                            studentslist[index]['status'] = val;
+                                            print(val);
+                                            print(
+                                                studentslist[index]['status']);
+                                            print(studentslist[index]['data']
+                                                ['studentname']);
+                                          });
+                                        }),
+                                  ),
+                                ],
+                              ),
+                            ));
+                      },
+                      childCount: studentslist.length,
+                    )),
+                    // Submit Button
+                    SliverToBoxAdapter(
+                      child: Padding(
                         padding: const EdgeInsets.only(
-                            top: 15.0, right: 15, left: 15),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            // customButton("Show Percentage", () {
-                            //   // Navigator.pushReplacement(
-                            //   //     context,
-                            //   //     MaterialPageRoute(
-                            //   //         builder: (context) => const LoginPage()));
-                            // }, context, 120),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            customButton("View Report", () {
-                              _pickedDate();
-                            }, context, 120)
-                          ],
+                            bottom: 15, right: 15, left: 15, top: 10),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: customButton(
+                              "Submit", saveattendance, context, 120),
                         ),
                       ),
-                      const ListTile(
-                          title: Padding(
-                            padding: EdgeInsets.only(left: 20.0),
-                            child: Text(
-                              "Students",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 22),
-                            ),
-                          ),
-                          trailing: Padding(
-                            padding: EdgeInsets.only(right: 40.0),
-                            child: Text(
-                              "Status",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 22),
-                            ),
-                          )),
-                    ],
-                  ),
+                    )
+                  ],
                 ),
-                // Student's Tile
-                SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    return ListTile(
-                        title: Text(
-                            "${studentslist[index]['data']['studentname']}"),
-                        subtitle: Text(
-                            "${studentslist[index]['data']['studentrollno']}"),
-                        trailing: SizedBox(
-                          width: 150,
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: RadioListTile(
-                                    visualDensity: VisualDensity.comfortable,
-                                    contentPadding: const EdgeInsets.all(0),
-                                    title: const Text("P"),
-                                    value: 1,
-                                    groupValue: studentslist[index]['status'],
-                                    onChanged: (val) {
-                                      setState(() {
-                                        studentslist[index]['status'] = val;
-                                        print(val);
-                                        print(studentslist[index]['status']);
-                                        print(studentslist[index]['data']
-                                            ['studentname']);
-                                      });
-                                    }),
-                              ),
-                              const SizedBox(
-                                width: 20,
-                              ),
-                              Expanded(
-                                child: RadioListTile(
-                                    visualDensity: VisualDensity.comfortable,
-                                    contentPadding: const EdgeInsets.all(0),
-                                    title: const Text("A"),
-                                    value: 2,
-                                    groupValue: studentslist[index]['status'],
-                                    onChanged: (val) {
-                                      setState(() {
-                                        studentslist[index]['status'] = val;
-                                        print(val);
-                                        print(studentslist[index]['status']);
-                                        print(studentslist[index]['data']
-                                            ['studentname']);
-                                      });
-                                    }),
-                              ),
-                            ],
-                          ),
-                        ));
-                  },
-                  childCount: studentslist.length,
-                )),
-                // Submit Button
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        bottom: 15, right: 15, left: 15, top: 10),
-                    child: Align(
-                      alignment: Alignment.center,
-                      child:
-                          customButton("Submit", saveattendance, context, 120),
-                    ),
-                  ),
-                )
-              ],
-            ),
     );
   }
 }
