@@ -31,6 +31,7 @@ class _SubjectsPageState extends State<SubjectsPage> {
   String? username = '';
   ValueNotifier<String> _username = ValueNotifier<String>('');
   ValueNotifier<String> _photourl = ValueNotifier<String>('');
+  ValueNotifier<String> _status = ValueNotifier<String>('');
   var currentuserid;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
@@ -55,11 +56,14 @@ class _SubjectsPageState extends State<SubjectsPage> {
       }
     });
     if (currentuser != null) {
-      _photourl.addListener(() {
-        // photourl = _photourl.value;
-      });
-      _username.addListener(() {});
       currentuserid = FirebaseAuth.instance.currentUser?.uid;
+      statuscheck();
+      // _status.addListener(() {
+      //   if (_status.value == 'Blocked') {
+      //     FirebaseAuth.instance.signOut();
+      //     print(_status.value);
+      //   }
+      // });
       // photourl = currentuser.photoURL;
       useremail = currentuser.email;
       teacherprofiledata();
@@ -116,8 +120,22 @@ class _SubjectsPageState extends State<SubjectsPage> {
         .then((DocumentSnapshot teacher) {
       _username.value = teacher['teacher_name'];
       _photourl.value = '${teacher["imgUrl"]}';
+      // _status.value = '${teacher["status"]}';
     });
     // setState(() {});
+  }
+
+  Future statuscheck() async {
+    FirebaseFirestore.instance
+        .collection('teachers')
+        .doc(currentuserid)
+        .snapshots()
+        .listen((teacher) {
+      if (teacher['status'] == 'Blocked') {
+        customtoast('Blocked By Admin');
+        FirebaseAuth.instance.signOut();
+      }
+    });
   }
 
   Future changepassword() async {
@@ -354,7 +372,6 @@ class _SubjectsPageState extends State<SubjectsPage> {
                   ],
                 );
               }
-
               return RefreshIndicator(
                 onRefresh: () async {
                   setState(() {});
