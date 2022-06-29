@@ -72,7 +72,7 @@ class _SubjectPercentageState extends State<SubjectPercentage> {
     });
   }
 
-  Widget customcard(title, value, cpercentage,attendclasses) {
+  Widget customcard(title, value, cpercentage, attendclasses) {
     return Padding(
         padding: const EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 2),
         child: Card(
@@ -86,13 +86,10 @@ class _SubjectPercentageState extends State<SubjectPercentage> {
                   title: customText(txt: title, fsize: 17.0),
                   subtitle: customlinearprogres(value),
                   trailing: customText(txt: cpercentage, fsize: 14.0)),
-              Center(
-                  child: customText(
-                      txt:attendclasses,
-                      fsize: 13.0)),
-                      SizedBox(
-            height: MediaQuery.of(context).size.height * 0.003,
-          ),
+              Center(child: customText(txt: attendclasses, fsize: 13.0)),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.003,
+              ),
             ])));
   }
 
@@ -126,66 +123,73 @@ class _SubjectPercentageState extends State<SubjectPercentage> {
                       txt: 'No data available', fsize: 22.0, clr: Colors.white),
                 )
               : Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Container(
-            color: Colors.transparent,
-            alignment: Alignment.topCenter,
-            height: MediaQuery.of(context).size.width / 5,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 10.0),
-              child: Center(
-                child: RichText(
-                  textAlign: TextAlign.left,
-                  text: TextSpan(children: [
-                    const TextSpan(
-                      text: "Name: ",
-                      style: TextStyle(
-                        fontSize: 17.0,
-                        color: Colors.teal,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      color: Colors.transparent,
+                      alignment: Alignment.topCenter,
+                      height: MediaQuery.of(context).size.width / 5,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: Center(
+                          child: RichText(
+                            textAlign: TextAlign.left,
+                            text: TextSpan(children: [
+                              const TextSpan(
+                                text: "Name:  ",
+                                style: TextStyle(
+                                  fontSize: 17.0,
+                                  color: Colors.teal,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "${args['studentname']} \n",
+                                style: const TextStyle(
+                                  fontSize: 17.0,
+                                  // color: Colors.white,
+                                ),
+                              ),
+                              const TextSpan(
+                                text: "RollNo: ",
+                                style: TextStyle(
+                                  fontSize: 17.0,
+                                  color: Colors.teal,
+                                ),
+                              ),
+                              TextSpan(
+                                text: "${args['studentrollno']} \n",
+                                style: const TextStyle(
+                                  fontSize: 17.0,
+                                  // color: Colors.white
+                                ),
+                              ),
+                            ]),
+                          ),
+                        ),
                       ),
                     ),
-                    TextSpan(
-                      text: "${args['studentname']} \n",
-                      style: const TextStyle(
-                        fontSize: 17.0,
-                        color: Colors.white,
+                    Expanded(
+                      child: CustomScrollView(
+                        slivers: [
+                          SliverList(
+                              delegate:
+                                  SliverChildBuilderDelegate((context, index) {
+                            return customcard(
+                              subjectdata[index]['subject_name'],
+                              subjectdata[index]['student_data']['percentage'] /
+                                  100,
+                              subjectdata[index]['student_data']['percentage']
+                                      .toString() +
+                                  '%',
+                              "${subjectdata[index]['student_data']['attendedclasses']} out of ${subjectdata[index]['total_classes']} classes Attended ",
+                            );
+                          }, childCount: subjectdata.length))
+                        ],
                       ),
-                    ),
-                    const TextSpan(
-                      text: "RollNo: ",
-                      style: TextStyle(
-                        fontSize: 17.0,
-                        color: Colors.teal,
-                      ),
-                    ),
-                    TextSpan(
-                      text: "${args['studentrollno']} \n",
-                      style:
-                          const TextStyle(fontSize: 17.0, color: Colors.white),
-                    ),
-                  ]),
+                    )
+                  ],
                 ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: CustomScrollView(
-              slivers: [
-                SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                  return customcard(
-                      subjectdata[index]['subject_name'],
-                      subjectdata[index]['student_data']['percentage'] / 100,
-                      subjectdata[index]['student_data']['percentage'].toString() +'%',
-                     "${subjectdata[index]['student_data']['attendedclasses']} out of ${subjectdata[index]['total_classes']} classes Attended ",);
-                }, childCount: subjectdata.length))
-              ],
-            ),
-          )
-        ],
-      ),
     );
   }
 }

@@ -132,16 +132,16 @@ class _AddTeacherState extends State<AddTeacher> {
       _confirmpass.clear();
       editProfileArgument[0]['pageTitle'] == "Edit Teacher's Profile"
           ? customtoast("Teacher's Data Updated")
-          : rawsnackbar('Your request is submitted to admin. you can login only after the approval request');
-    setState(() {
+          : rawsnackbar(
+              'Your request is submitted to admin. you can login only after the approval request');
+      setState(() {
         isauthenticating = false;
       });
-      editProfileArgument[0]['pageTitle'] == "Edit Teacher's Profile" ?
-      null
-      :
-      Get.to(
-        () => const LoginPage(),
-      );
+      editProfileArgument[0]['pageTitle'] == "Edit Teacher's Profile"
+          ? null
+          : Get.to(
+              () => const LoginPage(),
+            );
     }).catchError((error) {
       editProfileArgument[0]['pageTitle'] == "Edit Teacher's Profile"
           ? customtoast("Failed to update Teacher's data: $error")
@@ -168,12 +168,12 @@ class _AddTeacherState extends State<AddTeacher> {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: useremail, password: userpassword);
-              setState(() {
-                teacherId = userCredential.user?.uid;
-              });
+      setState(() {
+        teacherId = userCredential.user?.uid;
+      });
+      FirebaseAuth.instance.currentUser?.sendEmailVerification();
       await addTeacherData();
 
-     
       // Get.rawSnackbar(
       //   messageText: const Text(
       //     'Ask Teachers To verify his/her email',

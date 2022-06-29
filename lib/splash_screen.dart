@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fyp_task/login_page.dart';
 import 'package:fyp_task/subjects_page.dart';
+import 'package:fyp_task/verify_email.dart';
 import 'package:get/get.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
@@ -57,43 +59,23 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> initTimer() async {
     if (await CheckConnection()) {
       Timer(const Duration(seconds: 2), () async {
-        if (FirebaseAuth.instance.currentUser == null) {
+        if (FirebaseAuth.instance.currentUser != null) {
           // pehly != tha
+          // Get.to(
+          //   () => const LoginPage(),
+          // );
+          if (FirebaseAuth.instance.currentUser!.emailVerified) {
+            Get.to(
+              () => const SubjectsPage(),
+            );
+          } else {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const verifyemail()));
+          }
+        } else {
           Get.to(
             () => const LoginPage(),
           );
-          //   if (FirebaseAuth.instance.currentUser!.emailVerified) {
-          //     FirebaseFirestore.instance
-          //         .collection('users')
-          //         .doc(FirebaseAuth.instance.currentUser!.uid.toString())
-          //         .get()
-          //         .then((DocumentSnapshot ds) {
-          //       if (ds.exists) {
-          //         Navigator.pushReplacement(context,
-          //             MaterialPageRoute(builder: (context) => const HomePage()));
-          //       } else {
-          //         Get.to(
-          //           Editprofile(),
-          //           arguments: [
-          //             {
-          //               'isedit': false,
-          //               'appbartitle': 'Set profile',
-          //               '_displayname': '',
-          //               '_countryname': '',
-          //               '_cityname': '',
-          //               '_profilepic':
-          //                   'https://banner2.cleanpng.com/20180702/juw/kisspng-australia-national-cricket-team-bowling-cricket-5b39ce04df1a32.1401674715305149489138.jpg',
-          //             },
-          //           ],
-          //         );
-          //       }
-          //     });
-          //   } else {
-          //     Navigator.pushReplacement(context,
-          //         MaterialPageRoute(builder: (context) => const verifyemail()));
-          //   }
-        } else {
-          Get.to(() => const SubjectsPage());
         }
       });
     } else {
