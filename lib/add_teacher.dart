@@ -27,11 +27,12 @@ class _AddTeacherState extends State<AddTeacher> {
   var imgPath = '';
   String? downloadImgUrl = '';
   final TextEditingController _name = TextEditingController();
-  final TextEditingController _designation = TextEditingController();
+  // final TextEditingController _designation = TextEditingController();
   final TextEditingController _department = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
   final TextEditingController _confirmpass = TextEditingController();
+  String? _designation;
   bool passwordVisible = true;
   bool confirmPasswordVisible = true;
   bool isauthenticating = false;
@@ -39,14 +40,23 @@ class _AddTeacherState extends State<AddTeacher> {
 
   var editProfileArgument = Get.arguments;
   String? teacherId;
-
+  List<String> tDesignation = [
+    "Instructor",
+    "Lecturer",
+    "Visiting Lecturer",
+    "Professor",
+    "Assistant Professor",
+    "Associate Professor,"
+  ];
   @override
   void initState() {
     super.initState();
+    if (editProfileArgument[0]['pageTitle'] == "Edit Teacher's Profile") {
+      _name.text = editProfileArgument[0]['teacher_name'];
+      _department.text = editProfileArgument[0]['department'];
+      _designation = editProfileArgument[0]['designation'];
+    }
 
-    _name.text = editProfileArgument[0]['teacher_name'];
-    _department.text = editProfileArgument[0]['department'];
-    _designation.text = editProfileArgument[0]['designation'];
     teacherId = editProfileArgument[0]['teacherId'];
   }
 
@@ -100,7 +110,7 @@ class _AddTeacherState extends State<AddTeacher> {
             'isTeacher': true,
             'status': 'Pending',
             'teacher_name': _name.text.trim(),
-            'designation': _designation.text.trim(),
+            'designation': '$_designation',
             'department': _department.text.trim(),
             'email': _email.text.trim(),
             'imgUrl': downloadImgUrl,
@@ -108,7 +118,7 @@ class _AddTeacherState extends State<AddTeacher> {
         : teachers.doc(teacherId).set({
             // 'isTeacher': true,
             'teacher_name': _name.text.trim(),
-            'designation': _designation.text.trim(),
+            'designation': '$_designation',
             'department': _department.text.trim(),
             'imgUrl': (isImageSelected)
                 ? downloadImgUrl
@@ -123,7 +133,9 @@ class _AddTeacherState extends State<AddTeacher> {
           : _name.clear();
       editProfileArgument[0]['pageTitle'] == "Edit Teacher's Profile"
           ? null
-          : _designation.clear();
+          : setState(() {
+              _designation = null;
+            });
       editProfileArgument[0]['pageTitle'] == "Edit Teacher's Profile"
           ? null
           : _department.clear();
@@ -322,27 +334,12 @@ class _AddTeacherState extends State<AddTeacher> {
                 pIcon: Icons.edit,
               ),
               customSizedBox(),
-              customTextField(
-                "Designation",
-                false,
-                null,
-                _designation,
-                (value) {
-                  if (value!.isEmpty) {
-                    return "Please Enter Teacher's Designation";
-                  }
-                  if (!RegExp(r"^[a-z+A-Z]+").hasMatch(value)) {
-                    return "Please Enter Valid Designation";
-                  }
-                },
-                (value) {
-                  _designation.text = value!;
-                },
-                responsiveHW(context, wd: 100),
-                responsiveHW(context, ht: 100),
-                InputBorder.none,
-                pIcon: Icons.workspace_premium_outlined,
-              ),
+              customDropDownFormField("Designation", _designation, tDesignation,
+                  (value) {
+                setState(() {
+                  _designation = value;
+                });
+              }, context),
               customSizedBox(),
               customTextField(
                 "Department",
